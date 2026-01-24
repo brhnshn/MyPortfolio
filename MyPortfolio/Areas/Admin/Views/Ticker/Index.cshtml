@@ -1,0 +1,308 @@
+@using MyPortfolio.Entities.Concrete
+@model List<TickerItem>
+
+@{
+    ViewData["Title"] = "Kayan Yazılar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var maxItems = 10;
+    var canAdd = Model.Count < maxItems;
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-scroll"></i> Kayan Yazı Yönetimi</h4>
+            <small>Footer üstünde görünen kayan yazıları buradan yönetin. (Maksimum @maxItems adet)</small>
+        </div>
+        @if (canAdd)
+        {
+            <button type="button" class="btn-glass" id="btnOpenAddModal">
+                <i class="fas fa-plus"></i> Yeni Yazı Ekle (@Model.Count/@maxItems)
+            </button>
+        }
+        else
+        {
+            <span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle me-1"></i>Maksimum @maxItems
+                yazıya ulaşıldı</span>
+        }
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-times-circle me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Emoji</th>
+                    <th>Yazı</th>
+                    <th>Sıra</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td style="font-size: 1.5rem;">@item.IconClass</td>
+                        <td><strong>@item.Text</strong></td>
+                        <td>@item.DisplayOrder</td>
+                        <td>
+                            <div class="table-actions">
+                                <button type="button" class="btn btn-action-edit btn-edit" data-id="@item.Id"
+                                    data-text="@item.Text" data-icon="@item.IconClass" data-order="@item.DisplayOrder">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <a href="/Admin/Ticker/Delete/@item.Id" class="btn btn-action-delete"
+                                    onclick="return confirm('Bu yazıyı silmek istediğine emin misin?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-scroll"></i>
+                <p>Henüz kayan yazı eklenmemiş.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade modal-glass" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Kayan Yazı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Ticker/Create" method="post" class="glass-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Emoji Seçin</label>
+                        <div class="emoji-picker-container">
+                            <input type="text" name="IconClass" id="addEmoji" class="form-control emoji-input" value="⭐"
+                                readonly style="font-size: 1.5rem; text-align: center; cursor: pointer;" />
+                            <div class="emoji-grid" id="addEmojiGrid">
+                                <span class="emoji-option" data-emoji="⭐">⭐</span>
+                                <span class="emoji-option" data-emoji="🚀">🚀</span>
+                                <span class="emoji-option" data-emoji="💻">💻</span>
+                                <span class="emoji-option" data-emoji="🎨">🎨</span>
+                                <span class="emoji-option" data-emoji="📱">📱</span>
+                                <span class="emoji-option" data-emoji="🔥">🔥</span>
+                                <span class="emoji-option" data-emoji="💡">💡</span>
+                                <span class="emoji-option" data-emoji="✨">✨</span>
+                                <span class="emoji-option" data-emoji="🎯">🎯</span>
+                                <span class="emoji-option" data-emoji="🏆">🏆</span>
+                                <span class="emoji-option" data-emoji="💪">💪</span>
+                                <span class="emoji-option" data-emoji="🌟">🌟</span>
+                                <span class="emoji-option" data-emoji="❤️">❤️</span>
+                                <span class="emoji-option" data-emoji="🔒">🔒</span>
+                                <span class="emoji-option" data-emoji="⚡">⚡</span>
+                                <span class="emoji-option" data-emoji="🌍">🌍</span>
+                                <span class="emoji-option" data-emoji="📈">📈</span>
+                                <span class="emoji-option" data-emoji="🛠️">🛠️</span>
+                                <span class="emoji-option" data-emoji="📸">📸</span>
+                                <span class="emoji-option" data-emoji="🎬">🎬</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yazı Metni</label>
+                        <input type="text" name="Text" class="form-control" required maxlength="50"
+                            placeholder="Maksimum 50 karakter" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sıralama</label>
+                        <input type="number" name="DisplayOrder" class="form-control" value="0" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade modal-glass" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-warning);">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Yazıyı Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Ticker/Edit" method="post" class="glass-form">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="mb-3">
+                        <label class="form-label">Emoji Seçin</label>
+                        <div class="emoji-picker-container">
+                            <input type="text" name="IconClass" id="editEmoji" class="form-control emoji-input" readonly
+                                style="font-size: 1.5rem; text-align: center; cursor: pointer;" />
+                            <div class="emoji-grid" id="editEmojiGrid">
+                                <span class="emoji-option" data-emoji="⭐">⭐</span>
+                                <span class="emoji-option" data-emoji="🚀">🚀</span>
+                                <span class="emoji-option" data-emoji="💻">💻</span>
+                                <span class="emoji-option" data-emoji="🎨">🎨</span>
+                                <span class="emoji-option" data-emoji="📱">📱</span>
+                                <span class="emoji-option" data-emoji="🔥">🔥</span>
+                                <span class="emoji-option" data-emoji="💡">💡</span>
+                                <span class="emoji-option" data-emoji="✨">✨</span>
+                                <span class="emoji-option" data-emoji="🎯">🎯</span>
+                                <span class="emoji-option" data-emoji="🏆">🏆</span>
+                                <span class="emoji-option" data-emoji="💪">💪</span>
+                                <span class="emoji-option" data-emoji="🌟">🌟</span>
+                                <span class="emoji-option" data-emoji="❤️">❤️</span>
+                                <span class="emoji-option" data-emoji="🔒">🔒</span>
+                                <span class="emoji-option" data-emoji="⚡">⚡</span>
+                                <span class="emoji-option" data-emoji="🌍">🌍</span>
+                                <span class="emoji-option" data-emoji="📈">📈</span>
+                                <span class="emoji-option" data-emoji="🛠️">🛠️</span>
+                                <span class="emoji-option" data-emoji="📸">📸</span>
+                                <span class="emoji-option" data-emoji="🎬">🎬</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yazı Metni</label>
+                        <input type="text" name="Text" id="editText" class="form-control" required maxlength="50" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sıralama</label>
+                        <input type="number" name="DisplayOrder" id="editOrder" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .emoji-picker-container {
+        position: relative;
+    }
+
+    .emoji-grid {
+        display: none;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin-top: 10px;
+        max-width: 100%;
+    }
+
+    .emoji-grid.show {
+        display: flex;
+    }
+
+    .emoji-option {
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+    .emoji-option:hover {
+        background: rgba(102, 126, 234, 0.3);
+        transform: scale(1.2);
+    }
+
+    .emoji-option.selected {
+        background: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Add Modal
+            var btnAdd = document.getElementById("btnOpenAddModal");
+            if (btnAdd) {
+                btnAdd.addEventListener("click", function () {
+                    var myModal = new bootstrap.Modal(document.getElementById('addModal'));
+                    myModal.show();
+                });
+            }
+
+            // Emoji picker for Add
+            var addEmojiInput = document.getElementById("addEmoji");
+            var addEmojiGrid = document.getElementById("addEmojiGrid");
+
+            addEmojiInput.addEventListener("click", function () {
+                addEmojiGrid.classList.toggle("show");
+            });
+
+            addEmojiGrid.querySelectorAll(".emoji-option").forEach(function (emoji) {
+                emoji.addEventListener("click", function () {
+                    addEmojiInput.value = this.getAttribute("data-emoji");
+                    addEmojiGrid.querySelectorAll(".emoji-option").forEach(e => e.classList.remove("selected"));
+                    this.classList.add("selected");
+                    addEmojiGrid.classList.remove("show");
+                });
+            });
+
+            // Emoji picker for Edit
+            var editEmojiInput = document.getElementById("editEmoji");
+            var editEmojiGrid = document.getElementById("editEmojiGrid");
+
+            editEmojiInput.addEventListener("click", function () {
+                editEmojiGrid.classList.toggle("show");
+            });
+
+            editEmojiGrid.querySelectorAll(".emoji-option").forEach(function (emoji) {
+                emoji.addEventListener("click", function () {
+                    editEmojiInput.value = this.getAttribute("data-emoji");
+                    editEmojiGrid.querySelectorAll(".emoji-option").forEach(e => e.classList.remove("selected"));
+                    this.classList.add("selected");
+                    editEmojiGrid.classList.remove("show");
+                });
+            });
+
+            // Edit buttons
+            var editButtons = document.querySelectorAll(".btn-edit");
+            editButtons.forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    document.getElementById('editId').value = this.getAttribute("data-id");
+                    document.getElementById('editText').value = this.getAttribute("data-text");
+                    document.getElementById('editEmoji').value = this.getAttribute("data-icon");
+                    document.getElementById('editOrder').value = this.getAttribute("data-order");
+
+                    var myModal = new bootstrap.Modal(document.getElementById('editModal'));
+                    myModal.show();
+                });
+            });
+        });
+    </script>
+}

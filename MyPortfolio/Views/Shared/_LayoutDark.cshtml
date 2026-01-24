@@ -1,0 +1,65 @@
+﻿@using MyPortfolio.Data.Abstract
+@using MyPortfolio.Entities.Concrete
+@inject IGenericRepository<SiteSettings> SettingsRepo
+
+@{
+    var siteSettings = SettingsRepo.GetList().FirstOrDefault();
+    var faviconUrl = siteSettings?.FaviconUrl ?? "/favicon.ico";
+    var siteTitle = siteSettings?.SiteTitle ?? "My Portfolio";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @siteTitle</title>
+
+    @* Dynamic Favicon *@
+    <link rel="icon" href="@faviconUrl" type="image/x-icon" />
+    <link rel="shortcut icon" href="@faviconUrl" type="image/x-icon" />
+
+    @* Dynamic Meta Description *@
+    @if (!string.IsNullOrEmpty(siteSettings?.MetaDescription))
+    {
+        <meta name="description" content="@siteSettings.MetaDescription" />
+    }
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/dark.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="100">
+
+    @* Dynamic Navbar from Database *@
+    @await Component.InvokeAsync("Navbar")
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer id="footer">
+        @* Dynamic Ticker from Database *@
+        @await Component.InvokeAsync("Ticker")
+
+        @* Dynamic Footer from Database *@
+        @await Component.InvokeAsync("Footer")
+    </footer>
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+
+</html>

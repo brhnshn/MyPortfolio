@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "500 - Sunucu Hatası";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body { background: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .error-container { text-align: center; }
+        .error-code { font-size: 120px; font-weight: bold; color: #ffc107; }
+        .error-message { font-size: 24px; color: #343a40; margin-bottom: 30px; }
+        .back-home { padding: 10px 20px; font-size: 18px; border-radius: 50px; }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">500</div>
+        <div class="error-message">Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.</div>
+        <a href="/" class="btn btn-primary back-home">Ana Sayfaya Dön</a>
+    </div>
+</body>
+</html>

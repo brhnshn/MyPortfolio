@@ -1,0 +1,80 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<ContactInfo>
+
+<section id="contact" class="contact" style="background-color: #f6f9fe;">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title text-center mb-5">
+            <h2>İletişim</h2>
+            <p>Projeleriniz veya sorularınız için benimle iletişime geçin.</p>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="col-lg-5 d-flex align-items-stretch">
+                <div class="info w-100 bg-white p-4 shadow-sm border rounded">
+
+                    @if (Model.Count > 0)
+                    {
+                        var info = Model[0];
+
+                        <div class="address mb-4">
+                            <i class="fas fa-map-marker-alt text-primary fs-4 float-start mt-1 me-3"></i>
+                            <h4 class="fw-bold mb-1">Adres:</h4>
+                            <p class="text-muted">@info.Address</p>
+                        </div>
+
+                        <div class="email mb-4">
+                            <i class="fas fa-envelope text-primary fs-4 float-start mt-1 me-3"></i>
+                            <h4 class="fw-bold mb-1">Email:</h4>
+                            <p class="text-muted">@info.Email</p>
+                        </div>
+
+                        <div class="phone mb-4">
+                            <i class="fas fa-phone-alt text-primary fs-4 float-start mt-1 me-3"></i>
+                            <h4 class="fw-bold mb-1">Telefon:</h4>
+                            <p class="text-muted">@info.Phone</p>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(info.MapUrl))
+                        {
+                            <iframe src="https://maps.google.com/maps?q=@info.MapUrl&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                    frameborder="0" style="border:0; width: 100%; height: 200px; border-radius: 8px;" allowfullscreen></iframe>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted">İletişim bilgisi girilmemiş.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+                <form action="/Home/SendMessage" method="post" class="php-email-form w-100 bg-white p-4 shadow-sm border rounded">
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <label class="fw-bold mb-1 small">Adınız Soyadınız</label>
+                            <input type="text" name="Name" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label class="fw-bold mb-1 small">Email Adresiniz</label>
+                            <input type="email" class="form-control" name="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="fw-bold mb-1 small">Konu</label>
+                        <input type="text" class="form-control" name="Subject" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="fw-bold mb-1 small">Mesajınız</label>
+                        <textarea class="form-control" name="Content" rows="5" required style="resize: none;"></textarea>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">Gönder</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,15 @@
+@using MyPortfolio.Data.Abstract
+@using MyPortfolio.Entities.Concrete
+@inject IGenericRepository<SiteSettings> SettingsRepo
+
+@{
+    var settings = SettingsRepo.GetList().FirstOrDefault();
+    var theme = settings?.ActiveTemplate ?? "DefaultTheme";
+
+    Layout = theme switch
+    {
+        "ModernTheme" => "_LayoutModern",
+        "DarkTheme" => "_LayoutDark",
+        _ => "_Layout"
+    };
+}

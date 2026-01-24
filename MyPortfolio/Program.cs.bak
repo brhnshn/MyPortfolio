@@ -1,0 +1,71 @@
+using Microsoft.AspNetCore.Identity; // EKLENDÝ
+using Microsoft.EntityFrameworkCore;
+using MyPortfolio.Data.Concrete;
+using MyPortfolio.Data.Abstract;
+using MyPortfolio.Entities.Concrete;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// DB Context Baðlantýsý (Senin kodun)
+builder.Services.AddDbContext<MyPortfolioContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// --- IDENTITY AYARLARI BAÞLANGIÇ ---
+builder.Services.AddIdentity<AppUser, AppRole>()
+    .AddEntityFrameworkStores<MyPortfolioContext>()
+    .AddDefaultTokenProviders(); // Þifremi unuttum tokenlarý için gerekli
+
+// Þifre Kurallarýný Basitleþtirme (Geliþtirme aþamasý için)
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 4; // Min 4 karakter þifre
+});
+
+// Giriþ Yapmamýþ Kullanýcýyý Yönlendirme
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(100); // 100 dk sonra oturum düþer
+    options.LoginPath = "/Admin/Login/Index"; // Yetkisiz giriþ denenirse buraya atar
+    options.AccessDeniedPath = "/Admin/Login/Index";
+    options.SlidingExpiration = true;
+});
+// --- IDENTITY AYARLARI BÝTÝÞ ---
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// DÝKKAT: Bu ikilinin sýrasý çok önemli!
+app.UseAuthentication(); // 1. Önce kimlik doðrula (Sen kimsin?)
+app.UseAuthorization();  // 2. Sonra yetki ver (Girebilir misin?)
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+);
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();

@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - @User.Identity?.Name</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/admin-glass.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+        }
+
+        /* ===== GLASS SIDEBAR ===== */
+        #sidebar {
+            min-width: 280px;
+            max-width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(15, 15, 35, 0.98) 0%, rgba(26, 26, 46, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            position: fixed;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #sidebar.active {
+            margin-left: -280px;
+        }
+
+        .sidebar-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(102, 126, 234, 0.1);
+            flex-shrink: 0;
+        }
+
+        .sidebar-header h4 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* User Panel */
+        .user-panel {
+            padding: 0.75rem 1rem;
+            margin: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
+        }
+
+        .user-panel img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid rgba(102, 126, 234, 0.5);
+        }
+
+        .user-panel .info {
+            margin-left: 0.75rem;
+        }
+
+        .user-panel .info a {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .user-panel .info small {
+            color: #00f5a0;
+            font-size: 0.7rem;
+        }
+
+        /* Navigation Scrollable Area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 1rem;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 0.5rem 0;
+        }
+
+        .menu-section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #667eea;
+            margin-top: 0.5rem;
+        }
+
+        #sidebar ul {
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+
+        #sidebar ul li a {
+            display: flex;
+            align-items: center;
+            padding: 0.7rem 1.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        #sidebar ul li a i {
+            width: 18px;
+            margin-right: 0.7rem;
+            font-size: 0.9rem;
+        }
+
+        #sidebar ul li a:hover {
+            color: white;
+            background: rgba(102, 126, 234, 0.15);
+            border-left-color: #667eea;
+        }
+
+        #sidebar ul li.active>a {
+            color: white;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.3) 0%, transparent 100%);
+            border-left-color: #667eea;
+        }
+
+        /* Logout at Bottom */
+        .sidebar-footer {
+            flex-shrink: 0;
+            padding: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            color: #ff416c;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-radius: 10px;
+            background: rgba(255, 65, 108, 0.1);
+            border: 1px solid rgba(255, 65, 108, 0.2);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 65, 108, 0.2);
+            color: #ff416c;
+        }
+
+        .logout-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* ===== CONTENT AREA ===== */
+        #content {
+            width: 100%;
+            min-height: 100vh;
+            padding: 1.25rem;
+            margin-left: 280px;
+            transition: all 0.3s;
+        }
+
+        #sidebar.active+#content {
+            margin-left: 0;
+        }
+
+        /* ===== TOP NAVBAR ===== */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            margin-bottom: 1.25rem;
+        }
+
+        .top-navbar .toggle-btn {
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .top-navbar .toggle-btn:hover {
+            background: rgba(102, 126, 234, 0.25);
+            color: white;
+        }
+
+        .top-navbar .page-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .top-navbar .page-title h5 {
+            margin: 0;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .top-navbar .page-title i {
+            color: #667eea;
+        }
+
+        .top-navbar .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .top-navbar .nav-date {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            padding: 0.4rem 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .top-navbar .site-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.85rem;
+            background: rgba(0, 245, 160, 0.1);
+            border: 1px solid rgba(0, 245, 160, 0.2);
+            color: #00f5a0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .top-navbar .site-link:hover {
+            background: rgba(0, 245, 160, 0.2);
+        }
+
+        /* Mobile */
+        @@media (max-width: 768px) {
+            #sidebar {
+                margin-left: -280px;
+            }
+
+            #sidebar.active {
+                margin-left: 0;
+            }
+
+            #content {
+                margin-left: 0;
+            }
+
+            .top-navbar .nav-date {
+                display: none;
+            }
+        }
+
+        textarea {
+            resize: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header d-flex align-items-center">
+                <i class="fas fa-layer-group me-2" style="color: #667eea;"></i>
+                <h4>Admin Panel</h4>
+            </div>
+
+            <div class="user-panel d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name=@User.Identity?.Name&background=667eea&color=fff&size=128"
+                    alt="User">
+                <div class="info">
+                    <a href="#">@User.Identity?.Name</a>
+                    <small><i class="fas fa-circle fa-xs me-1"></i>Çevrimiçi</small>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <!-- Genel -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Genel</div>
+                    <ul>
+                        <li><a href="/Admin/Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="/Admin/Navbar"><i class="fas fa-bars"></i> Navbar Yönetimi</a></li>
+                        <li><a href="/Admin/Theme"><i class="fas fa-palette"></i> Tema Seçimi</a></li>
+                    </ul>
+                </div>
+
+                <!-- Ana Sayfa İçerikleri -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Ana Sayfa</div>
+                    <ul>
+                        <li><a href="/Admin/Feature"><i class="fas fa-star"></i> Öne Çıkanlar</a></li>
+                        <li><a href="/Admin/Abouts"><i class="fas fa-user"></i> Hakkımda</a></li>
+                        <li><a href="/Admin/Services"><i class="fas fa-briefcase"></i> Hizmetler</a></li>
+                        <li><a href="/Admin/Skills"><i class="fas fa-bolt"></i> Yetenekler</a></li>
+                        <li><a href="/Admin/Projects"><i class="fas fa-code"></i> Projeler</a></li>
+                        <li><a href="/Admin/Testimonials"><i class="fas fa-comments"></i> Referanslar</a></li>
+                        <li><a href="/Admin/ContactInfo"><i class="fas fa-address-card"></i> İletişim Formu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Footer -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Footer Alanı</div>
+                    <ul>
+                        <li><a href="/Admin/SiteSettings"><i class="fas fa-cogs"></i> Site Ayarları</a></li>
+                        <li><a href="/Admin/Ticker"><i class="fas fa-scroll"></i> Kayan Yazılar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Diğer -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Diğer</div>
+                    <ul>
+                        <li><a href="/Admin/Messages"><i class="fas fa-envelope"></i> Mesajlar</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="/Admin/Login/LogOut" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                </a>
+            </div>
+        </nav>
+
+        <div id="content">
+            <nav class="top-navbar">
+                <div class="d-flex align-items-center">
+                    <button type="button" id="sidebarCollapse" class="toggle-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title d-none d-md-flex">
+                        <i class="fas fa-chart-pie"></i>
+                        <h5>@ViewData["Title"]</h5>
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <span class="nav-date">
+                        <i class="far fa-calendar-alt me-1"></i>
+                        @DateTime.Now.ToString("dd MMM yyyy")
+                    </span>
+                    <a href="/" target="_blank" class="site-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span class="d-none d-sm-inline">Siteyi Görüntüle</span>
+                    </a>
+                </div>
+            </nav>
+
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

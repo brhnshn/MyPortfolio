@@ -1,0 +1,211 @@
+﻿@using MyPortfolio.Entities.Concrete
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var recentMessages = ViewBag.RecentMessages as List<Message> ?? new List<Message>();
+}
+
+<link rel="stylesheet" href="~/css/dashboard.css" />
+
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h2><i class="fas fa-rocket me-2"></i>Komuta Merkezi</h2>
+        <p>Hoşgeldin <span class="user-name">@User.Identity?.Name</span>, işte sistemin anlık durumu.</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-4">
+        <!-- Öne Çıkanlar -->
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card purple">
+                <div class="card-icon purple">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-label">Öne Çıkanlar</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.FeatureCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projeler -->
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card green">
+                <div class="card-icon green">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="card-label">Projeler</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.ProjectCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yetenekler -->
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card cyan">
+                <div class="card-icon cyan">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="card-label">Yetenekler</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.SkillCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mesajlar -->
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card orange">
+                <div class="card-icon orange">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="card-label">Mesajlar</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.MessageCount">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row -->
+    <div class="row g-4 mb-4">
+        <!-- Hizmetler -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card cyan">
+                <div class="card-icon cyan">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="card-label">Hizmetler</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.ServiceCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referanslar -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card purple">
+                <div class="card-icon purple">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="card-label">Referanslar</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.TestimonialCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hakkımda -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card green">
+                <div class="card-icon green">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="card-label">Hakkımda</div>
+                <div class="card-value">
+                    <span class="counter" data-target="@ViewBag.AboutCount">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Panel & Quick Actions -->
+    <div class="row g-4">
+        <!-- Recent Messages -->
+        <div class="col-lg-8">
+            <div class="messages-panel">
+                <h5><i class="fas fa-inbox"></i> Son Mesajlar</h5>
+
+                @if (recentMessages.Any())
+                {
+                    foreach (var msg in recentMessages)
+                    {
+                        var initials = !string.IsNullOrEmpty(msg.Name)
+                            ? msg.Name.Substring(0, Math.Min(2, msg.Name.Length)).ToUpper()
+                            : "??";
+                                <div class="message-item">
+                                    <div class="message-avatar">@initials</div>
+                                    <div class="message-content">
+                                        <div class="message-sender">@msg.Name</div>
+                                        <div class="message-preview">@msg.Subject</div>
+                                    </div>
+                                    <div class="message-time">
+                                        <i class="far fa-envelope"></i>
+                                    </div>
+                                </div>
+                    }
+                }
+                else
+                {
+                        <div class="empty-messages">
+                            <i class="fas fa-inbox"></i>
+                            <p>Henüz mesaj yok</p>
+                        </div>
+                }
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-lg-4">
+            <div class="messages-panel">
+                <h5><i class="fas fa-bolt"></i> Hızlı İşlemler</h5>
+                <div class="quick-actions" style="flex-direction: column;">
+                    <a href="/Admin/Projects" class="quick-action-btn">
+                        <i class="fas fa-plus"></i> Yeni Proje Ekle
+                    </a>
+                    <a href="/Admin/Messages" class="quick-action-btn">
+                        <i class="fas fa-envelope-open"></i> Mesajları Gör
+                    </a>
+                    <a href="/Admin/Skills" class="quick-action-btn">
+                        <i class="fas fa-chart-bar"></i> Yetenekleri Düzenle
+                    </a>
+                    <a href="/" target="_blank" class="quick-action-btn">
+                        <i class="fas fa-external-link-alt"></i> Siteyi Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script>
+            // Animated Counter
+            document.addEventListener('DOMContentLoaded', function() {
+                const counters = document.querySelectorAll('.counter');
+                const speed = 200;
+
+                const animateCounter = (counter) => {
+                    const target = +counter.getAttribute('data-target');
+                    const increment = target / speed;
+                    let current = 0;
+
+                    const updateCount = () => {
+                        current += increment;
+                        if (current < target) {
+                            counter.innerText = Math.ceil(current);
+                            requestAnimationFrame(updateCount);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+
+                    updateCount();
+                };
+
+                // Intersection Observer for triggering animation when visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateCounter(entry.target);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                counters.forEach(counter => observer.observe(counter));
+            });
+        </script>
+}

@@ -1,0 +1,192 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<Testimonial>
+
+@{
+    ViewData["Title"] = "Referanslar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-comments"></i> Müşteri Yorumları</h4>
+            <small>Müşterilerinizin hakkınızdaki düşüncelerini buradan yönetin.</small>
+        </div>
+        <button type="button" class="btn-glass" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fas fa-plus"></i> Yeni Referans Ekle
+        </button>
+    </div>
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Müşteri</th>
+                    <th>Şirket</th>
+                    <th>Yorum</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var initials = !string.IsNullOrEmpty(item.ClientName) ? item.ClientName.Substring(0, Math.Min(2,
+                    item.ClientName.Length)).ToUpper() : "??";
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    <img src="@item.ImageUrl" class="img-glass me-3"
+                                        style="width: 45px; height: 45px; border-radius: 50%;" />
+                                }
+                                else
+                                {
+                                    <div class="avatar-glass me-3">@initials</div>
+                                }
+                                <div>
+                                    <div style="font-weight: 600;">@item.ClientName</div>
+                                    <small class="text-muted">@item.Title</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge-glass">@item.Company</span></td>
+                        <td class="text-muted">
+                            @if (item.Comment != null && item.Comment.Length > 50)
+                            {
+                                @item.Comment.Substring(0, 50)
+
+                                <text>...</text>
+                            }
+                            else
+                            {
+                                @item.Comment
+                            }
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <button type="button" class="btn btn-action-edit"
+                                    onclick="openEditModal('@item.Id', '@item.ClientName', '@item.Company', '@item.Title', '@item.ImageUrl', `@item.Comment`)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <a href="/Admin/Testimonials/Delete/@item.Id" class="btn btn-action-delete"
+                                    onclick="return confirm('Bu referansı silmek istediğine emin misin?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-comments"></i>
+                <p>Henüz referans eklenmemiş.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade modal-glass" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Referans Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Testimonials/Create" method="post" enctype="multipart/form-data" class="glass-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Ad Soyad</label>
+                        <input type="text" name="ClientName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Şirket / Kurum</label>
+                        <input type="text" name="Company" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ünvan</label>
+                        <input type="text" name="Title" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yorum</label>
+                        <textarea name="Comment" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fotoğraf</label>
+                        <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade modal-glass" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-warning);">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Referansı Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Testimonials/Edit" method="post" enctype="multipart/form-data" class="glass-form">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="text-center mb-3">
+                        <img id="editImagePreview" src="" class="img-glass"
+                            style="width: 70px; height: 70px; border-radius: 50%;" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ad Soyad</label>
+                        <input type="text" name="ClientName" id="editClientName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Şirket / Kurum</label>
+                        <input type="text" name="Company" id="editCompany" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ünvan</label>
+                        <input type="text" name="Title" id="editTitle" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yorum</label>
+                        <textarea name="Comment" id="editComment" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Yeni Fotoğraf</label>
+                        <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openEditModal(id, name, company, title, imageUrl, comment) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editClientName').value = name;
+            document.getElementById('editCompany').value = company;
+            document.getElementById('editTitle').value = title;
+            document.getElementById('editComment').value = comment;
+            document.getElementById('editImagePreview').src = imageUrl || 'https://ui-avatars.com/api/?name=' + name;
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+    </script>
+}

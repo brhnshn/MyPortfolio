@@ -1,0 +1,203 @@
+/* DARK MODE - Based on Default Layout */
+/* Color Palette: Black/Grey Background + Sky Blue Accents */
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Hard Overrides */
+.bg-white,
+.bg-light,
+section[style],
+section#testimonials {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border: none !important;
+}
+
+.text-dark {
+    color: #ffffff !important;
+}
+
+.text-muted {
+    color: #b0b0b0 !important;
+}
+
+/* Navbar */
+.navbar-light {
+    background-color: #1e1e1e !important;
+    border-bottom: 1px solid #333;
+}
+
+.navbar-light .navbar-brand {
+    color: #fff !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #0dcaf0;
+    /* Sky Blue */
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: #fff;
+}
+
+/* Sections Global */
+section,
+section.bg-white,
+section[style] {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+/* Contact & Testimonials Specifics */
+.contact .info,
+.contact .php-email-form,
+.client-card {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #e0e0e0 !important;
+}
+
+.contact .info p,
+.contact .info h4 {
+    color: #e0e0e0 !important;
+}
+
+/* Client Card */
+.client-card .text-primary {
+    color: #0dcaf0 !important;
+}
+
+.client-bg-circle {
+    background: rgba(13, 202, 240, 0.1) !important;
+}
+
+/* About Section & Stats Cards */
+.hover-card {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+    transition: all 0.3s ease;
+}
+
+/* FIX: Prevent white background on hover */
+.hover-card:hover {
+    background-color: #2c2c2c !important;
+    /* Slightly lighter dark, NOT white */
+    border-color: #0dcaf0 !important;
+    transform: translateY(-5px);
+}
+
+.hover-card h4,
+.hover-card h5 {
+    color: #fff !important;
+}
+
+.hover-card .text-primary {
+    color: #0dcaf0 !important;
+}
+
+/* Project Cards */
+.project-card,
+.card {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.project-card .badge {
+    background-color: #2c2c2c !important;
+    color: #0dcaf0 !important;
+}
+
+.project-card .card-title {
+    color: #ffffff !important;
+}
+
+.project-card .card-text {
+    color: #b0b0b0 !important;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #ffffff !important;
+}
+
+.section-title h2 {
+    color: #ffffff !important;
+}
+
+.section-title h5 {
+    color: #0dcaf0 !important;
+}
+
+.section-title h2::after {
+    background: #0dcaf0 !important;
+    /* Sky Blue */
+}
+
+/* General Icons */
+.icon-box .icon i {
+    color: #0dcaf0 !important;
+    background: rgba(13, 202, 240, 0.1) !important;
+}
+
+/* Footer */
+footer {
+    background-color: #0a0a0a !important;
+    color: #888;
+}
+
+.footer-ticker {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+.ticker-item {
+    color: #0dcaf0;
+}
+
+/* Form Controls */
+.form-control {
+    background-color: #2c2c2c !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+.form-control:focus {
+    background-color: #333 !important;
+    border-color: #0dcaf0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #0bb5d8;
+    border-color: #0bb5d8;
+}
+
+.btn-outline-dark,
+.btn-outline-primary {
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+    background: transparent;
+}
+
+.btn-outline-dark:hover,
+.btn-outline-primary:hover {
+    background-color: #e0e0e0;
+    color: #121212;
+}

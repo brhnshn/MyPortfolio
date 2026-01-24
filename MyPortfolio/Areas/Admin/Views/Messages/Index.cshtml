@@ -1,0 +1,149 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<Message>
+
+@{
+    ViewData["Title"] = "Gelen Mesajlar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-envelope"></i> Gelen Kutusu</h4>
+            <small>Web sitenizden gelen iletişim mesajları.</small>
+        </div>
+        <span class="badge-glass badge-glass-info" style="padding: 0.6rem 1rem; font-size: 0.9rem;">
+            <i class="fas fa-inbox me-1"></i> Toplam: @Model.Count
+        </span>
+    </div>
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Gönderen</th>
+                    <th>Konu</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var initials = !string.IsNullOrEmpty(item.Name) ? item.Name.Substring(0, Math.Min(2,
+                    item.Name.Length)).ToUpper() : "??";
+                    <tr id="row_@item.Id" style="@(item.IsRead ? "" : "background: rgba(102, 126, 234, 0.1);")">
+                        <td>@item.Id</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-glass me-3">@initials</div>
+                                <div>
+                                    <div style="font-weight: @(item.IsRead ? "400" : "600");">@item.Name</div>
+                                    <small class="text-muted">@item.Email</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-weight: @(item.IsRead ? "400" : "600");">@item.Subject</td>
+                        <td class="text-muted">
+                            @(item.Date != DateTime.MinValue ? item.Date.ToString("dd.MM.yyyy HH:mm") : "-")
+                        </td>
+                        <td>
+                            @if (item.IsRead)
+                            {
+                                <span class="badge-glass" id="badge_@item.Id">
+                                    <i class="fas fa-check-double me-1"></i> Okundu
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge-glass badge-glass-new" id="badge_@item.Id">YENİ</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <button type="button" class="btn btn-action-view"
+                                    onclick="openMessageModal(@item.Id, '@item.Name', '@item.Email', `@item.Content`, `@item.Subject`, @item.IsRead.ToString().ToLower())">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <a href="/Admin/Messages/Delete/@item.Id" class="btn btn-action-delete"
+                                    onclick="return confirm('Bu mesajı kalıcı olarak silmek istiyor musunuz?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>Gelen kutunuz boş.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal fade modal-glass" id="messageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-info);">
+                <h5 class="modal-title" id="msgSubjectDisplay"><i class="fas fa-envelope-open-text me-2"></i>Mesaj
+                    Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3"
+                    style="border-color: rgba(255,255,255,0.1) !important;">
+                    <div>
+                        <h6 class="mb-1" id="msgName" style="color: white;"></h6>
+                        <small class="text-muted" id="msgEmail"></small>
+                    </div>
+                    <a href="#" id="btnReply" class="btn-glass btn-glass-success">
+                        <i class="fas fa-reply"></i> Cevapla
+                    </a>
+                </div>
+                <div class="glass-panel">
+                    <p id="msgContent" class="mb-0" style="white-space: pre-wrap; line-height: 1.7;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-glass" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openMessageModal(id, name, email, content, subject, isRead) {
+            document.getElementById('msgSubjectDisplay').innerHTML = '<i class="fas fa-envelope-open-text me-2"></i>' + subject;
+            document.getElementById('msgName').innerText = name;
+            document.getElementById('msgEmail').innerText = email;
+            document.getElementById('msgContent').innerText = content;
+            document.getElementById('btnReply').href = "mailto:" + email + "?subject=Ynt: " + subject;
+
+            var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            myModal.show();
+
+            if (isRead === false) {
+                $.post("/Admin/Messages/MarkAsRead/" + id, function () {
+                    var row = document.getElementById("row_" + id);
+                    if (row) {
+                        row.style.background = "";
+                    }
+                    var badge = document.getElementById("badge_" + id);
+                    if (badge) {
+                        badge.className = "badge-glass";
+                        badge.innerHTML = '<i class="fas fa-check-double me-1"></i> Okundu';
+                    }
+                });
+            }
+        }
+    </script>
+}

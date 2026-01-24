@@ -1,0 +1,131 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MyPortfolio.Data.Abstract;
+using MyPortfolio.Entities.Concrete;
+
+namespace MyPortfolio.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    [Authorize]
+    public class TestimonialsController : Controller
+    {
+        private readonly IGenericRepository<Testimonial> _testimonialRepository;
+
+        public TestimonialsController(IGenericRepository<Testimonial> testimonialRepository)
+        {
+            _testimonialRepository = testimonialRepository;
+        }
+
+        public IActionResult Index()
+        {
+            var values = _testimonialRepository.GetList();
+            return View(values);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var value = _testimonialRepository.GetById(id);
+            if (value != null)
+            {
+                try
+                {
+                    // Varsa resim dosyasını sil
+                    if (!string.IsNullOrEmpty(value.ImageUrl) && !value.ImageUrl.Contains("placeholder"))
+                    {
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", value.ImageUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(path)) System.IO.File.Delete(path);
+                    }
+                }
+                catch { }
+
+                _testimonialRepository.Delete(value);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] Testimonial t, IFormFile imageFile)
+        {
+            // Null kontrolü
+            if (t == null) t = new Testimonial();
+
+            t.CreatedDate = DateTime.Now;
+
+            // Resim Yükleme
+            if (imageFile != null)
+            {
+                var extension = Path.GetExtension(imageFile.FileName);
+                var newImageName = Guid.NewGuid() + extension;
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/", newImageName);
+
+                // Klasör yoksa oluştur
+                if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/"));
+                }
+
+                using (var stream = new FileStream(location, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                t.ImageUrl = "/testimonialimages/" + newImageName;
+            }
+            else
+            {
+                // Resim yoksa rastgele avatar ata (Erkek/Kadın ayrımı yapamıyoruz ama nötr avatar koyabiliriz)
+                t.ImageUrl = "https://ui-avatars.com/api/?name=" + t.ClientName + "&background=random";
+            }
+
+            _testimonialRepository.Insert(t);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit([FromForm] Testimonial t, IFormFile imageFile)
+        {
+            var existing = _testimonialRepository.GetById(t.Id);
+            if (existing == null) return RedirectToAction("Index");
+
+            // Bilgileri güncelle
+            existing.ClientName = t.ClientName;
+            existing.Company = t.Company;
+            existing.Title = t.Title;
+            existing.Comment = t.Comment;
+            existing.UpdatedDate = DateTime.Now;
+
+            // Resim değiştiyse
+            if (imageFile != null)
+            {
+                // Eski resmi sil
+                try
+                {
+                    if (!string.IsNullOrEmpty(existing.ImageUrl) && !existing.ImageUrl.Contains("ui-avatars"))
+                    {
+                        var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existing.ImageUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                    }
+                }
+                catch { }
+
+                // Yeniyi yükle
+                var extension = Path.GetExtension(imageFile.FileName);
+                var newImageName = Guid.NewGuid() + extension;
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/", newImageName);
+
+                if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/"));
+                }
+
+                using (var stream = new FileStream(location, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                existing.ImageUrl = "/testimonialimages/" + newImageName;
+            }
+
+            _testimonialRepository.Update(existing);
+            return RedirectToAction("Index");
+        }
+    }
+}

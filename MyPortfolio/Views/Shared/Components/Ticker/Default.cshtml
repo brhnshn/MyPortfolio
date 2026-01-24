@@ -1,0 +1,20 @@
+@using MyPortfolio.Entities.Concrete
+@model List<TickerItem>
+
+<div class="footer-ticker">
+    <div class="ticker-track">
+        @if (Model.Any())
+        {
+            @* First set of items *@
+            @foreach (var item in Model)
+            {
+                <span class="ticker-item">@item.IconClass @item.Text</span>
+            }
+            @* Duplicate for seamless loop *@
+            @foreach (var item in Model)
+            {
+                <span class="ticker-item">@item.IconClass @item.Text</span>
+            }
+        }
+    </div>
+</div>

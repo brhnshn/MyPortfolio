@@ -1,0 +1,488 @@
+/* ===== ADMIN GLASS DESIGN SYSTEM ===== */
+
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-light: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --neon-purple: #667eea;
+    --neon-pink: #764ba2;
+    --neon-cyan: #00d9ff;
+    --neon-green: #00f5a0;
+    --neon-orange: #ff9a00;
+    --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-success: linear-gradient(135deg, #00f5a0 0%, #00d9ff 100%);
+    --gradient-warning: linear-gradient(135deg, #ff9a00 0%, #ff5500 100%);
+    --gradient-info: linear-gradient(135deg, #00d9ff 0%, #667eea 100%);
+    --gradient-danger: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    --dark-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    --sidebar-bg: linear-gradient(180deg, #0f0f23 0%, #1a1a2e 100%);
+}
+
+/* ===== GLASS CONTAINER ===== */
+.glass-container {
+    background: var(--dark-bg);
+    min-height: calc(100vh - 100px);
+    padding: 1.5rem;
+    border-radius: 20px;
+    position: relative;
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h4 {
+    margin: 0;
+    font-weight: 700;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-header h4 i {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-header small {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    background: none;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== GLASS BUTTONS ===== */
+.btn-glass {
+    background: var(--glass-bg-light);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-glass:hover {
+    background: var(--gradient-main);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.btn-glass-success {
+    background: var(--gradient-success);
+    border: none;
+}
+
+.btn-glass-success:hover {
+    box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
+}
+
+.btn-glass-warning {
+    background: var(--gradient-warning);
+    border: none;
+    color: white;
+}
+
+.btn-glass-danger {
+    background: transparent;
+    border: 1px solid rgba(255, 65, 108, 0.5);
+    color: #ff416c;
+}
+
+.btn-glass-danger:hover {
+    background: var(--gradient-danger);
+    color: white;
+}
+
+/* ===== GLASS TABLE ===== */
+.glass-table-wrapper {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.glass-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.glass-table thead {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.glass-table thead th {
+    padding: 1rem 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.glass-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s;
+}
+
+.glass-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.glass-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.glass-table tbody td {
+    padding: 1rem 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    vertical-align: middle;
+    border: none;
+}
+
+.glass-table .text-muted {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ===== GLASS BADGES ===== */
+.badge-glass {
+    background: var(--glass-bg-light);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.badge-glass-success {
+    background: rgba(0, 245, 160, 0.2);
+    color: var(--neon-green);
+}
+
+.badge-glass-warning {
+    background: rgba(255, 154, 0, 0.2);
+    color: var(--neon-orange);
+}
+
+.badge-glass-info {
+    background: rgba(0, 217, 255, 0.2);
+    color: var(--neon-cyan);
+}
+
+.badge-glass-new {
+    background: var(--gradient-success);
+    color: #0f0f23;
+    font-weight: 700;
+}
+
+/* ===== GLASS MODAL ===== */
+.modal-glass .modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.modal-glass .modal-header {
+    background: var(--gradient-main);
+    border: none;
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-glass .modal-header .modal-title {
+    color: white;
+    font-weight: 600;
+}
+
+.modal-glass .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.modal-glass .modal-body {
+    padding: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.modal-glass .modal-footer {
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid var(--glass-border);
+    padding: 1rem 1.5rem;
+}
+
+/* ===== GLASS FORM ===== */
+.glass-form .form-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.glass-form .form-control,
+.glass-form .form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: white;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s;
+}
+
+.glass-form .form-control:focus,
+.glass-form .form-select:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    color: white;
+}
+
+.glass-form .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.glass-form textarea.form-control {
+    min-height: 120px;
+}
+
+/* Helper text styling */
+.text-muted,
+small.text-muted {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ===== GLASS CARD ===== */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+/* ===== TABLE ACTION BUTTONS ===== */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.table-actions .btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.btn-action-view {
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    color: var(--neon-cyan);
+}
+
+.btn-action-view:hover {
+    background: var(--neon-cyan);
+    color: #0f0f23;
+}
+
+.btn-action-edit {
+    background: rgba(255, 154, 0, 0.1);
+    border: 1px solid rgba(255, 154, 0, 0.3);
+    color: var(--neon-orange);
+}
+
+.btn-action-edit:hover {
+    background: var(--neon-orange);
+    color: #0f0f23;
+}
+
+.btn-action-delete {
+    background: rgba(255, 65, 108, 0.1);
+    border: 1px solid rgba(255, 65, 108, 0.3);
+    color: #ff416c;
+}
+
+.btn-action-delete:hover {
+    background: #ff416c;
+    color: white;
+}
+
+/* ===== AVATAR ===== */
+.avatar-glass {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--gradient-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ===== IMAGE THUMBNAIL ===== */
+.img-glass {
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+/* ===== GLASS SECTION ===== */
+.glass-section {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.glass-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+}
+
+.glass-section-title i {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .glass-container {
+        padding: 1rem;
+        border-radius: 0;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .glass-table-wrapper {
+        overflow-x: auto;
+    }
+}
+
+/* ===== SELECT / DROPDOWN STYLES ===== */
+.form-select,
+select.form-control {
+    background-color: rgba(30, 30, 50, 0.9) !important;
+    color: #ffffff !important;
+    border: 1px solid var(--glass-border) !important;
+}
+
+.form-select option,
+select.form-control option {
+    background-color: #1a1a2e !important;
+    color: #ffffff !important;
+    padding: 10px;
+}
+
+.form-select option:hover,
+select.form-control option:hover,
+.form-select option:focus,
+select.form-control option:focus,
+.form-select option:checked,
+select.form-control option:checked {
+    background-color: var(--neon-purple) !important;
+    color: #ffffff !important;
+}
+
+/* Select2 Dropdown Styles */
+.select2-container--default .select2-selection--single {
+    background-color: rgba(30, 30, 50, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #ffffff !important;
+}
+
+.select2-container--default .select2-results__option {
+    background-color: #1a1a2e !important;
+    color: #ffffff !important;
+    padding: 10px 12px;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected],
+.select2-container--default .select2-results__option:hover {
+    background-color: #667eea !important;
+    color: #ffffff !important;
+}
+
+.select2-dropdown {
+    background-color: #1a1a2e !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.select2-search--dropdown .select2-search__field {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+/* ===== NATIVE SELECT FIX ===== */
+.form-select option,
+select.form-control option,
+.modal select option {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}

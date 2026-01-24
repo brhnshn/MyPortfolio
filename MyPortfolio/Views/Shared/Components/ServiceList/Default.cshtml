@@ -1,0 +1,40 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<Service>
+
+<section id="services" class="projects py-5" style="background-color: #f6f9fe;">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold text-dark">Uzmanlık Alanlarım</h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="service-item bg-white p-5 rounded shadow-sm text-center w-100 position-relative">
+
+                        <div class="icon-box mb-4 d-inline-block p-3 rounded-circle bg-light text-primary">
+                            <i class="@(string.IsNullOrEmpty(item.IconUrl) ? "fas fa-code" : item.IconUrl) fa-3x"></i>
+                        </div>
+
+                        <h4 class="fw-bold mb-3 text-truncate">@item.Title</h4>
+
+                        <div class="description-wrapper">
+                            <p class="text-muted description-text">
+                                @item.Description
+                            </p>
+                        </div>
+
+                        <div class="bottom-line"></div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.Count == 0)
+            {
+                <div class="alert alert-warning text-center w-100">Henüz hizmet eklenmemiş.</div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,47 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<Testimonial>
+
+@if (Model.Count > 0)
+{
+    <section id="testimonials" class="testimonials" style="background-color: #ffffff;">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title text-center mb-5">
+                <h2 class="fw-bold text-dark">Referanslar</h2>
+                <p class="text-muted">Akademik ve profesyonel hayatımda bana kefil olan kişiler.</p>
+            </div>
+
+            <div class="row g-5 justify-content-center">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="client-card h-100 position-relative">
+
+                            <div class="card-bg-circle"></div>
+
+                            <div class="client-img-wrapper">
+                                <img src="@item.ImageUrl" class="client-img"
+                                     alt="@item.ClientName"
+                                     onerror="this.src='https://ui-avatars.com/api/?name=@item.ClientName&size=200'">
+                            </div>
+
+                            <div class="client-info mt-4">
+                                <h4 class="fw-bold text-dark mb-2">@item.ClientName</h4>
+                                <span class="text-primary fw-medium text-uppercase ls-1 d-block mb-2">@item.Title</span>
+
+                                @if (!string.IsNullOrEmpty(item.Company))
+                                {
+                                    <div class="pt-3 border-top w-75 mx-auto mt-2">
+                                        <span class="text-muted fw-bold fs-6">@item.Company</span>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </section>
+}

@@ -1,0 +1,249 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<Service>
+
+@{
+    ViewData["Title"] = "Hizmetler";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .icon-grid-glass {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    .icon-option-glass {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.7);
+        transition: all 0.3s;
+    }
+
+    .icon-option-glass:hover {
+        background: rgba(102, 126, 234, 0.2);
+        border-color: rgba(102, 126, 234, 0.5);
+        color: white;
+    }
+
+    .icon-option-glass.selected {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+    }
+</style>
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-briefcase"></i> Hizmet Yönetimi</h4>
+            <small>Sunduğunuz hizmetleri buradan yönetin.</small>
+        </div>
+        <button type="button" class="btn-glass" id="btnOpenAddModal">
+            <i class="fas fa-plus"></i> Yeni Hizmet Ekle
+        </button>
+    </div>
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="text-center">İkon</th>
+                    <th>Başlık</th>
+                    <th style="width: 40%;">Açıklama</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td class="text-center">
+                                <i class="@(string.IsNullOrEmpty(item.IconUrl) ? "fas fa-circle-question" : item.IconUrl) fa-2x"
+                                    style="color: var(--neon-cyan);"></i>
+                            </td>
+                            <td><strong>@item.Title</strong></td>
+                            <td class="text-muted">
+                                @if (!string.IsNullOrEmpty(item.Description) && item.Description.Length > 80)
+                                {
+                                    @item.Description.Substring(0, 80)
+
+                                    <text>...</text>
+                                }
+                                else
+                                {
+                                    @item.Description
+                                }
+                            </td>
+                            <td>
+                                <div class="table-actions">
+                                    <button type="button" class="btn btn-action-edit btn-edit" data-id="@item.Id"
+                                        data-title="@item.Title" data-icon="@(item.IconUrl ?? "")"
+                                        data-description="@item.Description">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <a href="/Admin/Services/Delete/@item.Id" class="btn btn-action-delete"
+                                        onclick="return confirm('Silmek istediğine emin misin?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @if (Model == null || Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-briefcase"></i>
+                <p>Henüz hizmet eklenmemiş.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade modal-glass" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Hizmet Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Services/Create" method="post" class="glass-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Hizmet Başlığı</label>
+                        <input type="text" name="Title" class="form-control" maxlength="30" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">İkon Seç</label>
+                        <input type="hidden" name="IconUrl" id="addIconInput" />
+                        <div class="icon-grid-glass" id="addIconGrid"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama</label>
+                        <textarea name="Description" class="form-control" rows="3" maxlength="100" id="addDesc"
+                            required></textarea>
+                        <small class="text-muted"><span id="addCount">0</span>/100</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade modal-glass" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-warning);">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Hizmeti Güncelle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Services/Edit" method="post" class="glass-form">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="mb-3">
+                        <label class="form-label">Hizmet Başlığı</label>
+                        <input type="text" name="Title" id="editTitle" class="form-control" maxlength="30" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">İkon Seç</label>
+                        <input type="hidden" name="IconUrl" id="editIconInput" />
+                        <div class="icon-grid-glass" id="editIconGrid"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama</label>
+                        <textarea name="Description" id="editDescription" class="form-control" rows="3" maxlength="100"
+                            required></textarea>
+                        <small class="text-muted"><span id="editCount">0</span>/100</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const iconList = [
+            "fas fa-code", "fas fa-laptop-code", "fas fa-desktop", "fas fa-mobile-alt",
+            "fas fa-database", "fas fa-server", "fas fa-cloud", "fas fa-sitemap",
+            "fas fa-paint-brush", "fas fa-palette", "fas fa-pencil-ruler", "fas fa-video",
+            "fas fa-gamepad", "fas fa-robot", "fas fa-shield-alt", "fas fa-lock",
+            "fab fa-android", "fab fa-apple", "fab fa-windows"
+        ];
+
+        function renderIcons(containerId, inputId, selectedIcon) {
+            var container = document.getElementById(containerId);
+            var input = document.getElementById(inputId);
+            container.innerHTML = "";
+
+            iconList.forEach(function (icon) {
+                var div = document.createElement("div");
+                div.className = "icon-option-glass" + (icon === selectedIcon ? " selected" : "");
+                div.innerHTML = '<i class="' + icon + ' fa-lg"></i>';
+                div.addEventListener("click", function () {
+                    container.querySelectorAll(".icon-option-glass").forEach(s => s.classList.remove("selected"));
+                    div.classList.add("selected");
+                    input.value = icon;
+                });
+                container.appendChild(div);
+            });
+        }
+
+        function setupCharCounter(inputId, labelId) {
+            var input = document.getElementById(inputId);
+            var label = document.getElementById(labelId);
+            input.addEventListener("keyup", function () { label.innerText = this.value.length; });
+            label.innerText = input.value.length;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("btnOpenAddModal")?.addEventListener("click", function () {
+                renderIcons('addIconGrid', 'addIconInput', iconList[0]);
+                document.getElementById('addIconInput').value = iconList[0];
+                setupCharCounter('addDesc', 'addCount');
+                new bootstrap.Modal(document.getElementById('addModal')).show();
+            });
+
+            document.querySelectorAll(".btn-edit").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    document.getElementById('editId').value = this.getAttribute("data-id");
+                    document.getElementById('editTitle').value = this.getAttribute("data-title");
+                    document.getElementById('editDescription').value = this.getAttribute("data-description");
+                    document.getElementById('editIconInput').value = this.getAttribute("data-icon") || "";
+                    renderIcons('editIconGrid', 'editIconInput', this.getAttribute("data-icon") || "");
+                    setupCharCounter('editDescription', 'editCount');
+                    new bootstrap.Modal(document.getElementById('editModal')).show();
+                });
+            });
+        });
+    </script>
+}

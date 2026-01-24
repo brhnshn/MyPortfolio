@@ -1,0 +1,146 @@
+@using MyPortfolio.Entities.Concrete
+@model SiteSettings
+
+@{
+    ViewData["Title"] = "Site Ayarları";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-cogs"></i> Site Ayarları</h4>
+            <small>Favicon, footer ve genel site ayarlarını buradan yönetin.</small>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-times-circle me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <form action="/Admin/SiteSettings/Update" method="post" class="glass-form">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="ActiveTemplate" value="@Model.ActiveTemplate" />
+        <input type="hidden" name="PrimaryColor" value="@Model.PrimaryColor" />
+        <input type="hidden" name="SecondaryColor" value="@Model.SecondaryColor" />
+
+        <!-- Genel Ayarlar -->
+        <div class="glass-section mb-4">
+            <h5 class="glass-section-title"><i class="fas fa-globe me-2"></i>Genel Ayarlar</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Site Başlığı</label>
+                    <input type="text" name="SiteTitle" class="form-control" value="@Model.SiteTitle" required
+                        maxlength="100" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fas fa-image text-warning me-1"></i>Favicon URL</label>
+                    <input type="url" name="FaviconUrl" class="form-control" value="@Model.FaviconUrl"
+                        placeholder="https://example.com/favicon.ico" />
+                    <small class="text-muted">Tarayıcı sekmesinde görünecek simge URL'si</small>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label">Meta Açıklama</label>
+                    <input type="text" name="MetaDescription" class="form-control" value="@Model.MetaDescription"
+                        maxlength="500" placeholder="Arama motorlarında görünecek açıklama" />
+                </div>
+            </div>
+        </div>
+
+        <!-- İletişim Bilgileri -->
+        <div class="glass-section mb-4">
+            <h5 class="glass-section-title"><i class="fas fa-envelope me-2"></i>İletişim Bilgileri</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" name="Email" class="form-control" value="@Model.Email" maxlength="100" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Telefon</label>
+                    <input type="text" name="Phone" class="form-control" value="@Model.Phone" maxlength="20" />
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER ALANI -->
+        <div class="alert alert-info border-0 mb-4" style="background: rgba(102, 126, 234, 0.15); color: #667eea;">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <strong>FOOTER ALANI</strong> - Aşağıdaki ayarlar sitenizin alt bölümünde (footer) görünecektir.
+        </div>
+
+        <!-- Sosyal Medya -->
+        <div class="glass-section mb-4">
+            <h5 class="glass-section-title"><i class="fas fa-share-alt me-2"></i>Sosyal Medya Linkleri (Footer'da
+                görünür)</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fab fa-github me-1"></i>Github</label>
+                    <input type="url" name="GithubUrl" class="form-control" value="@Model.GithubUrl" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fab fa-linkedin me-1"></i>LinkedIn</label>
+                    <input type="url" name="LinkedinUrl" class="form-control" value="@Model.LinkedinUrl" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fab fa-instagram me-1"></i>Instagram</label>
+                    <input type="url" name="InstagramUrl" class="form-control" value="@Model.InstagramUrl" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fab fa-x-twitter me-1"></i>X (Twitter)</label>
+                    <input type="url" name="XUrl" class="form-control" value="@Model.XUrl" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Ayarları -->
+        <div class="glass-section mb-4">
+            <h5 class="glass-section-title"><i class="fas fa-shoe-prints me-2"></i>Footer Ayarları</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Navbar ve Footer Başlık</label>
+                    <input type="text" name="FooterTitle" class="form-control" value="@Model.FooterTitle"
+                        maxlength="100" />
+                    <small class="text-muted">Hem navbar'da hem footer'da görünür (örn: MY PORTFOLIO)</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Copyright Metni</label>
+                    <input type="text" name="CopyrightText" class="form-control" value="@Model.CopyrightText"
+                        maxlength="200" />
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label">Footer Açıklaması</label>
+                    <textarea name="FooterDescription" class="form-control" rows="3"
+                        maxlength="500">@Model.FooterDescription</textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Geliştirici Adı</label>
+                    <input type="text" name="DeveloperName" class="form-control" value="@Model.DeveloperName"
+                        maxlength="100" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Geliştirici URL</label>
+                    <input type="url" name="DeveloperUrl" class="form-control" value="@Model.DeveloperUrl"
+                        maxlength="250" />
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn-glass btn-glass-success">
+                <i class="fas fa-save me-2"></i>Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>

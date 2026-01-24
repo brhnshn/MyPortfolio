@@ -1,0 +1,42 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<Feature>
+
+@{
+    var item = Model.LastOrDefault();
+}
+
+@if (item != null)
+{
+    <section id="hero">
+        <div class="hero-shape"></div>
+
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-5 order-1 order-lg-1 hero-img-container" id="tiltContainer" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="@item.ImageUrl" class="img-fluid hero-img" id="tiltImage" alt="Profile Photo">
+                </div>
+
+                <div class="col-lg-7 order-2 order-lg-2 hero-content" data-aos="fade-up" data-aos-delay="100">
+                    <span class="hero-subtitle">@item.Header</span>
+                    <h1>@item.Name</h1>
+                    <h2>@item.Title</h2>
+
+                    <div class="d-flex justify-content-lg-start justify-content-center">
+                        <a href="#about" class="btn-get-started scrollto">Hakkımda</a>
+                        <a href="#projects" class="btn-projects scrollto">Projelerim</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section id="hero" class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+        <div class="text-center">
+            <h1>Veri Bekleniyor...</h1>
+        </div>
+    </section>
+}

@@ -1,0 +1,37 @@
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.deps.json
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.dll
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.pdb
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.csproj.AssemblyReference.cache
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.AssemblyInfoInputs.cache
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.AssemblyInfo.cs
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.csproj.CoreCompileInputs.cache
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.dll
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\refint\MyPortfolio.Entities.dll
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.pdb
+C:\Users\sahin\source\repos\MyPortfolio\MyPortfolio.Entities\obj\Debug\net8.0\ref\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.deps.json
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.pdb
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.csproj.AssemblyReference.cache
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.AssemblyInfoInputs.cache
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.AssemblyInfo.cs
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.csproj.CoreCompileInputs.cache
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\refint\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.pdb
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\ref\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.sourcelink.json
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.deps.json
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\bin\Debug\net8.0\MyPortfolio.Entities.pdb
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.csproj.AssemblyReference.cache
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.AssemblyInfoInputs.cache
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.AssemblyInfo.cs
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.csproj.CoreCompileInputs.cache
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\refint\MyPortfolio.Entities.dll
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\MyPortfolio.Entities.pdb
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Entities\obj\Debug\net8.0\ref\MyPortfolio.Entities.dll

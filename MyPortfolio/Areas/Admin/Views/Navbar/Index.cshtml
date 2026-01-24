@@ -1,0 +1,159 @@
+@model List<MyPortfolio.Entities.Concrete.NavbarItem>
+
+@{
+    ViewData["Title"] = "Navbar Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-bars"></i> Navbar Yönetimi</h4>
+            <small>Menü öğelerini sıralayın ve yönetin.</small>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">Sıra</th>
+                    <th>Menü Adı</th>
+                    <th>Bölüm ID</th>
+                    <th style="width: 120px;">Durum</th>
+                    <th style="width: 150px;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.DisplayOrder == 0)
+                            {
+                                <span class="badge bg-secondary bg-opacity-25 text-white border border-secondary border-opacity-25">1</span>
+                            }
+                            else
+                            {
+                                <span class="badge-glass">@(item.DisplayOrder + 1)</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.SectionId == "hero")
+                            {
+                                <span class="text-white fw-bold"><i class="fas fa-home me-2 text-muted"></i>@item.Title</span>
+                            }
+                            else
+                            {
+                                <form action="/Admin/Navbar/UpdateTitle" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="text" name="title" value="@item.Title"
+                                        class="form-control form-control-sm d-inline-block"
+                                        style="width: 150px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: white;"
+                                        onchange="this.form.submit()" />
+                                </form>
+                            }
+                        </td>
+                        <td>
+                            <code style="color: #667eea;">#@item.SectionId</code>
+                        </td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">
+                                    <i class="fas fa-check me-1"></i>Aktif
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25">
+                                    <i class="fas fa-times me-1"></i>Gizli
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                @* YUKARI BUTONU *@
+                                <form action="/Admin/Navbar/UpdateOrder" method="post" class="d-inline me-1">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="newOrder" value="@(item.DisplayOrder - 1)" />
+                                    
+                                    @* 
+                                       1. Sıradaki (Index 0) yukarı çıkamaz.
+                                       2. Sıradaki (Index 1) yukarı çıkamaz (1. sıraya geçemez).
+                                    *@
+                                    @if (item.DisplayOrder <= 1)
+                                    {
+                                        <button type="button" class="btn btn-action-view" disabled style="opacity:0.3; cursor:not-allowed;">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-action-view" title="Yukarı">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </button>
+                                    }
+                                </form>
+
+                                @* AŞAĞI BUTONU *@
+                                <form action="/Admin/Navbar/UpdateOrder" method="post" class="d-inline me-1">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="newOrder" value="@(item.DisplayOrder + 1)" />
+                                    
+                                    @* 
+                                       1. Sıradaki (Index 0 - Hero) aşağı inemez.
+                                    *@
+                                    @if (item.SectionId == "hero")
+                                    {
+                                        <button type="button" class="btn btn-action-view" disabled style="opacity:0.3; cursor:not-allowed;">
+                                            <i class="fas fa-arrow-down"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-action-view" title="Aşağı">
+                                            <i class="fas fa-arrow-down"></i>
+                                        </button>
+                                    }
+                                </form>
+
+                                @* GİZLE/GÖSTER *@
+                                <form action="/Admin/Navbar/ToggleActive" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    
+                                    @if (item.SectionId == "hero")
+                                    {
+                                        <button type="button" class="btn btn-action-view" disabled style="opacity:0.3; cursor:not-allowed;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    }
+                                    else if (item.IsActive)
+                                    {
+                                        <button type="submit" class="btn btn-action-delete" title="Gizle">
+                                            <i class="fas fa-eye-slash"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-action-edit" title="Göster">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    }
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

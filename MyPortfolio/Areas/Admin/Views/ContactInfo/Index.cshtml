@@ -1,0 +1,188 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<ContactInfo>
+
+@{
+    ViewData["Title"] = "İletişim Bilgileri";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    string[] cities = new string[] {
+"Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın",
+"Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa",
+"Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum",
+"Eskişehir",
+"Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir",
+"Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kırıkkale", "Kırklareli", "Kırşehir", "Kilis",
+"Kocaeli", "Konya", "Kütahya",
+"Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye",
+"Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Şanlıurfa", "Şırnak",
+"Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"
+};
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-address-card"></i> İletişim Bilgileri</h4>
+            <small>Adres, telefon ve e-posta bilgilerinizi buradan yönetin.</small>
+        </div>
+        @if (Model.Count == 0)
+        {
+            <button type="button" class="btn-glass" data-bs-toggle="modal" data-bs-target="#addModal">
+                <i class="fas fa-plus"></i> Bilgi Ekle
+            </button>
+        }
+        else
+        {
+            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>Kayıt Mevcut</span>
+        }
+    </div>
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Adres</th>
+                    <th>Telefon</th>
+                    <th>Email</th>
+                    <th>Şehir</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Address</td>
+                        <td>@item.Phone</td>
+                        <td style="color: var(--neon-cyan);">@item.Email</td>
+                        <td><span class="badge-glass badge-glass-info">@item.MapUrl</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-action-edit btn-edit" data-id="@item.Id" data-address="@item.Address"
+                                    data-phone="@item.Phone" data-email="@item.Email" data-map="@item.MapUrl">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <a href="/Admin/ContactInfo/Delete/@item.Id" class="btn btn-action-delete"
+                                    onclick="return confirm('Silmek istiyor musunuz?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-address-card"></i>
+                <p>Henüz iletişim bilgisi eklenmemiş.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade modal-glass" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Bilgi Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/ContactInfo/Create" method="post" class="glass-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Adres Detayı</label>
+                        <input type="text" name="Address" class="form-control" placeholder="Mahalle, Sokak, No..."
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input type="text" name="Phone" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="Email" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Konum (Şehir)</label>
+                        <select name="MapUrl" class="form-select" required>
+                            <option value="" disabled selected>Bir şehir seçiniz...</option>
+                            @foreach (var city in cities)
+                            {
+                                <option value="@city">@city</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade modal-glass" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-warning);">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/ContactInfo/Edit" method="post" class="glass-form">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="mb-3">
+                        <label class="form-label">Adres Detayı</label>
+                        <input type="text" name="Address" id="editAddress" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input type="text" name="Phone" id="editPhone" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="Email" id="editEmail" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Konum (Şehir)</label>
+                        <select name="MapUrl" id="editMap" class="form-select" required>
+                            @foreach (var city in cities)
+                            {
+                                <option value="@city">@city</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".btn-edit").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    document.getElementById('editId').value = this.getAttribute("data-id");
+                    document.getElementById('editAddress').value = this.getAttribute("data-address");
+                    document.getElementById('editPhone').value = this.getAttribute("data-phone");
+                    document.getElementById('editEmail').value = this.getAttribute("data-email");
+                    document.getElementById('editMap').value = this.getAttribute("data-map");
+                    new bootstrap.Modal(document.getElementById('editModal')).show();
+                });
+            });
+        });
+    </script>
+}

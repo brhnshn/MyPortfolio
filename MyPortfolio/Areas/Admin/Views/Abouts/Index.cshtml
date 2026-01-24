@@ -1,0 +1,207 @@
+﻿@using MyPortfolio.Entities.Concrete
+@model List<About>
+
+@{
+    ViewData["Title"] = "Hakkımda";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="glass-container">
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-user-circle"></i> Hakkımda Yönetimi</h4>
+            <small>Profil bilgileri, CV ve istatistik yönetimi.</small>
+        </div>
+        @if (Model.Count < 1)
+        {
+            <button type="button" class="btn-glass" data-bs-toggle="modal" data-bs-target="#addModal">
+                <i class="fas fa-plus"></i> Yeni Bilgi Ekle
+            </button>
+        }
+        else
+        {
+            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>Kayıt Mevcut</span>
+        }
+    </div>
+
+    <div class="glass-table-wrapper">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ad Soyad</th>
+                    <th>Ünvan</th>
+                    <th>CV</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td><strong>@item.FullName</strong></td>
+                        <td><span class="badge-glass">@item.Title</span></td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.CvUrl))
+                            {
+                                <a href="@item.CvUrl" target="_blank" class="btn-glass" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                                    <i class="fas fa-file-pdf"></i> Görüntüle
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Yok</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <button type="button" class="btn btn-action-edit"
+                                        onclick="openEditModal('@item.Id', '@item.FullName', '@item.Title', '@item.Description', `@item.Details`, '@item.ProjectCount', '@item.ExperienceYear', '@item.CustomerCount')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <a href="/Admin/Abouts/Delete/@item.Id" class="btn btn-action-delete"
+                                   onclick="return confirm('Silmek istediğine emin misin?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-user-circle"></i>
+                <p>Henüz bilgi eklenmemiş.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade modal-glass" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Bilgi Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Abouts/Create" method="post" enctype="multipart/form-data" class="glass-form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" name="FullName" class="form-control" maxlength="50" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Ünvan</label>
+                            <input type="text" name="Title" class="form-control" maxlength="50" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Proje</label>
+                            <input type="text" name="ProjectCount" class="form-control" placeholder="20+" maxlength="10" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Deneyim</label>
+                            <input type="text" name="ExperienceYear" class="form-control" placeholder="3 Yıl" maxlength="10" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Müşteri</label>
+                            <input type="text" name="CustomerCount" class="form-control" placeholder="10+" maxlength="10" />
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Kısa Özet</label>
+                            <textarea name="Description" class="form-control" rows="2" maxlength="150"></textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Detaylı Biyografi</label>
+                            <textarea name="Details" class="form-control" rows="4" maxlength="1000"></textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">CV Yükle (PDF)</label>
+                            <input type="file" name="cvFile" class="form-control" accept=".pdf,.doc,.docx" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade modal-glass" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-warning);">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Admin/Abouts/Edit" method="post" enctype="multipart/form-data" class="glass-form">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" name="FullName" id="editFullName" class="form-control" maxlength="50" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Ünvan</label>
+                            <input type="text" name="Title" id="editTitle" class="form-control" maxlength="50" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Proje</label>
+                            <input type="text" name="ProjectCount" id="editProjectCount" class="form-control" maxlength="10" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Deneyim</label>
+                            <input type="text" name="ExperienceYear" id="editExperienceYear" class="form-control" maxlength="10" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Müşteri</label>
+                            <input type="text" name="CustomerCount" id="editCustomerCount" class="form-control" maxlength="10" />
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Kısa Özet</label>
+                            <textarea name="Description" id="editDescription" class="form-control" rows="2" maxlength="150"></textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Detaylı Biyografi</label>
+                            <textarea name="Details" id="editDetails" class="form-control" rows="4" maxlength="1000"></textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">CV Güncelle (PDF)</label>
+                            <input type="file" name="cvFile" class="form-control" accept=".pdf,.doc,.docx" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function openEditModal(id, fullname, title, desc, details, project, experience, customer) {
+        document.getElementById('editId').value = id;
+        document.getElementById('editFullName').value = fullname;
+        document.getElementById('editTitle').value = title;
+        document.getElementById('editDescription').value = desc;
+        document.getElementById('editDetails').value = details;
+        document.getElementById('editProjectCount').value = project;
+        document.getElementById('editExperienceYear').value = experience;
+        document.getElementById('editCustomerCount').value = customer;
+        new bootstrap.Modal(document.getElementById('editModal')).show();
+    }
+</script>
+}

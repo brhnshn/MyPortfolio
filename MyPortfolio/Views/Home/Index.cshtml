@@ -1,0 +1,37 @@
+﻿@using MyPortfolio.Data.Abstract
+@using MyPortfolio.Entities.Concrete
+@inject IGenericRepository<NavbarItem> NavbarRepo
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    var activeItems = NavbarRepo.GetList().Where(x => x.IsActive).OrderBy(x => x.DisplayOrder).ToList();
+}
+
+@foreach (var item in activeItems)
+{
+    switch (item.SectionId)
+    {
+        case "hero":
+            @await Component.InvokeAsync("FeatureList")
+            break;
+        case "about":
+            @await Component.InvokeAsync("AboutList")
+            break;
+        case "services":
+            @await Component.InvokeAsync("ServiceList")
+            break;
+        case "skills":
+            @await Component.InvokeAsync("SkillList")
+            break;
+        case "projects":
+            @await Component.InvokeAsync("ProjectList")
+            break;
+        case "testimonials":
+            @await Component.InvokeAsync("TestimonialsList")
+            break;
+        case "contact":
+            @await Component.InvokeAsync("ContactList")
+            break;
+    }
+}
+

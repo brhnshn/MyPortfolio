@@ -5,17 +5,18 @@
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-[![Canlı Demo](https://img.shields.io/badge/Canlı_Demo-Projeyi_İncele-2ea44f?style=for-the-badge&logo=google-chrome&logoColor=white)](https://burhansahin.com.tr)
 
 Bu proje, **.NET 8.0** ve **ASP.NET Core MVC** kullanılarak geliştirilmiş, modern ve dinamik bir kişisel portfolyo web uygulamasıdır. Kapsamlı yönetim paneli (Admin Panel) sayesinde sitedeki tüm içerikler (hakkımda, yetenekler, projeler vb.) kod bilgisine ihtiyaç duymadan yönetilebilir.
 
 ## 📷 Proje Görselleri
 
-| **Yönetim Paneli (Dashboard)** | **Ana Sayfa (UI)** |
-| :---: | :---: |
-| ![Dashboard](screenshots/dashboard.png) | ![Ana Sayfa](screenshots/home.png) |
-| **Projeler Sayfası** | **Mobil Görünüm** |
-| ![Projeler](screenshots/projects.png) | ![Mobil Görünüm](screenshots/mobile.png) |
+Aşağıdaki bağlantılara tıklayarak projenin ekran görüntülerini inceleyebilirsiniz:
+
+| Bölüm | Ekran Görüntüsü Linki |
+| :--- | :--- |
+| **Yönetim Paneli (Dashboard)** | [📸 Görseli İncele](https://prnt.sc/x09qb3Dn75g5) |
+| **Ana Sayfa (UI)** | [📸 Görseli İncele](https://prnt.sc/JZYoIWKw2wxu) |
+| **Mobil Görünüm** | [📸 Görseli İncele](https://prnt.sc/_XK3JZA5Ters) |
 
 ---
 

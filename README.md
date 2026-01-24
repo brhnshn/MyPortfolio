@@ -67,3 +67,17 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 *   `MyPortfolio`: Ana web uygulaması (Controller'lar, View'lar).
 
 ---
+
+## 📬 İletişim
+
+Geri bildirim, öneri veya iş birliği için:
+
+* **E‑posta:** [sahinburhan501@gmail.com](mailto:sahinburhan501@gmail.com)
+* **GitHub:** [https://github.com/brhnshn](https://github.com/brhnshn)
+* **Linkedin:** [https://www.linkedin.com/in/burhan-sahin/](https://www.linkedin.com/in/burhan-sahin/)
+
+---
+
+## 📄 Lisans
+
+Bu proje **MIT License** ile lisanslanmıştır.

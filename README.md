@@ -1,1 +1,70 @@
-# MyPortfolio
+# 🚀 MyPortfolioV2 - Modern Portfolyo Yönetim Sistemi
+
+Bu proje, **.NET 8.0** ve **ASP.NET Core MVC** kullanılarak geliştirilmiş, modern ve dinamik bir kişisel portfolyo web uygulamasıdır. Kapsamlı yönetim paneli (Admin Panel) sayesinde sitedeki tüm içerikler (hakkımda, yetenekler, projeler vb.) kod bilgisine ihtiyaç duymadan yönetilebilir.
+
+## ✨ Öne Çıkan Özellikler
+
+### 🛡️ Yönetim Paneli (Admin Panel)
+Modern **Glassmorphism** tasarımına sahip, kullanıcı dostu bir yönetim arayüzü sunar.
+
+*   **Genel Yönetim**: Site başlığı, logolar, sosyal medya linkleri ve favicon gibi genel ayarları anlık güncelleyin.
+*   **İçerik Yönetimi**:
+    *   **Ana Sayfa (Homepage)**: Karşılama metinleri ve özellikleri düzenleyin.
+    *   **Projeler & Yetenekler**: Portfolyo projelerinizi ve yeteneklerinizi listeyin.
+    *   **Hizmetler & Referanslar**: Sunduğunuz hizmetleri ve müşteri yorumlarını yönetin.
+*   **İletişim & Mesajlar**: Site üzerinden gelen iletişim mesajlarını panelden okuyun ve yönetin.
+*   **Tema Yönetimi**: Admin paneli için görsel tema ayarları.
+
+### 🌐 Kullanıcı Arayüzü (Public UI)
+*   **Dinamik İçerik**: Tüm bölümler veritabanından dinamik olarak beslenir.
+*   **Responsive Tasarım**: Mobil uyumlu ve modern arayüz.
+
+## 🛠️ Teknolojiler
+
+Proje, endüstri standardı teknolojiler ve en iyi uygulama pratikleri (Best Practices) ile geliştirilmiştir:
+
+*   **Backend**: 
+    *   .NET 8.0 (ASP.NET Core MVC)
+    *   Entity Framework Core 8 (Code First Yaklaşımı)
+    *   ASP.NET Core Identity (Güvenli Giriş & Yetkilendirme)
+    *   N-Layer Architecture (Katmanlı Mimari: Web, Data, Entities)
+*   **Frontend**: 
+    *   Razor Views.
+    *   HTML5, CSS3 (Glassmorphism efektleri).
+    *   Bootstrap.
+*   **Veritabanı**: 
+    *   MSSQL (Microsoft SQL Server).
+
+## 🚀 Kurulum ve Çalıştırma
+
+Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
+
+1.  **Projeyi Klonlayın**:
+    ```bash
+    git clone https://github.com/kullaniciadi/MyPortfolioV2.git
+    cd MyPortfolioV2
+    ```
+
+2.  **Veritabanı Bağlantısını Ayarlayın**:
+    `appsettings.json` dosyasındaki `ConnectionStrings` bölümünü kendi SQL Server bilgilerinize göre güncelleyin.
+
+3.  **Veritabanını Oluşturun (Migration)**:
+    Terminal veya Package Manager Console üzerinden migration'ları uygulayın:
+    ```bash
+    dotnet ef database update
+    ```
+
+4.  **Projeyi Başlatın**:
+    ```bash
+    dotnet run
+    ```
+    Tarayıcınızda `https://localhost:5001` (veya belirtilen port) adresine giderek uygulamayı görüntüleyebilirsiniz.
+
+## 📂 Proje Yapısı
+
+*   `MyPortfolio.Entities`: Veritabanı tablolarına karşılık gelen varlık sınıfları.
+*   `MyPortfolio.Data`: Veritabanı erişim katmanı (Context, Repository'ler).
+*   `MyPortfolio`: Ana web uygulaması (Controller'lar, View'lar).
+
+---
+*Geliştirici Notu: Bu proje modern web geliştirme standartlarına uygun olarak sürekli güncellenmektedir.*

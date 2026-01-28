@@ -59,7 +59,7 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 1.  **Projeyi Klonlayın**:
     ```bash
-    git clone [https://github.com/brhnshn/MyPortfolyo.git](https://github.com/brhnshn/MyPortfolyo.git)
+    git clone [https://github.com/brhnshn/MyPortfolio.git](https://github.com/brhnshn/MyPortfolio.git)
     cd MyPortfolyo
     ```
 

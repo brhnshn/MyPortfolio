@@ -1,12 +1,38 @@
+<<<<<<< HEAD
 # 🚀 MyPortfolioV2 - Modern Portfolyo Yönetim Sistemi
 
 Bu proje, **.NET 8.0** ve **ASP.NET Core MVC** kullanılarak geliştirilmiş, modern ve dinamik bir kişisel portfolyo web uygulamasıdır. Kapsamlı yönetim paneli (Admin Panel) sayesinde sitedeki tüm içerikler (hakkımda, yetenekler, projeler vb.) kod bilgisine ihtiyaç duymadan yönetilebilir.
 
+=======
+# 🚀 MyPortfolyo - Modern Portfolyo Yönetim Sistemi
+
+![.NET 8.0](https://img.shields.io/badge/.NET-8.0-purple)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-MVC-blue)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+
+Bu proje, **.NET 8.0** ve **ASP.NET Core MVC** kullanılarak geliştirilmiş, modern ve dinamik bir kişisel portfolyo web uygulamasıdır. Kapsamlı yönetim paneli (Admin Panel) sayesinde sitedeki tüm içerikler (hakkımda, yetenekler, projeler vb.) kod bilgisine ihtiyaç duymadan yönetilebilir.
+
+## 📷 Proje Görselleri
+
+Aşağıdaki bağlantılara tıklayarak projenin ekran görüntülerini inceleyebilirsiniz:
+
+| Bölüm | Ekran Görüntüsü Linki |
+| :--- | :--- |
+| **Yönetim Paneli (Dashboard)** | [📸 Görseli İncele](https://prnt.sc/x09qb3Dn75g5) |
+| **Ana Sayfa (UI)** | [📸 Görseli İncele](https://prnt.sc/JZYoIWKw2wxu) |
+| **Mobil Görünüm** | [📸 Görseli İncele](https://prnt.sc/_XK3JZA5Ters) |
+
+---
+
+>>>>>>> 71782e7cfe6afd1ecd12538c202880680ab86e98
 ## ✨ Öne Çıkan Özellikler
 
 ### 🛡️ Yönetim Paneli (Admin Panel)
 Modern **Glassmorphism** tasarımına sahip, kullanıcı dostu bir yönetim arayüzü sunar.
 
+<<<<<<< HEAD
 *   **Genel Yönetim**: Site başlığı, logolar, sosyal medya linkleri ve favicon gibi genel ayarları anlık güncelleyin.
 *   **İçerik Yönetimi**:
     *   **Ana Sayfa (Homepage)**: Karşılama metinleri ve özellikleri düzenleyin.
@@ -18,11 +44,25 @@ Modern **Glassmorphism** tasarımına sahip, kullanıcı dostu bir yönetim aray
 ### 🌐 Kullanıcı Arayüzü (Public UI)
 *   **Dinamik İçerik**: Tüm bölümler veritabanından dinamik olarak beslenir.
 *   **Responsive Tasarım**: Mobil uyumlu ve modern arayüz.
+=======
+* **Genel Yönetim**: Site başlığı, logolar, sosyal medya linkleri ve favicon gibi genel ayarları anlık güncelleyin.
+* **İçerik Yönetimi**:
+    * **Ana Sayfa (Homepage)**: Karşılama metinleri ve özellikleri düzenleyin.
+    * **Projeler & Yetenekler**: Portfolyo projelerinizi ve yeteneklerinizi listeyin.
+    * **Hizmetler & Referanslar**: Sunduğunuz hizmetleri ve müşteri yorumlarını yönetin.
+* **İletişim & Mesajlar**: Site üzerinden gelen iletişim mesajlarını panelden okuyun ve yönetin.
+* **Tema Yönetimi**: AnaSayfa için görsel tema ayarları.
+
+### 🌐 Kullanıcı Arayüzü (Public UI)
+* **Dinamik İçerik**: Tüm bölümler veritabanından dinamik olarak beslenir.
+* **Responsive Tasarım**: Mobil uyumlu ve modern arayüz.
+>>>>>>> 71782e7cfe6afd1ecd12538c202880680ab86e98
 
 ## 🛠️ Teknolojiler
 
 Proje, endüstri standardı teknolojiler ve en iyi uygulama pratikleri (Best Practices) ile geliştirilmiştir:
 
+<<<<<<< HEAD
 *   **Backend**: 
     *   .NET 8.0 (ASP.NET Core MVC)
     *   Entity Framework Core 8 (Code First Yaklaşımı)
@@ -34,6 +74,19 @@ Proje, endüstri standardı teknolojiler ve en iyi uygulama pratikleri (Best Pra
     *   Bootstrap.
 *   **Veritabanı**: 
     *   MSSQL (Microsoft SQL Server).
+=======
+* **Backend**: 
+    * .NET 8.0 (ASP.NET Core MVC)
+    * Entity Framework Core 8 (Code First Yaklaşımı)
+    * ASP.NET Core Identity (Güvenli Giriş & Yetkilendirme)
+    * N-Layer Architecture (Katmanlı Mimari: Web, Data, Entities)
+* **Frontend**: 
+    * Razor Views.
+    * HTML5, CSS3 (Glassmorphism efektleri).
+    * Bootstrap.
+* **Veritabanı**: 
+    * MSSQL (Microsoft SQL Server).
+>>>>>>> 71782e7cfe6afd1ecd12538c202880680ab86e98
 
 ## 🚀 Kurulum ve Çalıştırma
 
@@ -41,8 +94,13 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 1.  **Projeyi Klonlayın**:
     ```bash
+<<<<<<< HEAD
     git clone https://github.com/kullaniciadi/MyPortfolioV2.git
     cd MyPortfolioV2
+=======
+    git clone [https://github.com/brhnshn/MyPortfolio.git](https://github.com/brhnshn/MyPortfolio.git)
+    cd MyPortfolio
+>>>>>>> 71782e7cfe6afd1ecd12538c202880680ab86e98
     ```
 
 2.  **Veritabanı Bağlantısını Ayarlayın**:
@@ -62,9 +120,31 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 ## 📂 Proje Yapısı
 
+<<<<<<< HEAD
 *   `MyPortfolio.Entities`: Veritabanı tablolarına karşılık gelen varlık sınıfları.
 *   `MyPortfolio.Data`: Veritabanı erişim katmanı (Context, Repository'ler).
 *   `MyPortfolio`: Ana web uygulaması (Controller'lar, View'lar).
 
 ---
 *Geliştirici Notu: Bu proje modern web geliştirme standartlarına uygun olarak sürekli güncellenmektedir.*
+=======
+* `MyPortfolio.Entities`: Veritabanı tablolarına karşılık gelen varlık sınıfları.
+* `MyPortfolio.Data`: Veritabanı erişim katmanı (Context, Repository'ler).
+* `MyPortfolio`: Ana web uygulaması (Controller'lar, View'lar).
+
+---
+
+## 📬 İletişim
+
+Geri bildirim, öneri veya iş birliği için:
+
+* **E‑posta:** [sahinburhan501@gmail.com](mailto:sahinburhan501@gmail.com)
+* **GitHub:** [https://github.com/brhnshn](https://github.com/brhnshn)
+* **Linkedin:** [https://www.linkedin.com/in/burhan-sahin/](https://www.linkedin.com/in/burhan-sahin/)
+
+---
+
+## 📄 Lisans
+
+Bu proje **MIT License** ile lisanslanmıştır.
+>>>>>>> 71782e7cfe6afd1ecd12538c202880680ab86e98

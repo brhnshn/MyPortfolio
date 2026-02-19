@@ -1,17 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ServicesController : Controller
     {
         private readonly IGenericRepository<Service> _serviceRepository;
+        private readonly IMemoryCache _cache;
 
-        public ServicesController(IGenericRepository<Service> serviceRepository)
+        public ServicesController(IGenericRepository<Service> serviceRepository, IMemoryCache cache)
         {
             _serviceRepository = serviceRepository;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -49,6 +54,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var value = _serviceRepository.GetById(id);

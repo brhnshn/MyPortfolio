@@ -1,4 +1,4 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<Project>
 
 @{
@@ -9,8 +9,8 @@
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-code"></i> Proje YÃ¶netimi</h4>
-            <small>Portfolyonuzda sergilemek istediÄŸiniz projeleri buradan yÃ¶netin.</small>
+            <h4><i class="fas fa-code"></i> Proje Yönetimi</h4>
+            <small>Portfolyonuzda sergilemek istediðiniz projeleri buradan yönetin.</small>
         </div>
         <button type="button" class="btn-glass" id="btnOpenAddModal">
             <i class="fas fa-plus"></i> Yeni Proje Ekle
@@ -30,11 +30,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>GÃ¶rsel</th>
-                    <th>Proje AdÄ±</th>
+                    <th>Görsel</th>
+                    <th>Proje Adý</th>
                     <th>Platform</th>
                     <th>Linkler</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,10 +71,11 @@
                                     data-description="@item.Description">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <a href="/Admin/Projects/Delete/@item.Id" class="btn btn-action-delete"
-                                    onclick="return confirm('Bu projeyi silmek istediÄŸine emin misin?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Projects" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Bu projeyi silmek istediðine emin misin?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -86,7 +87,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-laptop-code"></i>
-                <p>HenÃ¼z proje eklenmemiÅŸ.</p>
+                <p>Henüz proje eklenmemiþ.</p>
             </div>
         }
     </div>
@@ -104,12 +105,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Proje AdÄ±</label>
+                            <label class="form-label">Proje Adý</label>
                             <input type="text" name="Title" class="form-control" required maxlength="150" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Dil / Platform</label>
-                            <input type="text" name="Platform" class="form-control" placeholder="Ã–rn: C#, React"
+                            <input type="text" name="Platform" class="form-control" placeholder="Örn: C#, React"
                                 required maxlength="100" />
                         </div>
                         <div class="col-md-6 mb-3">
@@ -117,23 +118,23 @@
                             <input type="text" name="GithubLink" class="form-control" />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">CanlÄ± Demo Link</label>
+                            <label class="form-label">Canlý Demo Link</label>
                             <input type="text" name="ProjectUrl" class="form-control" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label"><i class="fas fa-image text-info me-1"></i>GÃ¶rsel URL</label>
+                            <label class="form-label"><i class="fas fa-image text-info me-1"></i>Görsel URL</label>
                             <input type="url" name="ImageUrl" class="form-control"
                                 placeholder="https://example.com/image.jpg" />
-                            <small class="text-muted">Resim dosyasÄ± yerine URL yapÄ±ÅŸtÄ±rÄ±n</small>
+                            <small class="text-muted">Resim dosyasý yerine URL yapýþtýrýn</small>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">AÃ§Ä±klama</label>
+                            <label class="form-label">Açýklama</label>
                             <textarea name="Description" class="form-control" rows="3" required></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -146,7 +147,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Projeyi DÃ¼zenle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Projeyi Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Projects/Edit" method="post" class="glass-form">
@@ -158,7 +159,7 @@
                                 onerror="this.src='https://via.placeholder.com/150x90'" />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Proje AdÄ±</label>
+                            <label class="form-label">Proje Adý</label>
                             <input type="text" name="Title" id="editTitle" class="form-control" required
                                 maxlength="150" />
                         </div>
@@ -172,24 +173,24 @@
                             <input type="text" name="GithubLink" id="editGithub" class="form-control" />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">CanlÄ± Demo Link</label>
+                            <label class="form-label">Canlý Demo Link</label>
                             <input type="text" name="ProjectUrl" id="editUrl" class="form-control" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label"><i class="fas fa-image text-info me-1"></i>GÃ¶rsel URL</label>
+                            <label class="form-label"><i class="fas fa-image text-info me-1"></i>Görsel URL</label>
                             <input type="url" name="ImageUrl" id="editImageUrl" class="form-control" />
-                            <small class="text-muted">Resim dosyasÄ± yerine URL yapÄ±ÅŸtÄ±rÄ±n</small>
+                            <small class="text-muted">Resim dosyasý yerine URL yapýþtýrýn</small>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">AÃ§Ä±klama</label>
+                            <label class="form-label">Açýklama</label>
                             <textarea name="Description" id="editDescription" class="form-control" rows="3"
                                 required></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
                 </div>
             </form>
         </div>
@@ -239,7 +240,7 @@
                         var btn = form.querySelector('button[type="submit"]');
                         if (btn) {
                             btn.disabled = true;
-                            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Ä°ÅŸleniyor...';
+                            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Ýþleniyor...';
                         }
                     }
                 });

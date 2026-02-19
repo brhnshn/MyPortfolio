@@ -7,8 +7,6 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\MyPortfolio.runtimeconfig.json
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\MyPortfolio.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\MyPortfolio.pdb
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Azure.Core.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Azure.Identity.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Humanizer.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -27,14 +25,12 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.CodeAnalysis.Razor.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.CodeAnalysis.Scripting.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.CodeAnalysis.Workspaces.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Data.SqlClient.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.DiaSymReader.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.DotNet.Scaffolding.Shared.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.EntityFrameworkCore.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Extensions.DependencyInjection.Abstractions.dll
@@ -44,16 +40,7 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Extensions.Logging.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Extensions.Options.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Identity.Client.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.IdentityModel.Logging.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.IdentityModel.Protocols.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.IdentityModel.Tokens.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.NET.StringTools.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.SqlServer.Server.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.VisualStudio.Web.CodeGeneration.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\dotnet-aspnet-codegenerator-design.dll
@@ -72,7 +59,6 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\NuGet.ProjectModel.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\NuGet.Protocol.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\NuGet.Versioning.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.ClientModel.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.CodeDom.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Composition.AttributedModel.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Composition.Convention.dll
@@ -80,10 +66,7 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Composition.Runtime.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Composition.TypedParts.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Configuration.ConfigurationManager.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Memory.Data.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Reflection.MetadataLoadContext.dll
-C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Runtime.Caching.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Security.Cryptography.ProtectedData.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\System.Text.Json.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\af\Humanizer.resources.dll
@@ -256,3 +239,6 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\obj\Release\net8.0\linux-x64\MyPortfolio.genruntimeconfig.cache
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\obj\Release\net8.0\linux-x64\ref\MyPortfolio.dll
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\obj\Release\net8.0\linux-x64\staticwebassets.upToDateCheck.txt
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Npgsql.dll
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\bin\Release\net8.0\linux-x64\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio\obj\Release\net8.0\linux-x64\MyPortfolio.sourcelink.json

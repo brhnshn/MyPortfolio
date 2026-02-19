@@ -33,8 +33,16 @@
       "PackagePath": "staticwebassets\\cvfiles\\9126bd58-3427-4db1-8999-a6f1407f22a3.pdf"
     },
     {
+      "Id": "C:\\Users\\sahin\\Desktop\\burhansahin.com.tr bütün projeler\\MyPortfolioV2\\MyPortfolio\\wwwroot\\cvfiles\\ee343909-1205-4c69-a1d1-e73e6cc7fe5e.pdf",
+      "PackagePath": "staticwebassets\\cvfiles\\ee343909-1205-4c69-a1d1-e73e6cc7fe5e.pdf"
+    },
+    {
       "Id": "C:\\Users\\sahin\\Desktop\\burhansahin.com.tr bütün projeler\\MyPortfolioV2\\MyPortfolio\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\sahin\\Desktop\\burhansahin.com.tr bütün projeler\\MyPortfolioV2\\MyPortfolio\\wwwroot\\featureimages\\263b5e74-a0d4-4e52-bab7-a0e7dcc05b68.jpeg",
+      "PackagePath": "staticwebassets\\featureimages\\263b5e74-a0d4-4e52-bab7-a0e7dcc05b68.jpeg"
     },
     {
       "Id": "C:\\Users\\sahin\\Desktop\\burhansahin.com.tr bütün projeler\\MyPortfolioV2\\MyPortfolio\\wwwroot\\featureimages\\77c40269-6c7c-40b3-bb7a-0b428c44f625.jpeg",
@@ -295,6 +303,10 @@
     {
       "Id": "C:\\Users\\sahin\\Desktop\\burhansahin.com.tr bütün projeler\\MyPortfolioV2\\MyPortfolio\\wwwroot\\testimonialimages\\1e3b9862-ab9f-4470-9814-1750f8e741ab.jpeg",
       "PackagePath": "staticwebassets\\testimonialimages\\1e3b9862-ab9f-4470-9814-1750f8e741ab.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\sahin\\Desktop\\burhansahin.com.tr bütün projeler\\MyPortfolioV2\\MyPortfolio\\wwwroot\\testimonialimages\\29f37e73-cdb5-44fd-9dce-2b15a97bf9ed.webp",
+      "PackagePath": "staticwebassets\\testimonialimages\\29f37e73-cdb5-44fd-9dce-2b15a97bf9ed.webp"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyPortfolio.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

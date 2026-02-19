@@ -1,16 +1,16 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<About>
 
 @{
-    ViewData["Title"] = "HakkÄ±mda";
+    ViewData["Title"] = "Hakkýmda";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-user-circle"></i> HakkÄ±mda YÃ¶netimi</h4>
-            <small>Profil bilgileri, CV ve istatistik yÃ¶netimi.</small>
+            <h4><i class="fas fa-user-circle"></i> Hakkýmda Yönetimi</h4>
+            <small>Profil bilgileri, CV ve istatistik yönetimi.</small>
         </div>
         @if (Model.Count < 1)
         {
@@ -20,7 +20,7 @@
         }
         else
         {
-            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>KayÄ±t Mevcut</span>
+            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>Kayýt Mevcut</span>
         }
     </div>
 
@@ -30,9 +30,9 @@
                 <tr>
                     <th>#</th>
                     <th>Ad Soyad</th>
-                    <th>Ãœnvan</th>
+                    <th>Ünvan</th>
                     <th>CV</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                             @if (!string.IsNullOrEmpty(item.CvUrl))
                             {
                                 <a href="@item.CvUrl" target="_blank" class="btn-glass" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-                                    <i class="fas fa-file-pdf"></i> GÃ¶rÃ¼ntÃ¼le
+                                    <i class="fas fa-file-pdf"></i> Görüntüle
                                 </a>
                             }
                             else
@@ -60,10 +60,11 @@
                                         onclick="openEditModal('@item.Id', '@item.FullName', '@item.Title', '@item.Description', `@item.Details`, '@item.ProjectCount', '@item.ExperienceYear', '@item.CustomerCount')">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <a href="/Admin/Abouts/Delete/@item.Id" class="btn btn-action-delete"
-                                   onclick="return confirm('Silmek istediÄŸine emin misin?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Abouts" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Silmek istediðine emin misin?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -75,7 +76,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-user-circle"></i>
-                <p>HenÃ¼z bilgi eklenmemiÅŸ.</p>
+                <p>Henüz bilgi eklenmemiþ.</p>
             </div>
         }
     </div>
@@ -97,7 +98,7 @@
                             <input type="text" name="FullName" class="form-control" maxlength="50" required />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Ãœnvan</label>
+                            <label class="form-label">Ünvan</label>
                             <input type="text" name="Title" class="form-control" maxlength="50" required />
                         </div>
                         <div class="col-md-4 mb-3">
@@ -106,28 +107,28 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Deneyim</label>
-                            <input type="text" name="ExperienceYear" class="form-control" placeholder="3 YÄ±l" maxlength="10" />
+                            <input type="text" name="ExperienceYear" class="form-control" placeholder="3 Yýl" maxlength="10" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">MÃ¼ÅŸteri</label>
+                            <label class="form-label">Müþteri</label>
                             <input type="text" name="CustomerCount" class="form-control" placeholder="10+" maxlength="10" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">KÄ±sa Ã–zet</label>
+                            <label class="form-label">Kýsa Özet</label>
                             <textarea name="Description" class="form-control" rows="2" maxlength="150"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">DetaylÄ± Biyografi</label>
+                            <label class="form-label">Detaylý Biyografi</label>
                             <textarea name="Details" class="form-control" rows="4" maxlength="1000"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">CV YÃ¼kle (PDF)</label>
+                            <label class="form-label">CV Yükle (PDF)</label>
                             <input type="file" name="cvFile" class="form-control" accept=".pdf,.doc,.docx" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -140,7 +141,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri DÃ¼zenle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Abouts/Edit" method="post" enctype="multipart/form-data" class="glass-form">
@@ -152,7 +153,7 @@
                             <input type="text" name="FullName" id="editFullName" class="form-control" maxlength="50" required />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Ãœnvan</label>
+                            <label class="form-label">Ünvan</label>
                             <input type="text" name="Title" id="editTitle" class="form-control" maxlength="50" required />
                         </div>
                         <div class="col-md-4 mb-3">
@@ -164,26 +165,26 @@
                             <input type="text" name="ExperienceYear" id="editExperienceYear" class="form-control" maxlength="10" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">MÃ¼ÅŸteri</label>
+                            <label class="form-label">Müþteri</label>
                             <input type="text" name="CustomerCount" id="editCustomerCount" class="form-control" maxlength="10" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">KÄ±sa Ã–zet</label>
+                            <label class="form-label">Kýsa Özet</label>
                             <textarea name="Description" id="editDescription" class="form-control" rows="2" maxlength="150"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">DetaylÄ± Biyografi</label>
+                            <label class="form-label">Detaylý Biyografi</label>
                             <textarea name="Details" id="editDetails" class="form-control" rows="4" maxlength="1000"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">CV GÃ¼ncelle (PDF)</label>
+                            <label class="form-label">CV Güncelle (PDF)</label>
                             <input type="file" name="cvFile" class="form-control" accept=".pdf,.doc,.docx" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
                 </div>
             </form>
         </div>

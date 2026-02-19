@@ -1,4 +1,4 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<Service>
 
 @{
@@ -48,8 +48,8 @@
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-briefcase"></i> Hizmet YÃ¶netimi</h4>
-            <small>SunduÄŸunuz hizmetleri buradan yÃ¶netin.</small>
+            <h4><i class="fas fa-briefcase"></i> Hizmet Yönetimi</h4>
+            <small>Sunduðunuz hizmetleri buradan yönetin.</small>
         </div>
         <button type="button" class="btn-glass" id="btnOpenAddModal">
             <i class="fas fa-plus"></i> Yeni Hizmet Ekle
@@ -61,10 +61,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th class="text-center">Ä°kon</th>
-                    <th>BaÅŸlÄ±k</th>
-                    <th style="width: 40%;">AÃ§Ä±klama</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th class="text-center">Ýkon</th>
+                    <th>Baþlýk</th>
+                    <th style="width: 40%;">Açýklama</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,10 +98,11 @@
                                         data-description="@item.Description">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <a href="/Admin/Services/Delete/@item.Id" class="btn btn-action-delete"
-                                        onclick="return confirm('Silmek istediÄŸine emin misin?');">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                    <form asp-area="Admin" asp-controller="Services" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Silmek istediðine emin misin?')">
+                                        <button type="submit" class="btn btn-action-delete" title="Sil">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -113,7 +114,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-briefcase"></i>
-                <p>HenÃ¼z hizmet eklenmemiÅŸ.</p>
+                <p>Henüz hizmet eklenmemiþ.</p>
             </div>
         }
     </div>
@@ -130,23 +131,23 @@
             <form action="/Admin/Services/Create" method="post" class="glass-form">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Hizmet BaÅŸlÄ±ÄŸÄ±</label>
+                        <label class="form-label">Hizmet Baþlýðý</label>
                         <input type="text" name="Title" class="form-control" maxlength="30" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ä°kon SeÃ§</label>
+                        <label class="form-label">Ýkon Seç</label>
                         <input type="hidden" name="IconUrl" id="addIconInput" />
                         <div class="icon-grid-glass" id="addIconGrid"></div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">AÃ§Ä±klama</label>
+                        <label class="form-label">Açýklama</label>
                         <textarea name="Description" class="form-control" rows="3" maxlength="100" id="addDesc"
                             required></textarea>
                         <small class="text-muted"><span id="addCount">0</span>/100</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -159,31 +160,31 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Hizmeti GÃ¼ncelle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Hizmeti Güncelle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Services/Edit" method="post" class="glass-form">
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="mb-3">
-                        <label class="form-label">Hizmet BaÅŸlÄ±ÄŸÄ±</label>
+                        <label class="form-label">Hizmet Baþlýðý</label>
                         <input type="text" name="Title" id="editTitle" class="form-control" maxlength="30" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ä°kon SeÃ§</label>
+                        <label class="form-label">Ýkon Seç</label>
                         <input type="hidden" name="IconUrl" id="editIconInput" />
                         <div class="icon-grid-glass" id="editIconGrid"></div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">AÃ§Ä±klama</label>
+                        <label class="form-label">Açýklama</label>
                         <textarea name="Description" id="editDescription" class="form-control" rows="3" maxlength="100"
                             required></textarea>
                         <small class="text-muted"><span id="editCount">0</span>/100</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
                 </div>
             </form>
         </div>

@@ -15,3 +15,4 @@ C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortf
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Data\obj\Release\net8.0\MyPortfolio.Data.pdb
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Data\obj\Release\net8.0\MyPortfolio.Data.genruntimeconfig.cache
 C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Data\obj\Release\net8.0\ref\MyPortfolio.Data.dll
+C:\Users\sahin\Desktop\burhansahin.com.tr bütün projeler\MyPortfolioV2\MyPortfolio.Data\obj\Release\net8.0\MyPortfolio.Data.sourcelink.json

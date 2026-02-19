@@ -1,4 +1,4 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<Testimonial>
 
 @{
@@ -9,8 +9,8 @@
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-comments"></i> MÃ¼ÅŸteri YorumlarÄ±</h4>
-            <small>MÃ¼ÅŸterilerinizin hakkÄ±nÄ±zdaki dÃ¼ÅŸÃ¼ncelerini buradan yÃ¶netin.</small>
+            <h4><i class="fas fa-comments"></i> Müþteri Yorumlarý</h4>
+            <small>Müþterilerinizin hakkýnýzdaki düþüncelerini buradan yönetin.</small>
         </div>
         <button type="button" class="btn-glass" data-bs-toggle="modal" data-bs-target="#addModal">
             <i class="fas fa-plus"></i> Yeni Referans Ekle
@@ -22,10 +22,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>MÃ¼ÅŸteri</th>
-                    <th>Åžirket</th>
+                    <th>Müþteri</th>
+                    <th>Þirket</th>
                     <th>Yorum</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,10 +71,11 @@
                                     onclick="openEditModal('@item.Id', '@item.ClientName', '@item.Company', '@item.Title', '@item.ImageUrl', `@item.Comment`)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <a href="/Admin/Testimonials/Delete/@item.Id" class="btn btn-action-delete"
-                                    onclick="return confirm('Bu referansÄ± silmek istediÄŸine emin misin?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Testimonials" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Bu referansý silmek istediðine emin misin?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -86,7 +87,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-comments"></i>
-                <p>HenÃ¼z referans eklenmemiÅŸ.</p>
+                <p>Henüz referans eklenmemiþ.</p>
             </div>
         }
     </div>
@@ -107,11 +108,11 @@
                         <input type="text" name="ClientName" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Åžirket / Kurum</label>
+                        <label class="form-label">Þirket / Kurum</label>
                         <input type="text" name="Company" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ãœnvan</label>
+                        <label class="form-label">Ünvan</label>
                         <input type="text" name="Title" class="form-control" />
                     </div>
                     <div class="mb-3">
@@ -119,12 +120,12 @@
                         <textarea name="Comment" class="form-control" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">FotoÄŸraf</label>
+                        <label class="form-label">Fotoðraf</label>
                         <input type="file" name="imageFile" class="form-control" accept="image/*" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -137,7 +138,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>ReferansÄ± DÃ¼zenle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Referansý Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Testimonials/Edit" method="post" enctype="multipart/form-data" class="glass-form">
@@ -152,11 +153,11 @@
                         <input type="text" name="ClientName" id="editClientName" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Åžirket / Kurum</label>
+                        <label class="form-label">Þirket / Kurum</label>
                         <input type="text" name="Company" id="editCompany" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ãœnvan</label>
+                        <label class="form-label">Ünvan</label>
                         <input type="text" name="Title" id="editTitle" class="form-control" />
                     </div>
                     <div class="mb-3">
@@ -164,13 +165,13 @@
                         <textarea name="Comment" id="editComment" class="form-control" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Yeni FotoÄŸraf</label>
+                        <label class="form-label">Yeni Fotoðraf</label>
                         <input type="file" name="imageFile" class="form-control" accept="image/*" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
                 </div>
             </form>
         </div>

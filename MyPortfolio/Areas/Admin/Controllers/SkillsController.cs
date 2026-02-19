@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
@@ -10,10 +11,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class SkillsController : Controller
     {
         private readonly IGenericRepository<Skill> _skillRepository;
+        private readonly IMemoryCache _cache;
 
-        public SkillsController(IGenericRepository<Skill> skillRepository)
+        public SkillsController(IGenericRepository<Skill> skillRepository, IMemoryCache cache)
         {
             _skillRepository = skillRepository;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -22,6 +25,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return View(values);
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var value = _skillRepository.GetById(id);

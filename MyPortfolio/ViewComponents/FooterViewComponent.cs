@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -7,33 +8,33 @@ namespace MyPortfolio.ViewComponents
     public class FooterViewComponent : ViewComponent
     {
         private readonly IGenericRepository<SiteSettings> _settingsRepo;
+        private readonly IMemoryCache _cache;
 
-        public FooterViewComponent(IGenericRepository<SiteSettings> settingsRepo)
+        public FooterViewComponent(IGenericRepository<SiteSettings> settingsRepo, IMemoryCache cache)
         {
             _settingsRepo = settingsRepo;
+            _cache = cache;
         }
 
         public IViewComponentResult Invoke()
         {
-            var settings = _settingsRepo.GetList().FirstOrDefault();
-
-            // Return default values if settings not found
-            if (settings == null)
+            var settings = _cache.GetOrCreate("footer_settings", entry =>
             {
-                settings = new SiteSettings
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+                var s = _settingsRepo.GetList().FirstOrDefault();
+                return s ?? new SiteSettings
                 {
                     FooterTitle = "MY PORTFOLIO",
-                    FooterDescription = "Kendinizi, işinizi veya hobilerinizi dünyaya tanıtın.",
+                    FooterDescription = "Portfolio",
                     CopyrightText = "MyPortfolio",
-                    DeveloperName = "Burhan Şahin",
+                    DeveloperName = "Burhan Sahin",
                     DeveloperUrl = "#",
                     GithubUrl = "#",
                     InstagramUrl = "#",
                     LinkedinUrl = "#",
                     Email = "example@email.com"
                 };
-            }
-
+            });
             return View(settings);
         }
     }

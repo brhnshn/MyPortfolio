@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data.Concrete;
 using MyPortfolio.Data.Abstract;
@@ -7,11 +7,19 @@ using MyPortfolio.Entities.Concrete;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<MyPortfolio.Services.EmailService>();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
+});
 
-// DB Context
+
+// PostgreSQL i�in tarih format� d�zeltmesi 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 builder.Services.AddDbContext<MyPortfolioContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // --- IDENTITY SETTINGS ---
 builder.Services.AddIdentity<AppUser, AppRole>()
@@ -21,11 +29,11 @@ builder.Services.AddIdentity<AppUser, AppRole>()
 // Password Rules
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 4;
+    options.Password.RequiredLength = 8;
 });
 
 // Cookie Settings

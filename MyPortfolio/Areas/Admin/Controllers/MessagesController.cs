@@ -23,6 +23,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return View(values);
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var value = _messageRepository.GetById(id);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
@@ -10,10 +11,14 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class TestimonialsController : Controller
     {
         private readonly IGenericRepository<Testimonial> _testimonialRepository;
+        private readonly IMemoryCache _cache;
+        private static readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
+        private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public TestimonialsController(IGenericRepository<Testimonial> testimonialRepository)
+        public TestimonialsController(IGenericRepository<Testimonial> testimonialRepository, IMemoryCache cache)
         {
             _testimonialRepository = testimonialRepository;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -22,6 +27,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return View(values);
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var value = _testimonialRepository.GetById(id);
@@ -54,7 +60,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
             // Resim Yükleme
             if (imageFile != null)
             {
-                var extension = Path.GetExtension(imageFile.FileName);
+                var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+                if (!AllowedImageExtensions.Contains(extension) || imageFile.Length > MaxFileSize)
+                {
+                    TempData["Error"] = "Geçersiz resim dosyası! Sadece JPG, PNG, GIF, WebP, SVG (max 5MB) yükleyebilirsiniz.";
+                    return RedirectToAction("Index");
+                }
                 var newImageName = Guid.NewGuid() + extension;
                 var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/", newImageName);
 
@@ -108,7 +119,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 catch { }
 
                 // Yeniyi yükle
-                var extension = Path.GetExtension(imageFile.FileName);
+                var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+                if (!AllowedImageExtensions.Contains(extension) || imageFile.Length > MaxFileSize)
+                {
+                    TempData["Error"] = "Geçersiz resim dosyası! Sadece JPG, PNG, GIF, WebP, SVG (max 5MB) yükleyebilirsiniz.";
+                    return RedirectToAction("Index");
+                }
                 var newImageName = Guid.NewGuid() + extension;
                 var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/testimonialimages/", newImageName);
 

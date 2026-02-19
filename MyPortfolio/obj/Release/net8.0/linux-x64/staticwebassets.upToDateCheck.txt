@@ -5,7 +5,9 @@ wwwroot\css\modern.css
 wwwroot\css\site.css
 wwwroot\cvfiles\0b7bb462-5d45-4e78-9c3a-ad423b6ea148.pdf
 wwwroot\cvfiles\9126bd58-3427-4db1-8999-a6f1407f22a3.pdf
+wwwroot\cvfiles\ee343909-1205-4c69-a1d1-e73e6cc7fe5e.pdf
 wwwroot\favicon.ico
+wwwroot\featureimages\263b5e74-a0d4-4e52-bab7-a0e7dcc05b68.jpeg
 wwwroot\featureimages\77c40269-6c7c-40b3-bb7a-0b428c44f625.jpeg
 wwwroot\featureimages\db977841-fded-486b-8c1a-d5bc706e31d4.jpeg
 wwwroot\js\site.js
@@ -71,3 +73,4 @@ wwwroot\projectimages\e3c21021-c2c1-4c0d-b8f2-c1354b21dc14.webp
 wwwroot\projectimages\ee0bff80-db76-4548-aa76-cfbd30a9e1bc.webp
 wwwroot\testimonialimages\0719597a-a7a6-4e42-8127-e6a65381c833.webp
 wwwroot\testimonialimages\1e3b9862-ab9f-4470-9814-1750f8e741ab.jpeg
+wwwroot\testimonialimages\29f37e73-cdb5-44fd-9dce-2b15a97bf9ed.webp

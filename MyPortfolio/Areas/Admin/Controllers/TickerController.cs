@@ -1,3 +1,4 @@
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -10,11 +11,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class TickerController : Controller
     {
         private readonly IGenericRepository<TickerItem> _tickerRepo;
+        private readonly IMemoryCache _cache;
         private const int MaxTickerItems = 10;
 
-        public TickerController(IGenericRepository<TickerItem> tickerRepo)
+        public TickerController(IGenericRepository<TickerItem> tickerRepo, IMemoryCache cache)
         {
             _tickerRepo = tickerRepo;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -58,6 +61,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var item = _tickerRepo.GetById(id);

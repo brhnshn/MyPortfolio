@@ -1,4 +1,4 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<Skill>
 
 @{
@@ -27,8 +27,8 @@
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-bolt"></i> Yetenek YÃ¶netimi</h4>
-            <small>YazÄ±lÄ±m, dil ve diÄŸer teknik becerilerinizi buradan yÃ¶netin.</small>
+            <h4><i class="fas fa-bolt"></i> Yetenek Yönetimi</h4>
+            <small>Yazýlým, dil ve diðer teknik becerilerinizi buradan yönetin.</small>
         </div>
         <button type="button" class="btn-glass" id="btnOpenAddModal">
             <i class="fas fa-plus"></i> Yeni Yetenek Ekle
@@ -41,9 +41,9 @@
                 <tr>
                     <th>#</th>
                     <th>Kategori</th>
-                    <th>BaÅŸlÄ±k</th>
+                    <th>Baþlýk</th>
                     <th style="width: 35%;">Oran</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,10 +74,11 @@
                                         data-category="@item.Category">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <a href="/Admin/Skills/Delete/@item.Id" class="btn btn-action-delete"
-                                   onclick="return confirm('Bu yeteneÄŸi silmek istediÄŸine emin misin?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Skills" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Bu yeteneði silmek istediðine emin misin?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -89,7 +90,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-chart-bar"></i>
-                <p>HenÃ¼z yetenek eklenmemiÅŸ.</p>
+                <p>Henüz yetenek eklenmemiþ.</p>
             </div>
         }
     </div>
@@ -107,11 +108,11 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Kategori</label>
-                        <input type="text" name="Category" class="form-control" placeholder="Ã–rn: YazÄ±lÄ±m" required />
+                        <input type="text" name="Category" class="form-control" placeholder="Örn: Yazýlým" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Yetenek AdÄ±</label>
-                        <input type="text" name="Title" class="form-control" placeholder="Ã–rn: C#" required />
+                        <label class="form-label">Yetenek Adý</label>
+                        <input type="text" name="Title" class="form-control" placeholder="Örn: C#" required />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Oran (0-100)</label>
@@ -119,7 +120,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -132,7 +133,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>YeteneÄŸi GÃ¼ncelle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Yeteneði Güncelle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Skills/Edit" method="post" class="glass-form">
@@ -143,7 +144,7 @@
                         <input type="text" name="Category" id="editCategory" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Yetenek AdÄ±</label>
+                        <label class="form-label">Yetenek Adý</label>
                         <input type="text" name="Title" id="editTitle" class="form-control" required />
                     </div>
                     <div class="mb-3">
@@ -152,8 +153,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
                 </div>
             </form>
         </div>

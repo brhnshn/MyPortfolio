@@ -1,15 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using MyPortfolio.Data.Abstract;       // Repository arayüzü için
-using MyPortfolio.Entities.Concrete;   // Message entity'si için
+ï»¿using Microsoft.AspNetCore.Mvc;
+using MyPortfolio.Data.Abstract;
+using MyPortfolio.Entities.Concrete;
 
 namespace MyPortfolio.Controllers
 {
     public class HomeController : Controller
     {
-        // 1. Repository'i burada tanýmlýyoruz
         private readonly IGenericRepository<Message> _messageRepository;
+        private static readonly Dictionary<string, DateTime> _lastSubmission = new();
+        private const int RateLimitSeconds = 30;
 
-        // 2. Constructor'da inject ediyoruz (Bu olmazsa _messageRepository null gelir)
         public HomeController(IGenericRepository<Message> messageRepository)
         {
             _messageRepository = messageRepository;
@@ -21,22 +21,43 @@ namespace MyPortfolio.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendMessage(Message p)
+        [IgnoreAntiforgeryToken]
+        public IActionResult SendMessage(Message p, string website)
         {
-            // Tarih ve Okundu bilgisini arka planda biz atýyoruz
+            // Honeypot - botlar bu gizli alani doldurur
+            if (!string.IsNullOrEmpty(website))
+            {
+                return RedirectToAction("Index");
+            }
+
+            // Rate Limiting - ayni IP'den 30 saniyede bir mesaj
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            if (_lastSubmission.TryGetValue(ip, out var lastTime) && (DateTime.Now - lastTime).TotalSeconds < RateLimitSeconds)
+            {
+                TempData["Error"] = "Cok sik mesaj gonderiyorsunuz. Lutfen biraz bekleyin.";
+                return RedirectToAction("Index");
+            }
+
+            // Model dogrulama
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
             p.Date = DateTime.Now;
             p.IsRead = false;
 
-            // Konu boþ gelirse varsayýlan bir þey yazalým ki veritabaný kýzmasýn
             if (string.IsNullOrEmpty(p.Subject))
             {
-                p.Subject = "Ýletiþim Formu Mesajý";
+                p.Subject = "Iletisim Formu Mesaji";
             }
 
-            // Kaydet
             _messageRepository.Insert(p);
 
-            // Ýþlem bitince ana sayfaya dön
+            // Rate limit kaydini guncelle
+            _lastSubmission[ip] = DateTime.Now;
+
+            TempData["Success"] = "Mesajiniz basariyla gonderildi!";
             return RedirectToAction("Index");
         }
     }

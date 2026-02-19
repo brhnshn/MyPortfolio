@@ -51,6 +51,9 @@
 
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
                 <form action="/Home/SendMessage" method="post" class="php-email-form w-100 bg-white p-4 shadow-sm border rounded">
+                    <!-- Honeypot - Bot tuzagi -->
+                    <input type="text" name="website" style="display:none !important; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off">
+
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label class="fw-bold mb-1 small">Adınız Soyadınız</label>

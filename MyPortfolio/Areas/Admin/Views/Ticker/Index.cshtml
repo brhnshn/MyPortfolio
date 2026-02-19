@@ -68,10 +68,11 @@
                                     data-text="@item.Text" data-icon="@item.IconClass" data-order="@item.DisplayOrder">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <a href="/Admin/Ticker/Delete/@item.Id" class="btn btn-action-delete"
-                                    onclick="return confirm('Bu yazÄ±yÄ± silmek istediÄŸine emin misin?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Ticker" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Bu yazýyý silmek istediðine emin misin?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

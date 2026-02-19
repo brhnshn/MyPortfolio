@@ -1,16 +1,16 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<Feature>
 
 @{
-    ViewData["Title"] = "Ã–ne Ã‡Ä±kanlar";
+    ViewData["Title"] = "Öne Çýkanlar";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-star"></i> Ã–ne Ã‡Ä±kanlar</h4>
-            <small>Site giriÅŸindeki "Merhaba" mesajÄ±nÄ± buradan yÃ¶netin.</small>
+            <h4><i class="fas fa-star"></i> Öne Çýkanlar</h4>
+            <small>Site giriþindeki "Merhaba" mesajýný buradan yönetin.</small>
         </div>
         @if (Model.Count == 0)
         {
@@ -20,7 +20,7 @@
         }
         else
         {
-            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>KayÄ±t Mevcut</span>
+            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>Kayýt Mevcut</span>
         }
     </div>
 
@@ -29,11 +29,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>GÃ¶rsel</th>
-                    <th>BaÅŸlÄ±k</th>
+                    <th>Görsel</th>
+                    <th>Baþlýk</th>
                     <th>Ad Soyad</th>
-                    <th>Ãœnvan</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th>Ünvan</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,10 +60,11 @@
                                     onclick="openEditModal('@item.Id', '@item.Header', '@item.Name', '@item.Title', '@item.ImageUrl')">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <a href="/Admin/Feature/Delete/@item.Id" class="btn btn-action-delete"
-                                    onclick="return confirm('Silmek istediÄŸine emin misin?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Feature" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Silmek istediðine emin misin?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -75,7 +76,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-star"></i>
-                <p>HenÃ¼z Ã¶ne Ã§Ä±kan eklenmemiÅŸ.</p>
+                <p>Henüz öne çýkan eklenmemiþ.</p>
             </div>
         }
     </div>
@@ -86,13 +87,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Ã–ne Ã‡Ä±kan Ekle</h5>
+                <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Öne Çýkan Ekle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Feature/Create" method="post" enctype="multipart/form-data" class="glass-form">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Ãœst BaÅŸlÄ±k</label>
+                        <label class="form-label">Üst Baþlýk</label>
                         <input type="text" name="Header" class="form-control" placeholder="Merhaba!" required />
                     </div>
                     <div class="mb-3">
@@ -100,16 +101,16 @@
                         <input type="text" name="Name" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Meslek / Ãœnvan</label>
+                        <label class="form-label">Meslek / Ünvan</label>
                         <input type="text" name="Title" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Arkaplan GÃ¶rseli</label>
+                        <label class="form-label">Arkaplan Görseli</label>
                         <input type="file" name="imageFile" class="form-control" accept="image/*" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -122,7 +123,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>DÃ¼zenle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="/Admin/Feature/Edit" method="post" enctype="multipart/form-data" class="glass-form">
@@ -133,7 +134,7 @@
                             style="width: 100%; max-height: 120px; display: none;" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ãœst BaÅŸlÄ±k</label>
+                        <label class="form-label">Üst Baþlýk</label>
                         <input type="text" name="Header" id="editHeader" class="form-control" required />
                     </div>
                     <div class="mb-3">
@@ -141,17 +142,17 @@
                         <input type="text" name="Name" id="editName" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Meslek / Ãœnvan</label>
+                        <label class="form-label">Meslek / Ünvan</label>
                         <input type="text" name="Title" id="editTitle" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Yeni GÃ¶rsel (Opsiyonel)</label>
+                        <label class="form-label">Yeni Görsel (Opsiyonel)</label>
                         <input type="file" name="imageFile" class="form-control" accept="image/*" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
                 </div>
             </form>
         </div>

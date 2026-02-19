@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
@@ -10,10 +11,15 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class AboutsController : Controller
     {
         private readonly IGenericRepository<About> _aboutRepository;
+        private readonly IMemoryCache _cache;
+        private static readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
+        private static readonly string[] AllowedCvExtensions = { ".pdf" };
+        private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public AboutsController(IGenericRepository<About> aboutRepository)
+        public AboutsController(IGenericRepository<About> aboutRepository, IMemoryCache cache)
         {
             _aboutRepository = aboutRepository;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -33,7 +39,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
             // 1. RESİM YÜKLEME
             if (imageFile != null)
             {
-                var extension = Path.GetExtension(imageFile.FileName);
+                var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+                if (!AllowedImageExtensions.Contains(extension) || imageFile.Length > MaxFileSize)
+                {
+                    TempData["Error"] = "Geçersiz resim dosyası! Sadece JPG, PNG, GIF, WebP, SVG (max 5MB) yükleyebilirsiniz.";
+                    return RedirectToAction("Index");
+                }
                 var newImageName = Guid.NewGuid() + extension;
                 var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/aboutimages/", newImageName);
 
@@ -50,7 +61,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
             // 2. CV YÜKLEME
             if (cvFile != null)
             {
-                var extension = Path.GetExtension(cvFile.FileName);
+                var extension = Path.GetExtension(cvFile.FileName).ToLowerInvariant();
+                if (!AllowedCvExtensions.Contains(extension) || cvFile.Length > MaxFileSize)
+                {
+                    TempData["Error"] = "Geçersiz CV dosyası! Sadece PDF (max 5MB) yükleyebilirsiniz.";
+                    return RedirectToAction("Index");
+                }
                 var newCvName = Guid.NewGuid() + extension;
                 var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/cvfiles/", newCvName);
 
@@ -68,6 +84,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var about = _aboutRepository.GetById(id);
@@ -133,7 +150,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 }
                 catch { }
 
-                var extension = Path.GetExtension(imageFile.FileName);
+                var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+                if (!AllowedImageExtensions.Contains(extension) || imageFile.Length > MaxFileSize)
+                {
+                    TempData["Error"] = "Geçersiz resim dosyası! Sadece JPG, PNG, GIF, WebP, SVG (max 5MB) yükleyebilirsiniz.";
+                    return RedirectToAction("Index");
+                }
                 var newImageName = Guid.NewGuid() + extension;
                 var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/aboutimages/", newImageName);
 
@@ -160,7 +182,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 }
                 catch { }
 
-                var extension = Path.GetExtension(cvFile.FileName);
+                var extension = Path.GetExtension(cvFile.FileName).ToLowerInvariant();
+                if (!AllowedCvExtensions.Contains(extension) || cvFile.Length > MaxFileSize)
+                {
+                    TempData["Error"] = "Geçersiz CV dosyası! Sadece PDF (max 5MB) yükleyebilirsiniz.";
+                    return RedirectToAction("Index");
+                }
                 var newCvName = Guid.NewGuid() + extension;
                 var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/cvfiles/", newCvName);
 

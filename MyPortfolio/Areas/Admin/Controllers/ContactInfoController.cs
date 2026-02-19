@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
@@ -10,10 +11,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class ContactInfoController : Controller
     {
         private readonly IGenericRepository<ContactInfo> _contactInfoRepository;
+        private readonly IMemoryCache _cache;
 
-        public ContactInfoController(IGenericRepository<ContactInfo> contactInfoRepository)
+        public ContactInfoController(IGenericRepository<ContactInfo> contactInfoRepository, IMemoryCache cache)
         {
             _contactInfoRepository = contactInfoRepository;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -52,6 +55,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var value = _contactInfoRepository.GetById(id);

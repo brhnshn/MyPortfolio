@@ -1,4 +1,4 @@
-ï»¿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Entities.Concrete
 @model List<Message>
 
 @{
@@ -10,7 +10,7 @@
     <div class="page-header">
         <div>
             <h4><i class="fas fa-envelope"></i> Gelen Kutusu</h4>
-            <small>Web sitenizden gelen iletiÅŸim mesajlarÄ±.</small>
+            <small>Web sitenizden gelen iletiþim mesajlarý.</small>
         </div>
         <span class="badge-glass badge-glass-info" style="padding: 0.6rem 1rem; font-size: 0.9rem;">
             <i class="fas fa-inbox me-1"></i> Toplam: @Model.Count
@@ -22,11 +22,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>GÃ¶nderen</th>
+                    <th>Gönderen</th>
                     <th>Konu</th>
                     <th>Tarih</th>
                     <th>Durum</th>
-                    <th class="text-end">Ä°ÅŸlemler</th>
+                    <th class="text-end">Ýþlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@
                             }
                             else
                             {
-                                <span class="badge-glass badge-glass-new" id="badge_@item.Id">YENÄ°</span>
+                                <span class="badge-glass badge-glass-new" id="badge_@item.Id">YENÝ</span>
                             }
                         </td>
                         <td>
@@ -67,10 +67,11 @@
                                     onclick="openMessageModal(@item.Id, '@item.Name', '@item.Email', `@item.Content`, `@item.Subject`, @item.IsRead.ToString().ToLower())">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <a href="/Admin/Messages/Delete/@item.Id" class="btn btn-action-delete"
-                                    onclick="return confirm('Bu mesajÄ± kalÄ±cÄ± olarak silmek istiyor musunuz?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                                <form asp-area="Admin" asp-controller="Messages" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Bu mesajý kalýcý olarak silmek istiyor musunuz?')">
+                                    <button type="submit" class="btn btn-action-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -82,7 +83,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-inbox"></i>
-                <p>Gelen kutunuz boÅŸ.</p>
+                <p>Gelen kutunuz boþ.</p>
             </div>
         }
     </div>
@@ -94,7 +95,7 @@
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-info);">
                 <h5 class="modal-title" id="msgSubjectDisplay"><i class="fas fa-envelope-open-text me-2"></i>Mesaj
-                    DetayÄ±</h5>
+                    Detayý</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">

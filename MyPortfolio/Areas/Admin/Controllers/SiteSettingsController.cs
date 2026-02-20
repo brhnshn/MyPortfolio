@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -13,10 +13,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class SiteSettingsController : Controller
     {
         private readonly IGenericRepository<SiteSettings> _siteSettingsRepo;
+        private readonly IMemoryCache _cache;
 
-        public SiteSettingsController(IGenericRepository<SiteSettings> siteSettingsRepo)
+        public SiteSettingsController(IGenericRepository<SiteSettings> siteSettingsRepo, IMemoryCache cache)
         {
             _siteSettingsRepo = siteSettingsRepo;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -80,6 +82,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 existing.LinkedinUrl = model.LinkedinUrl;
                 existing.XUrl = model.XUrl;
                 existing.InstagramUrl = model.InstagramUrl;
+                existing.LayoutMode = model.LayoutMode;
 
                 // Footer Settings
                 existing.FooterTitle = model.FooterTitle;
@@ -91,6 +94,10 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 existing.UpdatedDate = DateTime.Now;
                 _siteSettingsRepo.Update(existing);
             }
+
+            _cache.Remove("footer_settings");
+            _cache.Remove("navbar_settings");
+            _cache.Remove("navbar_items");
 
             TempData["Success"] = "Site ayarları başarıyla güncellendi!";
             return RedirectToAction("Index");

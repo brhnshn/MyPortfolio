@@ -94,7 +94,7 @@
                 <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Bilgi Ekle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/ContactInfo/Create" method="post" class="glass-form">
+            <form asp-area="Admin" asp-controller="ContactInfo" asp-action="Create" method="post" class="glass-form">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Adres Detayý</label>
@@ -137,7 +137,7 @@
                 <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/ContactInfo/Edit" method="post" class="glass-form">
+            <form asp-area="Admin" asp-controller="ContactInfo" asp-action="Edit" method="post" class="glass-form">
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="mb-3">

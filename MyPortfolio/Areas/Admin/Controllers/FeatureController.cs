@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -40,6 +40,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                     if (System.IO.File.Exists(path)) System.IO.File.Delete(path);
                 }
                 _featureRepository.Delete(value);
+                _cache.Remove("feature_list");
             }
             return RedirectToAction("Index");
         }
@@ -80,6 +81,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             }
 
             _featureRepository.Insert(feature);
+            _cache.Remove("feature_list");
             return RedirectToAction("Index");
         }
 
@@ -126,6 +128,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 }
 
                 _featureRepository.Update(existing);
+            _cache.Remove("feature_list");
             }
             return RedirectToAction("Index");
         }

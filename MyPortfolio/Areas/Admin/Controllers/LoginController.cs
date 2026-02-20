@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Areas.Admin.Models;
@@ -82,6 +82,10 @@ namespace MyPortfolio.Areas.Admin.Controllers
             // 6 haneli kod
             var code = new Random().Next(100000, 999999).ToString();
             _resetCodes[username.ToLower()] = (code, DateTime.Now.AddMinutes(10), user.Id.ToString());
+
+            // Suresi dolmus kodlari temizle (bellek sizintisi onleme)
+            var expiredKeys = _resetCodes.Where(x => DateTime.Now > x.Value.Expiry).Select(x => x.Key).ToList();
+            foreach (var key in expiredKeys) _resetCodes.Remove(key);
 
             // Maili maskele: b****@gmail.com
             var emailParts = user.Email.Split('@');

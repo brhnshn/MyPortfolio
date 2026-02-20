@@ -30,7 +30,7 @@
         </div>
     }
 
-    <form action="/Admin/SiteSettings/Update" method="post" class="glass-form">
+    <form asp-area="Admin" asp-controller="SiteSettings" asp-action="Update" method="post" class="glass-form">
         <input type="hidden" name="Id" value="@Model.Id" />
         <input type="hidden" name="ActiveTemplate" value="@Model.ActiveTemplate" />
         <input type="hidden" name="PrimaryColor" value="@Model.PrimaryColor" />
@@ -45,7 +45,7 @@
                     <input type="text" name="SiteTitle" class="form-control" value="@Model.SiteTitle" required
                         maxlength="100" />
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-12 mb-3">
                     <label class="form-label"><i class="fas fa-image text-warning me-1"></i>Favicon URL</label>
                     <input type="url" name="FaviconUrl" class="form-control" value="@Model.FaviconUrl"
                         placeholder="https://example.com/favicon.ico" />

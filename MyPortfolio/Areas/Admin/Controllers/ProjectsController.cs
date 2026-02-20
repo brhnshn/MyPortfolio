@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
-namespace MyPortfoliod.Areas.Admin.Controllers
+namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
@@ -32,6 +32,7 @@ namespace MyPortfoliod.Areas.Admin.Controllers
             if (value != null)
             {
                 _projectRepository.Delete(value);
+                _cache.Remove("project_list");
             }
             return RedirectToAction("Index");
         }
@@ -51,6 +52,7 @@ namespace MyPortfoliod.Areas.Admin.Controllers
             }
 
             _projectRepository.Insert(p);
+            _cache.Remove("project_list");
             TempData["Success"] = "Proje başarıyla eklendi!";
             return RedirectToAction("Index");
         }
@@ -70,6 +72,7 @@ namespace MyPortfoliod.Areas.Admin.Controllers
             existing.UpdatedDate = DateTime.Now;
 
             _projectRepository.Update(existing);
+            _cache.Remove("project_list");
             TempData["Success"] = "Proje başarıyla güncellendi!";
             return RedirectToAction("Index");
         }

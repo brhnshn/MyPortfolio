@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -35,6 +35,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             }
 
             _contactInfoRepository.Insert(p);
+            _cache.Remove("contact_list");
             return RedirectToAction("Index");
         }
 
@@ -51,6 +52,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 existing.Email = p.Email;
                 existing.MapUrl = p.MapUrl; // Artık burada Şehir ismi var
                 _contactInfoRepository.Update(existing);
+                _cache.Remove("contact_list");
             }
             return RedirectToAction("Index");
         }
@@ -59,7 +61,11 @@ namespace MyPortfolio.Areas.Admin.Controllers
         public IActionResult Delete(int id)
         {
             var value = _contactInfoRepository.GetById(id);
-            if (value != null) _contactInfoRepository.Delete(value);
+            if (value != null)
+            {
+                _contactInfoRepository.Delete(value);
+                _cache.Remove("contact_list");
+            }
             return RedirectToAction("Index");
         }
     }

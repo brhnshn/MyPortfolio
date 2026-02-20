@@ -1,14 +1,21 @@
-﻿@using MyPortfolio.Data.Abstract
+@using MyPortfolio.Data.Abstract
 @using MyPortfolio.Entities.Concrete
 @inject IGenericRepository<NavbarItem> NavbarRepo
 
 @{
     ViewData["Title"] = "Ana Sayfa";
     var activeItems = NavbarRepo.GetList().Where(x => x.IsActive).OrderBy(x => x.DisplayOrder).ToList();
+    var layoutMode = ViewBag.LayoutMode as string ?? "SinglePage";
 }
 
 @foreach (var item in activeItems)
 {
+    // MultiPage modunda sadece hero bolumunu goster
+    if (layoutMode == "MultiPage" && item.SectionId != "hero")
+    {
+        continue;
+    }
+
     switch (item.SectionId)
     {
         case "hero":
@@ -34,4 +41,3 @@
             break;
     }
 }
-

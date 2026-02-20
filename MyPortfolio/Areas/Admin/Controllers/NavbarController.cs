@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -39,7 +39,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 heroItem.DisplayOrder = 0;
                 heroItem.UpdatedDate = DateTime.Now;
                 _navbarRepo.Update(heroItem);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
 
                 // Fix others: If any other item has 0, move it to 1, etc.
                 // Simple reorder: Get all non-hero items, sort by current order, re-assign 1..N
@@ -52,7 +52,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                         item.DisplayOrder = i + 1;
                         item.UpdatedDate = DateTime.Now;
                         _navbarRepo.Update(item);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
                     }
                 }
 
@@ -72,7 +72,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 item.IsActive = !item.IsActive;
                 item.UpdatedDate = DateTime.Now;
                 _navbarRepo.Update(item);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
             }
             return RedirectToAction("Index");
         }
@@ -105,13 +105,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
                     targetItem.DisplayOrder = item.DisplayOrder;
                     targetItem.UpdatedDate = DateTime.Now;
                     _navbarRepo.Update(targetItem);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
                 }
 
                 item.DisplayOrder = newOrder;
                 item.UpdatedDate = DateTime.Now;
                 _navbarRepo.Update(item);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
             }
             return RedirectToAction("Index");
         }
@@ -125,7 +125,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 item.Title = title;
                 item.UpdatedDate = DateTime.Now;
                 _navbarRepo.Update(item);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
             }
             return RedirectToAction("Index");
         }
@@ -146,7 +146,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             foreach (var item in defaults)
             {
                 _navbarRepo.Insert(item);
-            _cache.Remove("navbar_items");
+                _cache.Remove("navbar_items");
             }
         }
     }

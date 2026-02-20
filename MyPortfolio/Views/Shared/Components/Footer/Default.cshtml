@@ -28,12 +28,23 @@
             </div>
 
             <div class="col-lg-2 col-md-6 footer-links">
+                @{
+                    var layoutMode = ViewBag.LayoutMode as string ?? "SinglePage";
+                }
                 <h4>Site Haritası</h4>
                 <ul>
-                    <li><i class="fas fa-chevron-right"></i> <a href="#hero">Ana Sayfa</a></li>
-                    <li><i class="fas fa-chevron-right"></i> <a href="#about">Hakkımda</a></li>
-                    <li><i class="fas fa-chevron-right"></i> <a href="#projects">Galeri / Projeler</a></li>
-                    <li><i class="fas fa-chevron-right"></i> <a href="/Admin/Login">Yönetim Paneli</a></li>
+                    @if (layoutMode == "MultiPage")
+                    {
+                        <li><i class="fas fa-chevron-right"></i> <a href="/">Ana Sayfa</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="/Home/About">Hakkımda</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="/Home/Projects">Galeri / Projeler</a></li>
+                    }
+                    else
+                    {
+                        <li><i class="fas fa-chevron-right"></i> <a href="#hero">Ana Sayfa</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="#about">Hakkımda</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="#projects">Galeri / Projeler</a></li>
+                    }
                 </ul>
             </div>
 

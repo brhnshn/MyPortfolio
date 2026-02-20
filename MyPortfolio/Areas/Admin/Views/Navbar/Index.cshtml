@@ -53,7 +53,7 @@
                             }
                             else
                             {
-                                <form action="/Admin/Navbar/UpdateTitle" method="post" class="d-inline">
+                                <form asp-area="Admin" asp-controller="Navbar" asp-action="UpdateTitle" method="post" class="d-inline">
                                     <input type="hidden" name="id" value="@item.Id" />
                                     <input type="text" name="title" value="@item.Title"
                                         class="form-control form-control-sm d-inline-block"
@@ -82,7 +82,7 @@
                         <td>
                             <div class="table-actions">
                                 @* YUKARI BUTONU *@
-                                <form action="/Admin/Navbar/UpdateOrder" method="post" class="d-inline me-1">
+                                <form asp-area="Admin" asp-controller="Navbar" asp-action="UpdateOrder" method="post" class="d-inline me-1">
                                     <input type="hidden" name="id" value="@item.Id" />
                                     <input type="hidden" name="newOrder" value="@(item.DisplayOrder - 1)" />
                                     
@@ -105,7 +105,7 @@
                                 </form>
 
                                 @* AŞAĞI BUTONU *@
-                                <form action="/Admin/Navbar/UpdateOrder" method="post" class="d-inline me-1">
+                                <form asp-area="Admin" asp-controller="Navbar" asp-action="UpdateOrder" method="post" class="d-inline me-1">
                                     <input type="hidden" name="id" value="@item.Id" />
                                     <input type="hidden" name="newOrder" value="@(item.DisplayOrder + 1)" />
                                     
@@ -127,7 +127,7 @@
                                 </form>
 
                                 @* GİZLE/GÖSTER *@
-                                <form action="/Admin/Navbar/ToggleActive" method="post" class="d-inline">
+                                <form asp-area="Admin" asp-controller="Navbar" asp-action="ToggleActive" method="post" class="d-inline">
                                     <input type="hidden" name="id" value="@item.Id" />
                                     
                                     @if (item.SectionId == "hero")

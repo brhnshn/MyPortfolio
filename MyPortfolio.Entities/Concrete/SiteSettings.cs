@@ -1,4 +1,4 @@
-﻿using MyPortfolio.Entities.Concrete.Base;
+using MyPortfolio.Entities.Concrete.Base;
 using System.ComponentModel.DataAnnotations;
 
 #nullable enable
@@ -54,6 +54,10 @@ namespace MyPortfolio.Entities.Concrete
         [Required]
         [StringLength(7)]
         public string SecondaryColor { get; set; } = "#6c757d";
+
+        // Layout Mode: "SinglePage" veya "MultiPage"
+        [Required, StringLength(20)]
+        public string LayoutMode { get; set; } = "SinglePage";
 
         // Footer Settings
         [StringLength(100)]

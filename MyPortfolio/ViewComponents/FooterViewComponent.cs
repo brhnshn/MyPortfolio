@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
@@ -35,6 +35,7 @@ namespace MyPortfolio.ViewComponents
                     Email = "example@email.com"
                 };
             });
+            ViewBag.LayoutMode = settings?.LayoutMode ?? "SinglePage";
             return View(settings);
         }
     }

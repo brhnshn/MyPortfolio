@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -39,6 +39,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             item.CreatedDate = DateTime.Now;
             item.IsActive = true;
             _tickerRepo.Insert(item);
+            _cache.Remove("ticker_list");
 
             TempData["Success"] = "Kayan yazı başarıyla eklendi!";
             return RedirectToAction("Index");
@@ -56,6 +57,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             existing.UpdatedDate = DateTime.Now;
 
             _tickerRepo.Update(existing);
+            _cache.Remove("ticker_list");
 
             TempData["Success"] = "Kayan yazı başarıyla güncellendi!";
             return RedirectToAction("Index");
@@ -68,6 +70,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             if (item != null)
             {
                 _tickerRepo.Delete(item);
+                _cache.Remove("ticker_list");
                 TempData["Success"] = "Kayan yazı başarıyla silindi!";
             }
             return RedirectToAction("Index");

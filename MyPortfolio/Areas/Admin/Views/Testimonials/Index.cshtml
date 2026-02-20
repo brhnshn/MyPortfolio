@@ -101,7 +101,7 @@
                 <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Referans Ekle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/Testimonials/Create" method="post" enctype="multipart/form-data" class="glass-form">
+            <form asp-area="Admin" asp-controller="Testimonials" asp-action="Create" method="post" enctype="multipart/form-data" class="glass-form">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Ad Soyad</label>
@@ -141,7 +141,7 @@
                 <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Referansý Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/Testimonials/Edit" method="post" enctype="multipart/form-data" class="glass-form">
+            <form asp-area="Admin" asp-controller="Testimonials" asp-action="Edit" method="post" enctype="multipart/form-data" class="glass-form">
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="text-center mb-3">

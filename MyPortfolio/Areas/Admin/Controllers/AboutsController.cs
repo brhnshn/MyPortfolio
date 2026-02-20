@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -81,6 +81,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             }
 
             _aboutRepository.Insert(about);
+            _cache.Remove("about_list");
             return RedirectToAction("Index");
         }
 
@@ -107,6 +108,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 catch { }
 
                 _aboutRepository.Delete(about);
+                _cache.Remove("about_list");
             }
             return RedirectToAction("Index");
         }
@@ -202,6 +204,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             }
 
             _aboutRepository.Update(existing);
+            _cache.Remove("about_list");
             return RedirectToAction("Index");
         }
     }

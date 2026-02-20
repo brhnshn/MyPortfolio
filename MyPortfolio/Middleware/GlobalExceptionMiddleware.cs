@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
 namespace MyPortfolio.Middleware
@@ -6,7 +5,6 @@ namespace MyPortfolio.Middleware
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        // Logger eklenebilir, simdilik basic tutuyoruz.
 
         public GlobalExceptionMiddleware(RequestDelegate next)
         {
@@ -21,19 +19,25 @@ namespace MyPortfolio.Middleware
             }
             catch (Exception ex)
             {
-                // Hata loglama islemi burada yapilabilir
-                // _logger.LogError($"Something went wrong: {ex}");
+                // Zaten error sayfasindaysak donguden kacin
+                if (httpContext.Request.Path.StartsWithSegments("/Error"))
+                {
+                    httpContext.Response.StatusCode = 500;
+                    await httpContext.Response.WriteAsync("Sunucu hatasi olustu.");
+                    return;
+                }
+
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            context.Response.ContentType = "text/html";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-            // 500 hatasina yonlendir
-            context.Response.Redirect("/Error/500");
+            // Response baslamadiysa yonlendir
+            if (!context.Response.HasStarted)
+            {
+                context.Response.Redirect("/Error/500");
+            }
             await Task.CompletedTask;
         }
     }

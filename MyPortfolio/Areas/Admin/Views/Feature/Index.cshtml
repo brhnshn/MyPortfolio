@@ -90,7 +90,7 @@
                 <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Öne Çýkan Ekle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/Feature/Create" method="post" enctype="multipart/form-data" class="glass-form">
+            <form asp-area="Admin" asp-controller="Feature" asp-action="Create" method="post" enctype="multipart/form-data" class="glass-form">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Üst Baþlýk</label>
@@ -126,7 +126,7 @@
                 <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/Feature/Edit" method="post" enctype="multipart/form-data" class="glass-form">
+            <form asp-area="Admin" asp-controller="Feature" asp-action="Edit" method="post" enctype="multipart/form-data" class="glass-form">
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="text-center mb-3">

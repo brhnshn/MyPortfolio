@@ -101,7 +101,7 @@
                 <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Proje Ekle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/Projects/Create" method="post" class="glass-form">
+            <form asp-area="Admin" asp-controller="Projects" asp-action="Create" method="post" class="glass-form">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -150,7 +150,7 @@
                 <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Projeyi Düzenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/Admin/Projects/Edit" method="post" class="glass-form">
+            <form asp-area="Admin" asp-controller="Projects" asp-action="Edit" method="post" class="glass-form">
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="row">

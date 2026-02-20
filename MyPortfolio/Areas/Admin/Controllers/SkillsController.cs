@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -29,7 +29,11 @@ namespace MyPortfolio.Areas.Admin.Controllers
         public IActionResult Delete(int id)
         {
             var value = _skillRepository.GetById(id);
-            if (value != null) _skillRepository.Delete(value);
+            if (value != null)
+            {
+                _skillRepository.Delete(value);
+                _cache.Remove("skill_list");
+            }
             return RedirectToAction("Index");
         }
 
@@ -43,6 +47,8 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 if (skill.Percentage < 0) skill.Percentage = 0;
 
                 _skillRepository.Insert(skill);
+                _cache.Remove("skill_list");
+                _cache.Remove("skill_list");
             }
             return RedirectToAction("Index");
         }
@@ -55,14 +61,16 @@ namespace MyPortfolio.Areas.Admin.Controllers
             if (existingSkill != null)
             {
                 existingSkill.Title = skill.Title;
-                existingSkill.Category = skill.Category; // Kategori güncellemesi eklendi
+                existingSkill.Category = skill.Category;
 
                 // Oran kontrolü
                 if (skill.Percentage > 100) skill.Percentage = 100;
                 else if (skill.Percentage < 0) skill.Percentage = 0;
-                else existingSkill.Percentage = skill.Percentage;
+                existingSkill.Percentage = skill.Percentage;
 
                 _skillRepository.Update(existingSkill);
+                _cache.Remove("skill_list");
+                _cache.Remove("skill_list");
             }
 
             return RedirectToAction("Index");

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -10,10 +11,12 @@ namespace MyPortfolio.Areas.Admin.Controllers
     public class ThemeController : Controller
     {
         private readonly IGenericRepository<SiteSettings> _siteSettingsRepo;
+        private readonly IMemoryCache _cache;
 
-        public ThemeController(IGenericRepository<SiteSettings> siteSettingsRepo)
+        public ThemeController(IGenericRepository<SiteSettings> siteSettingsRepo, IMemoryCache cache)
         {
             _siteSettingsRepo = siteSettingsRepo;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -21,6 +24,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
         {
             var settings = _siteSettingsRepo.GetList().FirstOrDefault();
             ViewBag.CurrentTheme = settings?.ActiveTemplate ?? "DefaultTheme";
+            ViewBag.LayoutMode = settings?.LayoutMode ?? "SinglePage";
             return View();
         }
 
@@ -57,6 +61,38 @@ namespace MyPortfolio.Areas.Admin.Controllers
             TempData["Success"] = $"{GetThemeDisplayName(themeName)} teması başarıyla aktif edildi!";
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult SetLayoutMode(string mode)
+        {
+            if (mode != "SinglePage" && mode != "MultiPage")
+                return BadRequest();
+
+            var settings = _siteSettingsRepo.GetList().FirstOrDefault();
+            if (settings == null)
+            {
+                settings = new SiteSettings
+                {
+                    SiteTitle = "My Portfolio",
+                    ActiveTemplate = "DefaultTheme",
+                    LayoutMode = mode
+                };
+                _siteSettingsRepo.Insert(settings);
+            }
+            else
+            {
+                settings.LayoutMode = mode;
+                _siteSettingsRepo.Update(settings);
+            }
+
+            _cache.Remove("footer_settings");
+            _cache.Remove("navbar_settings");
+            _cache.Remove("navbar_items");
+
+            var modeName = mode == "SinglePage" ? "Tek Sayfa" : "Cok Sayfa";
+            TempData["Success"] = modeName + " modu basariyla aktif edildi!";
+            return RedirectToAction("Index");
+        }
+
         private string GetThemeDisplayName(string theme)
         {
             return theme switch

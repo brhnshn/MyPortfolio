@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -7,18 +7,31 @@ namespace MyPortfolio.Controllers
     public class HomeController : Controller
     {
         private readonly IGenericRepository<Message> _messageRepository;
+        private readonly IGenericRepository<SiteSettings> _siteSettingsRepo;
         private static readonly Dictionary<string, DateTime> _lastSubmission = new();
         private const int RateLimitSeconds = 30;
 
-        public HomeController(IGenericRepository<Message> messageRepository)
+        public HomeController(IGenericRepository<Message> messageRepository, IGenericRepository<SiteSettings> siteSettingsRepo)
         {
             _messageRepository = messageRepository;
+            _siteSettingsRepo = siteSettingsRepo;
         }
 
         public IActionResult Index()
         {
+            var settings = _siteSettingsRepo.GetList().FirstOrDefault();
+            ViewBag.LayoutMode = settings?.LayoutMode ?? "SinglePage";
             return View();
         }
+
+        // Multi-Page bolum action'lari
+        public IActionResult About() => View();
+        public IActionResult Projects() => View();
+        public IActionResult Skills() => View();
+        public IActionResult Services() => View();
+        public IActionResult Testimonials() => View();
+        public IActionResult Contact() => View();
+
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
@@ -56,6 +69,10 @@ namespace MyPortfolio.Controllers
 
             // Rate limit kaydini guncelle
             _lastSubmission[ip] = DateTime.Now;
+
+            // Eski kayitlari temizle (bellek sizintisi onleme)
+            var staleKeys = _lastSubmission.Where(x => (DateTime.Now - x.Value).TotalMinutes > 5).Select(x => x.Key).ToList();
+            foreach (var key in staleKeys) _lastSubmission.Remove(key);
 
             TempData["Success"] = "Mesajiniz basariyla gonderildi!";
             return RedirectToAction("Index");

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data.Concrete;
 using MyPortfolio.Data.Abstract;
@@ -58,9 +58,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePagesWithReExecute("/Error/{0}");
+// app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Middleware ile cakisma onlendi
 
-app.UseHttpsRedirection();
+app.UseMiddleware<MyPortfolio.Middleware.GlobalExceptionMiddleware>();
 app.UseStaticFiles();
 
 app.UseRouting();

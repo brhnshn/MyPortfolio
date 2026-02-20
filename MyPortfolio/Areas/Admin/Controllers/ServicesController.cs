@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -32,6 +32,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             {
                 service.CreatedDate = DateTime.Now;
                 _serviceRepository.Insert(service);
+                _cache.Remove("service_list");
             }
             // HATA BURADAYDI: return View() dersen Create.cshtml arar. 
             // Index'e dönmesi için RedirectToAction kullanmalısın.
@@ -49,6 +50,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 existing.IconUrl = service.IconUrl;
                 existing.UpdatedDate = DateTime.Now;
                 _serviceRepository.Update(existing);
+                _cache.Remove("service_list");
             }
             // İşlem bitti, listeye geri dön
             return RedirectToAction("Index");
@@ -61,6 +63,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             if (value != null)
             {
                 _serviceRepository.Delete(value);
+                _cache.Remove("service_list");
             }
             // Sildi ve listeye geri döndü
             return RedirectToAction("Index");

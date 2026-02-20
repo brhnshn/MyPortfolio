@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
@@ -34,6 +34,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [IgnoreAntiforgeryToken]
         // AJAX ile Okundu İşaretleme
         [HttpPost]
         public IActionResult MarkAsRead(int id)

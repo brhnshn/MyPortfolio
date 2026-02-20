@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
@@ -45,6 +45,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 catch { }
 
                 _testimonialRepository.Delete(value);
+                _cache.Remove("testimonials_list");
             }
             return RedirectToAction("Index");
         }
@@ -88,6 +89,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             }
 
             _testimonialRepository.Insert(t);
+            _cache.Remove("testimonials_list");
             return RedirectToAction("Index");
         }
 
@@ -141,6 +143,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             }
 
             _testimonialRepository.Update(existing);
+            _cache.Remove("testimonials_list");
             return RedirectToAction("Index");
         }
     }

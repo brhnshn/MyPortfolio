@@ -26,24 +26,24 @@ jobs:
         ConnectionStrings.DefaultConnection: "User Id=postgres.qxsbrqewndxqmdxozhea;Password=${{ secrets.DB_PASSWORD }};Server=aws-1-eu-central-1.pooler.supabase.com;Port=5432;Database=postgres"
         SmtpSettings.Password: "${{ secrets.SMTP_PASSWORD }}"
 
-    - name: 🔨 Projeyi Derle (Publish)
+    - name: 🔨 Projeyi Derle (Publish) ve ZIP'le
       run: |
         cd MyPortfolio
         dotnet publish -c Release -r linux-x64 --self-contained false -o ../publish_output
+        cd ../publish_output
+        zip -r ../MyPortfolio.zip ./*
 
-    - name: 🚀 Publish Edilmiş Dosyaları VDS'e Aktar (SCP)
+    - name: 🚀 ZIP Dosyasını VDS'e Aktar (SCP)
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.VDS_HOST }}
         username: ${{ secrets.VDS_USERNAME }}
         password: ${{ secrets.VDS_PASSWORD }}
         port: ${{ secrets.VDS_PORT }}
-        source: "publish_output/*"
-        target: "/var/www/MyPortfolio" 
-        strip_components: 1 # Dosyaları /publish_output/ kalabalıgı olmadan aktarır
-        rm: false # project-manager.sh gibi ozel dosyalari silmemesi icin false yapildi
+        source: "MyPortfolio.zip"
+        target: "/var/www" 
 
-    - name: 🔄 VDS Üzerinde Eski Kalıntıları Sil ve Sistemi Yeniden Başlat (SSH)
+    - name: 🔄 VDS Üzerinde Unzip Et ve Sistemi Yeniden Başlat (SSH)
       uses: appleboy/ssh-action@v0.1.6
       with:
         host: ${{ secrets.VDS_HOST }}
@@ -52,21 +52,15 @@ jobs:
         port: ${{ secrets.VDS_PORT }}
         script: |
           echo "1. Hedef klasore gidiliyor..."
-          cd /var/www/MyPortfolio
+          cd /var/www
 
-          echo "2. Artik ihtiyac kalmayan eski ZIP (varsa) son kez siliniyor..."
+          echo "2. Yeni Zip dosyasi cikartiliyor ve ustune yaziliyor..."
+          unzip -o MyPortfolio.zip -d /var/www/MyPortfolio
+
+          echo "3. Cikartilan Zip dosyasi siliniyor..."
           rm -f MyPortfolio.zip
-          rm -f *.zip
 
-          echo "3. Servisler Yeniden Baslatiliyor..."
-          SCRIPT_PATH=$(find / -type f -name "project-manager.sh" 2>/dev/null | head -n 1)
-          if [ -n "$SCRIPT_PATH" ]; then
-            echo "Script bulundu: $SCRIPT_PATH"
-            cd /var/www/
-            bash -l -c "cd /var/www/ && bash '$SCRIPT_PATH' restart"
-          else
-            echo "HATA: project-manager.sh bulunamadi!"
-            exit 1
-          fi
+          echo "4. Servisler Yeniden Baslatiliyor..."
+          ./project-manager.sh restart
           
           echo "Tüm islemler basariyla tamamlandi!"

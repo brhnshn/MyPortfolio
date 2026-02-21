@@ -62,7 +62,7 @@ app.UseDeveloperExceptionPage();
 
 // app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Middleware ile cakisma onlendi
 
-app.UseMiddleware<MyPortfolio.Middleware.GlobalExceptionMiddleware>();
+// app.UseMiddleware<MyPortfolio.Middleware.GlobalExceptionMiddleware>();
 app.UseStaticFiles();
 
 app.UseRouting();

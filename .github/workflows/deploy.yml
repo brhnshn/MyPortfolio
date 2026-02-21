@@ -1,0 +1,60 @@
+name: Deploy to VDS
+
+on:
+  push:
+    branches:
+      - main # Eger branch ismin master ise burayi master olarak degistir
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Projeyi Çek (Checkout)
+      uses: actions/checkout@v3
+
+    - name: ⚙️ .NET Kurulumu
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: 🔐 Şifreleri (Secrets) AppSettings İçine Enjekte Et
+      run: |
+        sed -i "s|__DB_PASSWORD__|${{ secrets.DB_PASSWORD }}|g" MyPortfolio/appsettings.json
+        sed -i "s|__SMTP_PASSWORD__|${{ secrets.SMTP_PASSWORD }}|g" MyPortfolio/appsettings.json
+
+    - name: 🔨 Projeyi Derle (Publish)
+      run: dotnet publish MyPortfolio/MyPortfolio.csproj -c Release -r linux-x64 --self-contained false -o ./publish_output
+
+    - name: 🚀 Publish Edilmiş Dosyaları VDS'e Aktar (SCP)
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VDS_HOST }}
+        username: ${{ secrets.VDS_USERNAME }}
+        password: ${{ secrets.VDS_PASSWORD }}
+        port: ${{ secrets.VDS_PORT }}
+        source: "publish_output/*"
+        # Senin projelerinin konumlarından biri: (AyancikYemekWeb, KutuphaneTakipWeb, MyPortfolio)
+        target: "/var/www/MyPortfolio" 
+        strip_components: 1 # Dosyaları /publish_output/ kalabalıgı olmadan aktarır
+        rm: true # Yüklemeden önce hedef klasördeki eski (.dll vb.) dosyaları tertemiz siler
+
+    - name: 🔄 VDS Üzerinde Eski Kalıntıları Sil ve Sistemi Yeniden Başlat (SSH)
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.VDS_HOST }}
+        username: ${{ secrets.VDS_USERNAME }}
+        password: ${{ secrets.VDS_PASSWORD }}
+        port: ${{ secrets.VDS_PORT }}
+        script: |
+          echo "1. Hedef klasore gidiliyor..."
+          cd /var/www
+
+          echo "2. Artik ihtiyac kalmayan eski ZIP (varsa) son kez siliniyor..."
+          rm -f MyPortfolio.zip
+          rm -f *.zip
+
+          echo "3. Servisler Yeniden Baslatiliyor..."
+          ./project-manager.sh restart
+          
+          echo "Tüm islemler basariyla tamamlandi!"

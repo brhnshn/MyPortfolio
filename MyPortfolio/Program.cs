@@ -6,9 +6,6 @@ using MyPortfolio.Entities.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ZORUNLU GELİŞTİRİCİ MODU EKLENDİ (Hatayı Görmek İçin)
-builder.Environment.EnvironmentName = "Development";
-
 // Add services to the container.
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<MyPortfolio.Services.EmailService>();
@@ -56,16 +53,15 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 var app = builder.Build();
 
-app.UseDeveloperExceptionPage();
-// if (!app.Environment.IsDevelopment())
-// {
-//     app.UseExceptionHandler("/Error/500");
-//     app.UseHsts();
-// }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error/500");
+    app.UseHsts();
+}
 
 // app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Middleware ile cakisma onlendi
 
-// app.UseMiddleware<MyPortfolio.Middleware.GlobalExceptionMiddleware>();
+app.UseMiddleware<MyPortfolio.Middleware.GlobalExceptionMiddleware>();
 app.UseStaticFiles();
 
 app.UseRouting();

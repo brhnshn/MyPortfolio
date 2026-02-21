@@ -59,7 +59,7 @@ jobs:
           rm -f *.zip
 
           echo "3. Servisler Yeniden Baslatiliyor..."
-          pwd
+          cd ~
           ./project-manager.sh restart
           
           echo "Tüm islemler basariyla tamamlandi!"

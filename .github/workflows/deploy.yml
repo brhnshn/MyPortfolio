@@ -61,6 +61,13 @@ jobs:
           rm -f MyPortfolio.zip
 
           echo "4. Servisler Yeniden Baslatiliyor..."
-          ./project-manager.sh restart
+          SCRIPT_PATH=$(find / -type f -name "project-manager.sh" 2>/dev/null | head -n 1)
+          if [ -n "$SCRIPT_PATH" ]; then
+            echo "Script bulundu: $SCRIPT_PATH"
+            bash -l -c "cd /var/www/ && bash '$SCRIPT_PATH' restart"
+          else
+            echo "HATA: project-manager.sh dinamik olarak bulunamadi, global terminal emri ile deneniyor..."
+            bash -l -c "cd /var/www/ && project-manager.sh restart"
+          fi
           
           echo "Tüm islemler basariyla tamamlandi!"

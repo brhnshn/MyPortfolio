@@ -41,7 +41,7 @@ jobs:
         source: "publish_output/*"
         target: "/var/www/MyPortfolio" 
         strip_components: 1 # Dosyaları /publish_output/ kalabalıgı olmadan aktarır
-        rm: true # Yüklemeden önce hedef klasördeki eski (.dll vb.) dosyaları tertemiz siler
+        rm: false # project-manager.sh gibi ozel dosyalari silmemesi icin false yapildi
 
     - name: 🔄 VDS Üzerinde Eski Kalıntıları Sil ve Sistemi Yeniden Başlat (SSH)
       uses: appleboy/ssh-action@v0.1.6
@@ -59,6 +59,7 @@ jobs:
           rm -f *.zip
 
           echo "3. Servisler Yeniden Baslatiliyor..."
+          pwd
           ./project-manager.sh restart
           
           echo "Tüm islemler basariyla tamamlandi!"

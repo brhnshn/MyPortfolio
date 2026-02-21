@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MyPortfolio.Hubs;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -13,10 +15,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private readonly IGenericRepository<Project> _projectRepository;
         private readonly IMemoryCache _cache;
 
-        public ProjectsController(IGenericRepository<Project> projectRepository, IMemoryCache cache)
+        private readonly IHubContext<PortfolioHub> _hubContext;
+
+        public ProjectsController(IGenericRepository<Project> projectRepository, IMemoryCache cache, IHubContext<PortfolioHub> hubContext)
         {
             _projectRepository = projectRepository;
             _cache = cache;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -33,6 +38,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             {
                 _projectRepository.Delete(value);
                 _cache.Remove("project_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
             }
             return RedirectToAction("Index");
         }
@@ -53,6 +59,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _projectRepository.Insert(p);
             _cache.Remove("project_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
             TempData["Success"] = "Proje başarıyla eklendi!";
             return RedirectToAction("Index");
         }
@@ -73,6 +80,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _projectRepository.Update(existing);
             _cache.Remove("project_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
             TempData["Success"] = "Proje başarıyla güncellendi!";
             return RedirectToAction("Index");
         }

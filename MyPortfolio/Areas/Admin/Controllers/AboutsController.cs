@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MyPortfolio.Hubs;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -16,10 +18,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private static readonly string[] AllowedCvExtensions = { ".pdf" };
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public AboutsController(IGenericRepository<About> aboutRepository, IMemoryCache cache)
+        private readonly IHubContext<PortfolioHub> _hubContext;
+
+        public AboutsController(IGenericRepository<About> aboutRepository, IMemoryCache cache, IHubContext<PortfolioHub> hubContext)
         {
             _aboutRepository = aboutRepository;
             _cache = cache;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -82,6 +87,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _aboutRepository.Insert(about);
             _cache.Remove("about_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "AboutList");
             return RedirectToAction("Index");
         }
 
@@ -109,6 +115,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
                 _aboutRepository.Delete(about);
                 _cache.Remove("about_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "AboutList");
             }
             return RedirectToAction("Index");
         }
@@ -205,6 +212,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _aboutRepository.Update(existing);
             _cache.Remove("about_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "AboutList");
             return RedirectToAction("Index");
         }
     }

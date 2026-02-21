@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MyPortfolio.Hubs;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -15,10 +17,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private static readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public FeatureController(IGenericRepository<Feature> featureRepository, IMemoryCache cache)
+        private readonly IHubContext<PortfolioHub> _hubContext;
+
+        public FeatureController(IGenericRepository<Feature> featureRepository, IMemoryCache cache, IHubContext<PortfolioHub> hubContext)
         {
             _featureRepository = featureRepository;
             _cache = cache;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -41,6 +46,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 }
                 _featureRepository.Delete(value);
                 _cache.Remove("feature_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "FeatureList");
             }
             return RedirectToAction("Index");
         }
@@ -82,6 +88,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _featureRepository.Insert(feature);
             _cache.Remove("feature_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "FeatureList");
             return RedirectToAction("Index");
         }
 
@@ -129,6 +136,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
                 _featureRepository.Update(existing);
             _cache.Remove("feature_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "FeatureList");
             }
             return RedirectToAction("Index");
         }

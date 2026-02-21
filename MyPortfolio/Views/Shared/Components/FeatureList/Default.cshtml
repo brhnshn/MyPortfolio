@@ -1,8 +1,12 @@
 ﻿@using MyPortfolio.Entities.Concrete
 @model List<Feature>
 
+@using MyPortfolio.Data.Abstract
+@inject IGenericRepository<SiteSettings> SettingsRepo
+
 @{
     var item = Model.LastOrDefault();
+    var layoutMode = SettingsRepo.GetList().FirstOrDefault()?.LayoutMode ?? "SinglePage";
 }
 
 @if (item != null)
@@ -23,8 +27,8 @@
                     <h2>@item.Title</h2>
 
                     <div class="d-flex justify-content-lg-start justify-content-center">
-                        <a href="#about" class="btn-get-started scrollto">Hakkımda</a>
-                        <a href="#projects" class="btn-projects scrollto">Projelerim</a>
+                        <a href="@(layoutMode == "MultiPage" ? "/Home/About" : "#about")" class="btn-get-started scrollto">Hakkımda</a>
+                        <a href="@(layoutMode == "MultiPage" ? "/Home/Projects" : "#projects")" class="btn-projects scrollto">Projelerim</a>
                     </div>
                 </div>
 

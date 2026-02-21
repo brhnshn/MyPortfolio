@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MyPortfolio.Hubs;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -13,10 +15,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private readonly IGenericRepository<ContactInfo> _contactInfoRepository;
         private readonly IMemoryCache _cache;
 
-        public ContactInfoController(IGenericRepository<ContactInfo> contactInfoRepository, IMemoryCache cache)
+        private readonly IHubContext<PortfolioHub> _hubContext;
+
+        public ContactInfoController(IGenericRepository<ContactInfo> contactInfoRepository, IMemoryCache cache, IHubContext<PortfolioHub> hubContext)
         {
             _contactInfoRepository = contactInfoRepository;
             _cache = cache;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -36,6 +41,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _contactInfoRepository.Insert(p);
             _cache.Remove("contact_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "ContactList");
             return RedirectToAction("Index");
         }
 
@@ -53,6 +59,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 existing.MapUrl = p.MapUrl; // Artık burada Şehir ismi var
                 _contactInfoRepository.Update(existing);
                 _cache.Remove("contact_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "ContactList");
             }
             return RedirectToAction("Index");
         }
@@ -65,6 +72,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             {
                 _contactInfoRepository.Delete(value);
                 _cache.Remove("contact_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "ContactList");
             }
             return RedirectToAction("Index");
         }

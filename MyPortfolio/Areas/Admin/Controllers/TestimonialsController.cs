@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MyPortfolio.Hubs;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -15,10 +17,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private static readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public TestimonialsController(IGenericRepository<Testimonial> testimonialRepository, IMemoryCache cache)
+        private readonly IHubContext<PortfolioHub> _hubContext;
+
+        public TestimonialsController(IGenericRepository<Testimonial> testimonialRepository, IMemoryCache cache, IHubContext<PortfolioHub> hubContext)
         {
             _testimonialRepository = testimonialRepository;
             _cache = cache;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -46,6 +51,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
                 _testimonialRepository.Delete(value);
                 _cache.Remove("testimonials_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
             }
             return RedirectToAction("Index");
         }
@@ -90,6 +96,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _testimonialRepository.Insert(t);
             _cache.Remove("testimonials_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
             return RedirectToAction("Index");
         }
 
@@ -144,6 +151,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _testimonialRepository.Update(existing);
             _cache.Remove("testimonials_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
             return RedirectToAction("Index");
         }
     }

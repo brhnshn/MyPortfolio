@@ -19,25 +19,25 @@
     switch (item.SectionId)
     {
         case "hero":
-            @await Component.InvokeAsync("FeatureList")
+            <div id="component-FeatureList">@await Component.InvokeAsync("FeatureList")</div>
             break;
         case "about":
-            @await Component.InvokeAsync("AboutList")
+            <div id="component-AboutList">@await Component.InvokeAsync("AboutList")</div>
             break;
         case "services":
-            @await Component.InvokeAsync("ServiceList")
+            <div id="component-ServiceList">@await Component.InvokeAsync("ServiceList")</div>
             break;
         case "skills":
-            @await Component.InvokeAsync("SkillList")
+            <div id="component-SkillList">@await Component.InvokeAsync("SkillList")</div>
             break;
         case "projects":
-            @await Component.InvokeAsync("ProjectList")
+            <div id="component-ProjectList">@await Component.InvokeAsync("ProjectList")</div>
             break;
         case "testimonials":
-            @await Component.InvokeAsync("TestimonialsList")
+            <div id="component-TestimonialsList">@await Component.InvokeAsync("TestimonialsList")</div>
             break;
         case "contact":
-            @await Component.InvokeAsync("ContactList")
+            <div id="component-ContactList">@await Component.InvokeAsync("ContactList")</div>
             break;
     }
 }

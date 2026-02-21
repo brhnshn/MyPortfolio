@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MyPortfolio.Hubs;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -13,10 +15,13 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private readonly IGenericRepository<Skill> _skillRepository;
         private readonly IMemoryCache _cache;
 
-        public SkillsController(IGenericRepository<Skill> skillRepository, IMemoryCache cache)
+        private readonly IHubContext<PortfolioHub> _hubContext;
+
+        public SkillsController(IGenericRepository<Skill> skillRepository, IMemoryCache cache, IHubContext<PortfolioHub> hubContext)
         {
             _skillRepository = skillRepository;
             _cache = cache;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -33,6 +38,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
             {
                 _skillRepository.Delete(value);
                 _cache.Remove("skill_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "SkillList");
             }
             return RedirectToAction("Index");
         }
@@ -48,7 +54,9 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
                 _skillRepository.Insert(skill);
                 _cache.Remove("skill_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "SkillList");
                 _cache.Remove("skill_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "SkillList");
             }
             return RedirectToAction("Index");
         }
@@ -70,7 +78,9 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
                 _skillRepository.Update(existingSkill);
                 _cache.Remove("skill_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "SkillList");
                 _cache.Remove("skill_list");
+                _hubContext.Clients.All.SendAsync("UpdateComponent", "SkillList");
             }
 
             return RedirectToAction("Index");

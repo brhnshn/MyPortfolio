@@ -1,8 +1,12 @@
 ﻿@using MyPortfolio.Entities.Concrete
+@using MyPortfolio.Data.Abstract
 @model List<About>
+
+@inject IGenericRepository<SiteSettings> SettingsRepo
 
 @{
     var item = Model.LastOrDefault();
+    var layoutMode = SettingsRepo.GetList().FirstOrDefault()?.LayoutMode ?? "SinglePage";
 }
 
 <section id="about" class="py-5 bg-white">
@@ -70,13 +74,15 @@
                         </p>
 
                         <div class="d-flex justify-content-center justify-content-md-start gap-3">
-                            <a href="#contact" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm hover-top">
+                            <a href="@(layoutMode == "MultiPage" ? "/Home/Contact" : "#contact")"
+                                class="btn btn-primary px-4 py-2 rounded-pill shadow-sm hover-top">
                                 <i class="fas fa-paper-plane me-2"></i> İletişim
                             </a>
 
                             @if (!string.IsNullOrEmpty(item.CvUrl))
                             {
-                                <a href="@item.CvUrl" target="_blank" class="btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm hover-top">
+                                <a href="@item.CvUrl" target="_blank"
+                                    class="btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm hover-top">
                                     <i class="fas fa-download me-2"></i> CV İndir
                                 </a>
                             }

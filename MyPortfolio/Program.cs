@@ -14,6 +14,8 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
 });
 
+builder.Services.AddSignalR();
+
 
 // PostgreSQL i�in tarih format� d�zeltmesi 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -51,7 +53,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// app.UseDeveloperExceptionPage();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error/500");
@@ -76,5 +78,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapHub<MyPortfolio.Hubs.PortfolioHub>("/portfolioHub");
 
 app.Run();

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Data.Abstract;
 using MyPortfolio.Entities.Concrete;
 
@@ -33,6 +33,12 @@ namespace MyPortfolio.Controllers
         public IActionResult Contact() => View();
 
 
+        public IActionResult RenderComponent(string componentName)
+        {
+            if (string.IsNullOrEmpty(componentName)) return BadRequest();
+            return ViewComponent(componentName);
+        }
+
         [HttpPost]
         [IgnoreAntiforgeryToken]
         public IActionResult SendMessage(Message p, string website)
@@ -47,7 +53,7 @@ namespace MyPortfolio.Controllers
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
             if (_lastSubmission.TryGetValue(ip, out var lastTime) && (DateTime.Now - lastTime).TotalSeconds < RateLimitSeconds)
             {
-                TempData["Error"] = "Cok sik mesaj gonderiyorsunuz. Lutfen biraz bekleyin.";
+                TempData["Error"] = "Cok s�k mesaj gonderiyorsunuz. Lutfen biraz bekleyin.";
                 return RedirectToAction("Index");
             }
 
@@ -79,3 +85,4 @@ namespace MyPortfolio.Controllers
         }
     }
 }
+

@@ -1,16 +1,16 @@
-@using MyPortfolio.Entities.Concrete
+ï»¿@using MyPortfolio.Entities.Concrete
 @model List<About>
 
 @{
-    ViewData["Title"] = "Hakkýmda";
+    ViewData["Title"] = "HakkÄ±mda";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="glass-container">
     <div class="page-header">
         <div>
-            <h4><i class="fas fa-user-circle"></i> Hakkýmda Yönetimi</h4>
-            <small>Profil bilgileri, CV ve istatistik yönetimi.</small>
+            <h4><i class="fas fa-user-circle"></i> HakkÄ±mda YÃ¶netimi</h4>
+            <small>Profil bilgileri, CV ve istatistik yÃ¶netimi.</small>
         </div>
         @if (Model.Count < 1)
         {
@@ -20,7 +20,7 @@
         }
         else
         {
-            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>Kayýt Mevcut</span>
+            <span class="badge-glass badge-glass-success"><i class="fas fa-check me-1"></i>KayÄ±t Mevcut</span>
         }
     </div>
 
@@ -30,9 +30,9 @@
                 <tr>
                     <th>#</th>
                     <th>Ad Soyad</th>
-                    <th>Ünvan</th>
+                    <th>Ãœnvan</th>
                     <th>CV</th>
-                    <th class="text-end">Ýþlemler</th>
+                    <th class="text-end">Ä°ÅŸlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,8 +45,9 @@
                         <td>
                             @if (!string.IsNullOrEmpty(item.CvUrl))
                             {
-                                <a href="@item.CvUrl" target="_blank" class="btn-glass" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-                                    <i class="fas fa-file-pdf"></i> Görüntüle
+                                <a href="@item.CvUrl" target="_blank" class="btn-glass"
+                                    style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                                    <i class="fas fa-file-pdf"></i> GÃ¶rÃ¼ntÃ¼le
                                 </a>
                             }
                             else
@@ -56,11 +57,16 @@
                         </td>
                         <td>
                             <div class="table-actions">
-                                <button type="button" class="btn btn-action-edit"
-                                        onclick="openEditModal('@item.Id', '@item.FullName', '@item.Title', '@item.Description', `@item.Details`, '@item.ProjectCount', '@item.ExperienceYear', '@item.CustomerCount')">
+                                <button type="button" class="btn btn-action-edit edit-btn" data-id="@item.Id"
+                                    data-fullname="@item.FullName" data-title="@item.Title"
+                                    data-description="@item.Description" data-details="@item.Details"
+                                    data-project="@item.ProjectCount" data-experience="@item.ExperienceYear"
+                                    data-customer="@item.CustomerCount">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form asp-area="Admin" asp-controller="Abouts" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('Silmek istediðine emin misin?')">
+                                <form asp-area="Admin" asp-controller="Abouts" asp-action="Delete" asp-route-id="@item.Id"
+                                    method="post" style="display:inline"
+                                    onsubmit="return confirm('Silmek istediÄŸine emin misin?')">
                                     <button type="submit" class="btn btn-action-delete" title="Sil">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -76,7 +82,7 @@
         {
             <div class="empty-state">
                 <i class="fas fa-user-circle"></i>
-                <p>Henüz bilgi eklenmemiþ.</p>
+                <p>HenÃ¼z bilgi eklenmemiÅŸ.</p>
             </div>
         }
     </div>
@@ -90,7 +96,8 @@
                 <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Yeni Bilgi Ekle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form asp-area="Admin" asp-controller="Abouts" asp-action="Create" method="post" enctype="multipart/form-data" class="glass-form">
+            <form asp-area="Admin" asp-controller="Abouts" asp-action="Create" method="post"
+                enctype="multipart/form-data" class="glass-form">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -98,37 +105,40 @@
                             <input type="text" name="FullName" class="form-control" maxlength="50" required />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Ünvan</label>
+                            <label class="form-label">Ãœnvan</label>
                             <input type="text" name="Title" class="form-control" maxlength="50" required />
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Proje</label>
-                            <input type="text" name="ProjectCount" class="form-control" placeholder="20+" maxlength="10" />
+                            <input type="text" name="ProjectCount" class="form-control" placeholder="20+"
+                                maxlength="10" />
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Deneyim</label>
-                            <input type="text" name="ExperienceYear" class="form-control" placeholder="3 Yýl" maxlength="10" />
+                            <input type="text" name="ExperienceYear" class="form-control" placeholder="3 YÄ±l"
+                                maxlength="10" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">Müþteri</label>
-                            <input type="text" name="CustomerCount" class="form-control" placeholder="10+" maxlength="10" />
+                            <label class="form-label">MÃ¼ÅŸteri</label>
+                            <input type="text" name="CustomerCount" class="form-control" placeholder="10+"
+                                maxlength="10" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">Kýsa Özet</label>
+                            <label class="form-label">KÄ±sa Ã–zet</label>
                             <textarea name="Description" class="form-control" rows="2" maxlength="150"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">Detaylý Biyografi</label>
+                            <label class="form-label">DetaylÄ± Biyografi</label>
                             <textarea name="Details" class="form-control" rows="4" maxlength="1000"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">CV Yükle (PDF)</label>
+                            <label class="form-label">CV YÃ¼kle (PDF)</label>
                             <input type="file" name="cvFile" class="form-control" accept=".pdf,.doc,.docx" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
                     <button type="submit" class="btn-glass btn-glass-success">Kaydet</button>
                 </div>
             </form>
@@ -141,50 +151,58 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: var(--gradient-warning);">
-                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri Düzenle</h5>
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Bilgileri DÃ¼zenle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form asp-area="Admin" asp-controller="Abouts" asp-action="Edit" method="post" enctype="multipart/form-data" class="glass-form">
+            <form asp-area="Admin" asp-controller="Abouts" asp-action="Edit" method="post" enctype="multipart/form-data"
+                class="glass-form">
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Ad Soyad</label>
-                            <input type="text" name="FullName" id="editFullName" class="form-control" maxlength="50" required />
+                            <input type="text" name="FullName" id="editFullName" class="form-control" maxlength="50"
+                                required />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Ünvan</label>
-                            <input type="text" name="Title" id="editTitle" class="form-control" maxlength="50" required />
+                            <label class="form-label">Ãœnvan</label>
+                            <input type="text" name="Title" id="editTitle" class="form-control" maxlength="50"
+                                required />
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Proje</label>
-                            <input type="text" name="ProjectCount" id="editProjectCount" class="form-control" maxlength="10" />
+                            <input type="text" name="ProjectCount" id="editProjectCount" class="form-control"
+                                maxlength="10" />
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Deneyim</label>
-                            <input type="text" name="ExperienceYear" id="editExperienceYear" class="form-control" maxlength="10" />
+                            <input type="text" name="ExperienceYear" id="editExperienceYear" class="form-control"
+                                maxlength="10" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">Müþteri</label>
-                            <input type="text" name="CustomerCount" id="editCustomerCount" class="form-control" maxlength="10" />
+                            <label class="form-label">MÃ¼ÅŸteri</label>
+                            <input type="text" name="CustomerCount" id="editCustomerCount" class="form-control"
+                                maxlength="10" />
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">Kýsa Özet</label>
-                            <textarea name="Description" id="editDescription" class="form-control" rows="2" maxlength="150"></textarea>
+                            <label class="form-label">KÄ±sa Ã–zet</label>
+                            <textarea name="Description" id="editDescription" class="form-control" rows="2"
+                                maxlength="150"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">Detaylý Biyografi</label>
-                            <textarea name="Details" id="editDetails" class="form-control" rows="4" maxlength="1000"></textarea>
+                            <label class="form-label">DetaylÄ± Biyografi</label>
+                            <textarea name="Details" id="editDetails" class="form-control" rows="4"
+                                maxlength="1000"></textarea>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="form-label">CV Güncelle (PDF)</label>
+                            <label class="form-label">CV GÃ¼ncelle (PDF)</label>
                             <input type="file" name="cvFile" class="form-control" accept=".pdf,.doc,.docx" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ýptal</button>
-                    <button type="submit" class="btn-glass btn-glass-warning">Güncelle</button>
+                    <button type="button" class="btn-glass" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="submit" class="btn-glass btn-glass-warning">GÃ¼ncelle</button>
                 </div>
             </form>
         </div>
@@ -192,17 +210,22 @@
 </div>
 
 @section Scripts {
-<script>
-    function openEditModal(id, fullname, title, desc, details, project, experience, customer) {
-        document.getElementById('editId').value = id;
-        document.getElementById('editFullName').value = fullname;
-        document.getElementById('editTitle').value = title;
-        document.getElementById('editDescription').value = desc;
-        document.getElementById('editDetails').value = details;
-        document.getElementById('editProjectCount').value = project;
-        document.getElementById('editExperienceYear').value = experience;
-        document.getElementById('editCustomerCount').value = customer;
-        new bootstrap.Modal(document.getElementById('editModal')).show();
-    }
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editBtns = document.querySelectorAll('.edit-btn');
+            editBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.getElementById('editId').value = this.getAttribute('data-id');
+                    document.getElementById('editFullName').value = this.getAttribute('data-fullname');
+                    document.getElementById('editTitle').value = this.getAttribute('data-title');
+                    document.getElementById('editDescription').value = this.getAttribute('data-description');
+                    document.getElementById('editDetails').value = this.getAttribute('data-details');
+                    document.getElementById('editProjectCount').value = this.getAttribute('data-project');
+                    document.getElementById('editExperienceYear').value = this.getAttribute('data-experience');
+                    document.getElementById('editCustomerCount').value = this.getAttribute('data-customer');
+                    new bootstrap.Modal(document.getElementById('editModal')).show();
+                });
+            });
+        });
+    </script>
 }

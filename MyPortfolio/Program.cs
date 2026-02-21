@@ -53,12 +53,12 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 var app = builder.Build();
 
-// app.UseDeveloperExceptionPage();
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error/500");
-    app.UseHsts();
-}
+app.UseDeveloperExceptionPage();
+// if (!app.Environment.IsDevelopment())
+// {
+//     app.UseExceptionHandler("/Error/500");
+//     app.UseHsts();
+// }
 
 // app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Middleware ile cakisma onlendi
 

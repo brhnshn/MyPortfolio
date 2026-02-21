@@ -52,14 +52,21 @@ jobs:
         port: ${{ secrets.VDS_PORT }}
         script: |
           echo "1. Hedef klasore gidiliyor..."
-          cd /var/www
+          cd /var/www/MyPortfolio
 
           echo "2. Artik ihtiyac kalmayan eski ZIP (varsa) son kez siliniyor..."
           rm -f MyPortfolio.zip
           rm -f *.zip
 
           echo "3. Servisler Yeniden Baslatiliyor..."
-          cd ~
-          ./project-manager.sh restart
+          SCRIPT_PATH=$(find / -type f -name "project-manager.sh" 2>/dev/null | head -n 1)
+          if [ -n "$SCRIPT_PATH" ]; then
+            echo "Script bulundu: $SCRIPT_PATH"
+            cd $(dirname "$SCRIPT_PATH")
+            ./project-manager.sh restart
+          else
+            echo "HATA: project-manager.sh bulunamadi!"
+            exit 1
+          fi
           
           echo "Tüm islemler basariyla tamamlandi!"

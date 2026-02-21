@@ -6,6 +6,9 @@ using MyPortfolio.Entities.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ZORUNLU GELİŞTİRİCİ MODU EKLENDİ (Hatayı Görmek İçin)
+builder.Environment.EnvironmentName = "Development";
+
 // Add services to the container.
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<MyPortfolio.Services.EmailService>();

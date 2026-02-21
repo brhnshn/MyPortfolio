@@ -62,8 +62,8 @@ jobs:
           SCRIPT_PATH=$(find / -type f -name "project-manager.sh" 2>/dev/null | head -n 1)
           if [ -n "$SCRIPT_PATH" ]; then
             echo "Script bulundu: $SCRIPT_PATH"
-            cd $(dirname "$SCRIPT_PATH")
-            ./project-manager.sh restart
+            cd /var/www/
+            bash "$SCRIPT_PATH" restart
           else
             echo "HATA: project-manager.sh bulunamadi!"
             exit 1

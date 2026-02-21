@@ -63,7 +63,7 @@ jobs:
           if [ -n "$SCRIPT_PATH" ]; then
             echo "Script bulundu: $SCRIPT_PATH"
             cd /var/www/
-            bash "$SCRIPT_PATH" restart
+            bash -l -c "cd /var/www/ && bash '$SCRIPT_PATH' restart"
           else
             echo "HATA: project-manager.sh bulunamadi!"
             exit 1

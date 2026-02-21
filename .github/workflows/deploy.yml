@@ -34,7 +34,6 @@ jobs:
         password: ${{ secrets.VDS_PASSWORD }}
         port: ${{ secrets.VDS_PORT }}
         source: "publish_output/*"
-        # Senin projelerinin konumlarından biri: (AyancikYemekWeb, KutuphaneTakipWeb, MyPortfolio)
         target: "/var/www/MyPortfolio" 
         strip_components: 1 # Dosyaları /publish_output/ kalabalıgı olmadan aktarır
         rm: true # Yüklemeden önce hedef klasördeki eski (.dll vb.) dosyaları tertemiz siler

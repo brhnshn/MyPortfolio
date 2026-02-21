@@ -24,7 +24,9 @@ jobs:
         sed -i "s|__SMTP_PASSWORD__|${{ secrets.SMTP_PASSWORD }}|g" MyPortfolio/appsettings.json
 
     - name: 🔨 Projeyi Derle (Publish)
-      run: dotnet publish MyPortfolio/MyPortfolio.csproj -c Release -r linux-x64 --self-contained false -o ./publish_output
+      run: |
+        cd MyPortfolio
+        dotnet publish -c Release -r linux-x64 --self-contained false -o ../publish_output
 
     - name: 🚀 Publish Edilmiş Dosyaları VDS'e Aktar (SCP)
       uses: appleboy/scp-action@v0.1.7

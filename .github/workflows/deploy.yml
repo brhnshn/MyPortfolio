@@ -19,9 +19,12 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: 🔐 Şifreleri (Secrets) AppSettings İçine Enjekte Et
-      run: |
-        sed -i "s|__DB_PASSWORD__|${{ secrets.DB_PASSWORD }}|g" MyPortfolio/appsettings.json
-        sed -i "s|__SMTP_PASSWORD__|${{ secrets.SMTP_PASSWORD }}|g" MyPortfolio/appsettings.json
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'MyPortfolio/appsettings.json'
+      env:
+        ConnectionStrings.DefaultConnection: "User Id=postgres.qxsbrqewndxqmdxozhea;Password=${{ secrets.DB_PASSWORD }};Server=aws-1-eu-central-1.pooler.supabase.com;Port=5432;Database=postgres"
+        SmtpSettings.Password: ${{ secrets.SMTP_PASSWORD }}
 
     - name: 🔨 Projeyi Derle (Publish)
       run: |

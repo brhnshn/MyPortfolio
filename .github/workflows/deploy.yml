@@ -23,7 +23,7 @@ jobs:
       with:
         files: 'MyPortfolio/appsettings.json'
       env:
-        ConnectionStrings.DefaultConnection: "User Id=postgres.qxsbrqewndxqmdxozhea;Password=${{ secrets.DB_PASSWORD }};Server=aws-1-eu-central-1.pooler.supabase.com;Port=6543;Database=postgres;Max Auto Prepare=0;Pooling=true;Maximum Pool Size=30;"
+        ConnectionStrings.DefaultConnection: "User Id=postgres.qxsbrqewndxqmdxozhea;Password=${{ secrets.DB_PASSWORD }};Server=aws-1-eu-central-1.pooler.supabase.com;Port=6543;Database=postgres;Max Auto Prepare=0;Pooling=true;Maximum Pool Size=40;"
         SmtpSettings.Password: "${{ secrets.SMTP_PASSWORD }}"
         SetupSettings.Key: "${{ secrets.SETUP_KEY }}"
 

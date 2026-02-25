@@ -23,7 +23,7 @@ jobs:
       with:
         files: 'MyPortfolio/appsettings.json'
       env:
-        ConnectionStrings.DefaultConnection: "Host=db.qxsbrqewndxqmdxozhea.supabase.co;Database=postgres;Username=postgres;Password=${{ secrets.DB_PASSWORD }};SSL Mode=Require;Trust Server Certificate=true"
+        ConnectionStrings.DefaultConnection: "Host=db.qxsbrqewndxqmdxozhea.supabase.co;Database=postgres;Username=postgres;Password=${{ secrets.DB_PASSWORD }};SSL Mode=Require;Trust Server Certificate=true;Pooling=true;Maximum Pool Size=20;"
         SmtpSettings.Password: "${{ secrets.SMTP_PASSWORD }}"
         SetupSettings.Key: "${{ secrets.SETUP_KEY }}"
 

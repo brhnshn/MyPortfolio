@@ -21,7 +21,7 @@ builder.Services.AddSignalR();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddDbContext<MyPortfolioContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
 // --- IDENTITY SETTINGS ---
 builder.Services.AddIdentity<AppUser, AppRole>()

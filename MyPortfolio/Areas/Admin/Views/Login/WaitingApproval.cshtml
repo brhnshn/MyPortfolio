@@ -1,0 +1,211 @@
+@{
+    Layout = null;
+    var requestId = ViewBag.RequestId as string;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telegram Onayı Bekleniyor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .telegram-icon {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #0088cc, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @@keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .countdown {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00f5a0, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .status-approved {
+            color: #00f5a0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .status-denied {
+            color: #ff4757;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .progress-bar-custom {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00f5a0, #00d9ff);
+            border-radius: 2px;
+            transition: width 1s linear;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-card">
+        <div class="mb-3">
+            <i class="fab fa-telegram telegram-icon"></i>
+        </div>
+
+        <h3 class="text-white fw-bold mb-2">Telegram Onayı</h3>
+        <p class="status-text mb-4">Telegramınıza gönderilen onay butonuna basmanız bekleniyor.</p>
+
+        <div id="statusArea">
+            <div class="spinner-ring"></div>
+            <div class="countdown" id="countdown">2:00</div>
+            <p class="status-text mt-2">Kalan süre</p>
+        </div>
+
+        <div id="resultArea" style="display:none;">
+            <div id="approvedMsg" class="status-approved" style="display:none;">
+                <i class="fas fa-check-circle fa-3x mb-3" style="color: #00f5a0;"></i>
+                <p>✅ Giriş onaylandı! Yönlendiriliyorsunuz...</p>
+            </div>
+            <div id="deniedMsg" class="status-denied" style="display:none;">
+                <i class="fas fa-times-circle fa-3x mb-3" style="color: #ff4757;"></i>
+                <p>❌ Giriş reddedildi veya süre doldu.</p>
+            </div>
+        </div>
+
+        <div class="progress-bar-custom">
+            <div class="progress-bar-fill" id="progressBar" style="width: 100%;"></div>
+        </div>
+    </div>
+
+    <form id="completeForm" method="post" action="/Admin/Login/CompleteLogin" style="display:none;">
+        @Html.AntiForgeryToken()
+    </form>
+
+    <script>
+        const requestId = '@requestId';
+        const totalSeconds = 120;
+        let remaining = totalSeconds;
+        let polling;
+
+        function updateCountdown() {
+            remaining--;
+            const min = Math.floor(remaining / 60);
+            const sec = remaining % 60;
+            document.getElementById('countdown').textContent =
+                min + ':' + (sec < 10 ? '0' : '') + sec;
+
+            const pct = (remaining / totalSeconds) * 100;
+            document.getElementById('progressBar').style.width = pct + '%';
+
+            if (remaining <= 0) {
+                clearInterval(countdownTimer);
+                clearInterval(polling);
+                showResult(false);
+            }
+        }
+
+        function checkStatus() {
+            fetch('/api/telegram/check/' + requestId)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'approved') {
+                        clearInterval(polling);
+                        clearInterval(countdownTimer);
+                        showResult(true);
+                    } else if (data.status === 'denied') {
+                        clearInterval(polling);
+                        clearInterval(countdownTimer);
+                        showResult(false);
+                    }
+                })
+                .catch(() => {});
+        }
+
+        function showResult(approved) {
+            document.getElementById('statusArea').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'block';
+
+            if (approved) {
+                document.getElementById('approvedMsg').style.display = 'block';
+                // Form submit ile giriş tamamla
+                setTimeout(() => {
+                    document.getElementById('completeForm').submit();
+                }, 1500);
+            } else {
+                document.getElementById('deniedMsg').style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = '/Admin/Login/Index' +
+                        '?key=' + new URLSearchParams(window.location.search).get('key');
+                }, 3000);
+            }
+        }
+
+        const countdownTimer = setInterval(updateCountdown, 1000);
+        polling = setInterval(checkStatus, 2000);
+        checkStatus(); // İlk kontrol hemen
+    </script>
+
+</body>
+
+</html>

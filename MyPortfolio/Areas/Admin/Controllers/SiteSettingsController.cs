@@ -9,7 +9,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class SiteSettingsController : Controller
     {
         private readonly IGenericRepository<SiteSettings> _siteSettingsRepo;

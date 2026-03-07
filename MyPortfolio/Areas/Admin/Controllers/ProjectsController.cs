@@ -9,7 +9,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProjectsController : Controller
     {
         private readonly IGenericRepository<Project> _projectRepository;
@@ -59,7 +59,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _projectRepository.Insert(p);
             _cache.Remove("project_list");
-                _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
+            _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
             TempData["Success"] = "Proje başarıyla eklendi!";
             return RedirectToAction("Index");
         }
@@ -80,7 +80,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _projectRepository.Update(existing);
             _cache.Remove("project_list");
-                _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
+            _hubContext.Clients.All.SendAsync("UpdateComponent", "ProjectList");
             TempData["Success"] = "Proje başarıyla güncellendi!";
             return RedirectToAction("Index");
         }

@@ -6,7 +6,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MessagesController : Controller
     {
         private readonly IGenericRepository<Message> _messageRepository;

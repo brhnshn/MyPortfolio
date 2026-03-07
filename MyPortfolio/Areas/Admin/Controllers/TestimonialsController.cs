@@ -9,7 +9,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class TestimonialsController : Controller
     {
         private readonly IGenericRepository<Testimonial> _testimonialRepository;
@@ -96,7 +96,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _testimonialRepository.Insert(t);
             _cache.Remove("testimonials_list");
-                _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
+            _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
             return RedirectToAction("Index");
         }
 
@@ -151,7 +151,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _testimonialRepository.Update(existing);
             _cache.Remove("testimonials_list");
-                _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
+            _hubContext.Clients.All.SendAsync("UpdateComponent", "TestimonialsList");
             return RedirectToAction("Index");
         }
     }

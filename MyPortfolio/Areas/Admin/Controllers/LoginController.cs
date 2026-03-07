@@ -5,6 +5,7 @@ using MyPortfolio.Areas.Admin.Models;
 using MyPortfolio.Entities.Concrete;
 using MyPortfolio.Models;
 using MyPortfolio.Services;
+using System.Security.Claims;
 
 namespace MyPortfolio.Areas.Admin.Controllers
 {
@@ -16,6 +17,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly EmailService _emailService;
+        private readonly TelegramService _telegramService;
 
         private static readonly Dictionary<string, (string Code, DateTime Expiry, string UserId)> _resetCodes = new();
 
@@ -23,12 +25,14 @@ namespace MyPortfolio.Areas.Admin.Controllers
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
             IConfiguration configuration,
-            EmailService emailService)
+            EmailService emailService,
+            TelegramService telegramService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
+            _telegramService = telegramService;
         }
 
         [HttpGet]
@@ -45,7 +49,18 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 var result = await _signInManager.PasswordSignInAsync(p.Username, p.Password, true, true);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Theme", new { area = "Admin" });
+                    // Şifre doğru — henüz giriş yapma, önce Telegram onayı al
+                    await _signInManager.SignOutAsync();
+
+                    var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+                                   ?? HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()
+                                   ?? "Bilinmiyor";
+                    var requestId = await _telegramService.SendApprovalRequestAsync(p.Username, clientIp);
+
+                    TempData["TelegramRequestId"] = requestId;
+                    TempData["PendingUsername"] = p.Username;
+
+                    return RedirectToAction("WaitingApproval");
                 }
                 else
                 {
@@ -53,6 +68,56 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult WaitingApproval()
+        {
+            var requestId = TempData.Peek("TelegramRequestId")?.ToString();
+            if (string.IsNullOrEmpty(requestId))
+                return RedirectToAction("Index");
+
+            ViewBag.RequestId = requestId;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteLogin()
+        {
+            var requestId = TempData["TelegramRequestId"]?.ToString();
+            var username = TempData["PendingUsername"]?.ToString();
+
+            if (string.IsNullOrEmpty(requestId) || string.IsNullOrEmpty(username))
+                return RedirectToAction("Index");
+
+            var approved = _telegramService.CheckApproval(requestId);
+            if (approved != true)
+            {
+                TempData["Error"] = "Giriş onaylanmadı.";
+                return RedirectToAction("Index");
+            }
+
+            // Telegram onaylandı — şimdi giriş yap
+            var user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: true);
+                _telegramService.RemoveApproval(requestId);
+
+                // Session Hijacking Koruması için IP ve User-Agent kaydet
+                var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+                               ?? HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()
+                               ?? "unknown";
+                var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+
+                HttpContext.Session.SetString("AdminIP", clientIp);
+                HttpContext.Session.SetString("AdminUA", userAgent);
+                HttpContext.Session.SetString("LoginTime", DateTime.UtcNow.Ticks.ToString());
+
+                return RedirectToAction("Index", "Theme", new { area = "Admin" });
+            }
+
+            return RedirectToAction("Index");
         }
 
         // ========== ŞİFREMİ UNUTTUM ==========
@@ -237,6 +302,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 var result = await _userManager.CreateAsync(user, p.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Admin");
                     return RedirectToAction("Index", "Login");
                 }
                 else
@@ -252,7 +318,19 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
         public async Task<IActionResult> LogOut()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+                               ?? HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()
+                               ?? "unknown";
+
+                await _telegramService.SendLogoutNotificationAsync(user.UserName, clientIp);
+            }
+
             await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
+
             return RedirectToAction("Index", "Login");
         }
     }

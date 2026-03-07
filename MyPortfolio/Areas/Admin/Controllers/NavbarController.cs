@@ -7,7 +7,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class NavbarController : Controller
     {
         private readonly IGenericRepository<NavbarItem> _navbarRepo;
@@ -52,7 +52,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                         item.DisplayOrder = i + 1;
                         item.UpdatedDate = DateTime.Now;
                         _navbarRepo.Update(item);
-                _cache.Remove("navbar_items");
+                        _cache.Remove("navbar_items");
                     }
                 }
 
@@ -105,7 +105,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                     targetItem.DisplayOrder = item.DisplayOrder;
                     targetItem.UpdatedDate = DateTime.Now;
                     _navbarRepo.Update(targetItem);
-                _cache.Remove("navbar_items");
+                    _cache.Remove("navbar_items");
                 }
 
                 item.DisplayOrder = newOrder;

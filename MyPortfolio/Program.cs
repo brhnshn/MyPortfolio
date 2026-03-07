@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data.Concrete;
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<MyPortfolio.Services.EmailService>();
+builder.Services.AddSingleton<MyPortfolio.Services.TelegramService>();
+builder.Services.AddHostedService<MyPortfolio.Services.TelegramPollingService>();
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
@@ -46,27 +49,65 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Admin/Login/Index";
     options.AccessDeniedPath = "/Admin/Login/Index";
     options.SlidingExpiration = true;
+
+    // --- 404 KALKANI: Yetkisiz /Admin erişimlerini 404 ile yanıtla ---
+    options.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/Admin"))
+            {
+                context.Response.StatusCode = 404;
+                return Task.CompletedTask;
+            }
+            context.Response.Redirect(context.RedirectUri);
+            return Task.CompletedTask;
+        },
+        OnRedirectToAccessDenied = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/Admin"))
+            {
+                context.Response.StatusCode = 404;
+                return Task.CompletedTask;
+            }
+            context.Response.Redirect(context.RedirectUri);
+            return Task.CompletedTask;
+        }
+    };
 });
 // --- END IDENTITY SETTINGS ---
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+// Session for AdminShieldMiddleware hijacking protection
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error/500");
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
 // app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Middleware ile cakisma onlendi
 
 app.UseMiddleware<MyPortfolio.Middleware.GlobalExceptionMiddleware>();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthentication();
+app.UseMiddleware<MyPortfolio.Middleware.AdminShieldMiddleware>();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -79,5 +120,25 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<MyPortfolio.Hubs.PortfolioHub>("/portfolioHub");
+
+// --- ROL SEED: "Admin" rolünü oluştur ve mevcut kullanıcılara ata ---
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new AppRole { Name = "Admin" });
+    }
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var allUsers = userManager.Users.ToList();
+    foreach (var user in allUsers)
+    {
+        if (!await userManager.IsInRoleAsync(user, "Admin"))
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
+}
 
 app.Run();

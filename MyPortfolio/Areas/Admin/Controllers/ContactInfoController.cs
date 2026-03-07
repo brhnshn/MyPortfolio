@@ -9,7 +9,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ContactInfoController : Controller
     {
         private readonly IGenericRepository<ContactInfo> _contactInfoRepository;
@@ -41,7 +41,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _contactInfoRepository.Insert(p);
             _cache.Remove("contact_list");
-                _hubContext.Clients.All.SendAsync("UpdateComponent", "ContactList");
+            _hubContext.Clients.All.SendAsync("UpdateComponent", "ContactList");
             return RedirectToAction("Index");
         }
 

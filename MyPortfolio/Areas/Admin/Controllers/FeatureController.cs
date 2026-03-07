@@ -9,7 +9,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class FeatureController : Controller
     {
         private readonly IGenericRepository<Feature> _featureRepository;
@@ -88,7 +88,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
 
             _featureRepository.Insert(feature);
             _cache.Remove("feature_list");
-                _hubContext.Clients.All.SendAsync("UpdateComponent", "FeatureList");
+            _hubContext.Clients.All.SendAsync("UpdateComponent", "FeatureList");
             return RedirectToAction("Index");
         }
 
@@ -135,7 +135,7 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 }
 
                 _featureRepository.Update(existing);
-            _cache.Remove("feature_list");
+                _cache.Remove("feature_list");
                 _hubContext.Clients.All.SendAsync("UpdateComponent", "FeatureList");
             }
             return RedirectToAction("Index");

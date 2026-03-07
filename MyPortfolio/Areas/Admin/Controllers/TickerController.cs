@@ -7,7 +7,7 @@ using MyPortfolio.Entities.Concrete;
 namespace MyPortfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class TickerController : Controller
     {
         private readonly IGenericRepository<TickerItem> _tickerRepo;

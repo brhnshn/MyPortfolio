@@ -128,13 +128,9 @@ namespace MyPortfolio.Services
             var expiresAt = DateTime.UtcNow.AddMinutes(2);
             _pendingApprovals[requestId] = (null, expiresAt);
 
-            // GeoIP bilgisi çek
-            var location = await GetGeoLocationAsync(ipAddress);
-
             var message = $"🔐 *Admin Giriş Onayı*\n\n" +
                           $"👤 Kullanıcı: `{username}`\n" +
                           $"🌐 IP: `{ipAddress}`\n" +
-                          $"📍 Konum: {location}\n" +
                           $"🕐 Zaman: `{DateTime.Now:dd.MM.yyyy HH:mm:ss}`\n\n" +
                           $"⏳ _2 dakika içinde onaylamanız gerekmektedir._";
 
@@ -229,11 +225,9 @@ namespace MyPortfolio.Services
         /// </summary>
         public async Task SendLogoutNotificationAsync(string username, string ipAddress)
         {
-            var location = await GetGeoLocationAsync(ipAddress);
             var message = $"🚪 *Admin Çıkış Bildirimi*\n\n" +
                           $"👤 Kullanıcı: `{username}`\n" +
                           $"🌐 IP: `{ipAddress}`\n" +
-                          $"📍 Konum: {location}\n" +
                           $"🕐 Zaman: `{DateTime.Now:dd.MM.yyyy HH:mm:ss}`";
             await SendMessageAsync(message);
         }
@@ -243,43 +237,12 @@ namespace MyPortfolio.Services
         /// </summary>
         public async Task SendHoneypotAlertAsync(string ipAddress, int attemptCount)
         {
-            var location = await GetGeoLocationAsync(ipAddress);
             var message = $"⚠️ *Şüpheli Tarama Tespit Edildi*\n\n" +
                           $"🌐 IP: `{ipAddress}`\n" +
-                          $"📍 Konum: {location}\n" +
                           $"🔢 Deneme sayısı: `{attemptCount}`\n" +
                           $"🕐 Zaman: `{DateTime.Now:dd.MM.yyyy HH:mm:ss}`\n\n" +
                           $"_Bu IP, /admin rotasına yetkisiz erişim denemesi yapıyor._";
             await SendMessageAsync(message);
-        }
-
-        // ===== GeoIP =====
-
-        /// <summary>
-        /// IP adresinden coğrafi konum bilgisi çeker.
-        /// </summary>
-        public async Task<string> GetGeoLocationAsync(string ipAddress)
-        {
-            try
-            {
-                // Localhost IP'leri için
-                if (ipAddress is "127.0.0.1" or "::1" or "0.0.0.1" || ipAddress.StartsWith("192.168.") || ipAddress.StartsWith("10."))
-                    return "🏠 Yerel Ağ (localhost)";
-
-                var response = await _httpClient.GetStringAsync($"http://ip-api.com/json/{ipAddress}?fields=status,country,city,isp");
-                var data = JsonSerializer.Deserialize<JsonElement>(response);
-
-                if (data.GetProperty("status").GetString() == "success")
-                {
-                    var city = data.GetProperty("city").GetString();
-                    var country = data.GetProperty("country").GetString();
-                    var isp = data.GetProperty("isp").GetString();
-                    return $"`{city}, {country}` ({isp})";
-                }
-            }
-            catch { }
-
-            return "Bilinmeyen konum";
         }
 
         // ===== YARDIMCI =====

@@ -31,10 +31,16 @@ namespace MyPortfolio.Middleware
         {
             var path = context.Request.Path.Value ?? "";
 
-            // X-Forwarded-For desteği
-            var clientIp = context.Request.Headers["X-Forwarded-For"].FirstOrDefault()
-                           ?? context.Connection.RemoteIpAddress?.MapToIPv4().ToString()
-                           ?? "unknown";
+            // X-Forwarded-For desteği (Birden fazla IP gelirse sadece ilkini al)
+            var clientIp = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+            if (!string.IsNullOrEmpty(clientIp))
+            {
+                clientIp = clientIp.Split(',')[0].Trim();
+            }
+            else
+            {
+                clientIp = context.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "unknown";
+            }
 
             // Sadece /Admin rotalarını kontrol et
             if (path.StartsWith("/Admin", StringComparison.OrdinalIgnoreCase))
@@ -166,8 +172,9 @@ namespace MyPortfolio.Middleware
                 }
             }
 
-            // Her 10 honeypot vuruşunda bir Telegram'a uyar ki botlar spam yapıp Telegram limitlerini doldurmasın
-            if (hits == 1 || hits % 10 == 0)
+            // Botların ardışık taramalarında Telegram'ı spama düşürmesini engelle
+            // Sadece ilk vuruşta, 50. vuruşta ve sonrasında her 500 vuruşta bir uyar
+            if (hits == 1 || hits == 50 || hits % 500 == 0)
             {
                 // Task.Run ile asenkron arka planda gönder, middleware'i bloklama
                 _ = Task.Run(() => telegramService.SendHoneypotAlertAsync(ip, hits));

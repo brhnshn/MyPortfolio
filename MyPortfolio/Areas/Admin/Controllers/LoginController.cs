@@ -52,9 +52,10 @@ namespace MyPortfolio.Areas.Admin.Controllers
                     // Şifre doğru — henüz giriş yapma, önce Telegram onayı al
                     await _signInManager.SignOutAsync();
 
-                    var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
-                                   ?? HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()
-                                   ?? "Bilinmiyor";
+                    var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+                    if (!string.IsNullOrEmpty(clientIp)) clientIp = clientIp.Split(',')[0].Trim();
+                    else clientIp = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "Bilinmiyor";
+
                     var requestId = await _telegramService.SendApprovalRequestAsync(p.Username, clientIp);
 
                     TempData["TelegramRequestId"] = requestId;
@@ -105,9 +106,10 @@ namespace MyPortfolio.Areas.Admin.Controllers
                 _telegramService.RemoveApproval(requestId);
 
                 // Session Hijacking Koruması için IP ve User-Agent kaydet
-                var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
-                               ?? HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()
-                               ?? "unknown";
+                var clientIp = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+                if (!string.IsNullOrEmpty(clientIp)) clientIp = clientIp.Split(',')[0].Trim();
+                else clientIp = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "unknown";
+
                 var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
 
                 HttpContext.Session.SetString("AdminIP", clientIp);

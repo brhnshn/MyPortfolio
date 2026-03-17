@@ -1,0 +1,60 @@
+[33m68d951c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m AdminShieldMiddleware için statik AccessKey (brs-2026-secrett) desteği eklendi
+[33mc7c5240[m Telegram Botu loglaması ve SignalR Nginx ForwardedHeaders eklendi
+[33m18b5168[m Fix AdminIP Session Hijacking lockout loop by properly parsing X-Forwarded-For in LoginController
+[33m8864644[m Remove GeoIP feature to prevent Unknown Location spam and API limits in Telegram alerts
+[33mfa0f652[m Fix AdminShieldMiddleware honeypot spam and X-Forwarded-For IP parsing
+[33m2baf51d[m Admin panel security enhancements: Telegram 2FA, brute-force & honeypot protection, session hijacking prevention, dynamic GitHub Actions secret injection
+[33mc30b7b3[m Supabase Session Pooler (port 5432) ayarlarina donuldu
+[33m22d35a5[m Optimal performans icin Maximum Pool Size=40 olarak guncellendi
+[33m319318a[m Supabase tarafindan verilen transaction url formatina gecildi
+[33md7184b6[m Supabase Transaction Pooler yapilandirmasi uygulandi (Port 6543, Max Auto Prepare=0)
+[33m1125638[m DbContext Scoped ayarı ve Max Pool Size=20 eklendi
+[33mf390033[m Switched to Supabase Direct Connection for better pooling
+[33m4e16a1a[m Supabase session pool error fix: Added Maximum Pool Size to connection string
+[33m1b9a313[m Variable Substitution uyumlulugu icin sifreler bos birakildi
+[33mfae410d[m Merge ve appsettings.json __SETUP_KEY__ duzeltmesi
+[33mdeac31f[m appsettings güncellemeleri ve github actions ayarları
+[33m5487763[m Update appsettings.json
+[33meb068dd[m FeatureList bileşeninde değişiklik yapıldı
+[33m68f0444[m fix: use interactive bash and source profiles to load env vars for other projects during SSH restart
+[33m13526aa[m fix: re-add dynamic script finding and login shell to ssh execution step
+[33mb28b899[m feat: switch deployment strategy to zip-based transfer and remote unzip to match manual workflow
+[33m3a34e4c[m fix: run project-manager.sh script in login shell to load env vars for other projects
+[33me87462f[m fix: execute project-manager.sh from /var/www to preserve relative paths for other hosted projects
+[33m928fc29[m fix: dynamically find and execute project-manager.sh script during SSH deployment
+[33m021cad5[m fix: change directory to home before executing project-manager script in ssh action
+[33mc95af6a[m chore: revert temporary debugging and port changes
+[33m1579407[m fix: prevent scp from removing project-manager script during deployment
+[33mc4d0095[m chore: force trigger github actions deployment for verifing development environment mode
+[33md552f4e[m temp force Development environment in Program.cs to debug production 500 error
+[33m746d444[m temp disable GlobalExceptionMiddleware in production to debug 500 error
+[33mf864f9a[m temp run developer exception page in production to debug 500 error
+[33md4878bc[m fix: explicit bind port 5096 in appsettings.json to restore Nginx proxy match and fix 502 Bad Gateway
+[33md8c0e99[m fix: unquote database connection string in variable-substitution to prevent JSON injection errors
+[33mb874c8b[m chore: remove appsettings.Development.json from github cache
+[33m7b449f7[m fix: replace sed with variable-substitution to prevent bash interpolation errors in secrets
+[33m5cf6942[m fix: unignore and add missing Microsoft.csproj file
+[33m98ded33[m fix: resolve MSB1009 project file not found error in github actions
+[33mcfa0eeb[m Change default branch from 'main' to 'master'
+[33m1a1edf0[m Update deploy.yml
+[33mf4ea4c2[m chore: setup github actions deploy and secure environments
+[33mb2a73f6[m feat: Add GitHub Actions CI/CD pipeline and secure appsettings
+[33ma6a3478[m Update appsettings.json
+[33m24fc7bb[m Update layout modes (SPA/MPA), theme integration and fix footer links
+[33m10a0f5f[m Update appsettings.json
+[33m7be4b7b[m Resolve merge conflicts in appsettings.json and README.md
+[33meaca886[m Fix .gitignore and push pending changes
+[33m312b27d[m Update
+[33m71782e7[m Fix directory name in README clone instructions
+[33m72d7843[m Fix repository URL in README.md
+[33m4ed4954[m Revise project screenshots section in README
+[33md507f80[m Update README.md
+[33mef33c6f[m Update connection string in appsettings.json
+[33mb980790[m Update SetupSettings key in appsettings.json
+[33m12e5f66[m Add contact and license sections to README
+[33m8a53c04[m Update README
+[33ma22137e[m Delete README.md
+[33m82ad14e[m Update README.md
+[33m017f478[m Update copyright year and name in LICENSE.txt
+[33mef513c3[m Update database connection string in appsettings.json
+[33m2968ee0[m Update Files

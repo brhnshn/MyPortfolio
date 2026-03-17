@@ -12,11 +12,13 @@ namespace MyPortfolio.Services
         private readonly string _botToken;
         private readonly string _chatId;
         private readonly HttpClient _httpClient;
+        private readonly ILogger<TelegramPollingService> _logger;
         private int _lastUpdateId = 0;
 
-        public TelegramPollingService(TelegramService telegramService, IConfiguration configuration)
+        public TelegramPollingService(TelegramService telegramService, IConfiguration configuration, ILogger<TelegramPollingService> logger)
         {
             _telegramService = telegramService;
+            _logger = logger;
             _botToken = configuration["TelegramSettings:BotToken"] ?? "";
             _chatId = configuration["TelegramSettings:ChatId"] ?? "";
             _httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(35) };
@@ -24,10 +26,16 @@ namespace MyPortfolio.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (string.IsNullOrEmpty(_botToken)) return;
+            if (string.IsNullOrEmpty(_botToken) || _botToken.Contains("__TELEGRAM_BOT_TOKEN__"))
+            {
+                _logger.LogError("TelegramBotToken is missing or has a placeholder value. TelegramPollingService will NOT run.");
+                return;
+            }
 
             // Bot komutlarını Telegram'a kaydet
             await _telegramService.RegisterBotCommandsAsync();
+
+            _logger.LogInformation("TelegramPollingService started successfully.");
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -87,10 +95,12 @@ namespace MyPortfolio.Services
                 }
                 catch (OperationCanceledException)
                 {
+                    _logger.LogInformation("TelegramPollingService execution is being cancelled.");
                     break;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _logger.LogError(ex, "An error occurred in the Telegram polling loop.");
                     await Task.Delay(3000, stoppingToken);
                 }
             }

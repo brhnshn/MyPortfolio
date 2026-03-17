@@ -27,7 +27,7 @@ namespace MyPortfolio.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, TelegramService telegramService)
+        public async Task InvokeAsync(HttpContext context, TelegramService telegramService, IConfiguration config)
         {
             var path = context.Request.Path.Value ?? "";
 
@@ -96,7 +96,11 @@ namespace MyPortfolio.Middleware
 
                     // A) Anahtarla geliyorsa (Dinamik Link veya Statik)
                     var key = context.Request.Query["key"].FirstOrDefault();
-                    if (!string.IsNullOrEmpty(key) && telegramService.ValidateDynamicToken(key))
+                    var staticAccessKey = config["AdminSettings:AccessKey"];
+
+                    // Geçerli bir dinamik token VEYA geçerli bir statik master token ile gelirse
+                    if (!string.IsNullOrEmpty(key) && 
+                        (telegramService.ValidateDynamicToken(key) || (!string.IsNullOrEmpty(staticAccessKey) && key == staticAccessKey)))
                     {
                         // Geçerli bir dinamik token! 
                         // Token'ı geçersiz kıl ki tek kullanımlık olsun (opsiyonel, şu an süre bazlı)
